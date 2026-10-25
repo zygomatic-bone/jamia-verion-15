@@ -1,0 +1,97 @@
+/* ==== Phase 9: recovered original content (prefix rc-). Uses only the existing design tokens; light and dark follow the theme. ==== */
+
+/* Photograph galleries: every picture is shown whole at its own proportions (never cropped), caption below. */
+.rc-gallery { list-style: none; margin: 1.4rem 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: 1.2rem; align-items: start; }
+.rc-gallery.rc-wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.rc-gallery.rc-narrow { grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); }
+.rc-fig { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); }
+.rc-fig a { display: block; background: #0b2119; }
+.rc-fig img { display: block; width: 100%; height: auto; }
+.rc-fig figcaption { padding: .8rem 1rem .95rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; line-height: 1.45; }
+.rc-fig figcaption strong { display: block; margin-bottom: .1rem; color: var(--ink); font-family: var(--display); font-size: 1.02rem; font-weight: 600; line-height: 1.25; }
+.rc-single { max-width: 34rem; margin: 1.4rem 0 2rem; }
+.rc-single.rc-big { max-width: 52rem; }
+.rc-float { max-width: 22rem; }
+.rc-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 21rem); gap: clamp(1.2rem, 3vw, 2.4rem); align-items: start; }
+.rc-split > .rc-single { margin: 0; }
+.rc-split.rc-flip { grid-template-columns: minmax(0, 21rem) minmax(0, 1fr); }
+@media (max-width: 52rem) { .rc-split, .rc-split.rc-flip { grid-template-columns: minmax(0, 1fr); } }
+.rc-split > *, .rc-letter > * { min-width: 0; }
+.rc-logo { max-width: 20rem; margin: 0 0 1.2rem; }
+.rc-logo img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+
+/* Scanned letters and image-only pages */
+.rc-scan-note { margin: .8rem 0 0; color: var(--muted); font-size: .84rem; border-left: 2px solid var(--gold); padding-left: .9rem; }
+.rc-letters { list-style: none; margin: 1.6rem 0; padding: 0; display: grid; gap: clamp(1.4rem, 3vw, 2.2rem); }
+.rc-letter { display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: clamp(1.1rem, 3vw, 2.2rem); align-items: start; padding: clamp(1rem, 2.5vw, 1.6rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--glass); box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-edge); }
+.rc-letter h2 { margin: 0 0 .2rem; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+.rc-letter .rc-by { margin: 0 0 1rem; color: var(--muted); font-size: .88rem; font-weight: 700; letter-spacing: .04em; }
+.rc-letter .rc-scan { margin: 0; }
+.rc-letter .rc-scan img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; }
+.rc-letter .rc-scan figcaption { margin-top: .5rem; color: var(--muted); font-size: .8rem; }
+@media (max-width: 52rem) { .rc-letter { grid-template-columns: minmax(0, 1fr); } .rc-letter .rc-scan { max-width: 24rem; } }
+
+/* Transcriptions: text typed from the original, shown with its source */
+.rc-text { max-width: 52rem; }
+.rc-text blockquote { margin: 0 0 1.25rem; padding: .2rem 0 .2rem 1.1rem; border-left: 3px solid var(--gold); }
+.rc-text blockquote p { margin: 0 0 1rem; }
+.rc-text blockquote p:last-child { margin-bottom: 0; }
+.rc-sign { margin: .4rem 0 0; font-family: var(--display); font-size: 1.05rem; line-height: 1.35; }
+.rc-sign small { display: block; color: var(--muted); font-family: var(--body); font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.rc-illegible { color: var(--muted); font-style: italic; }
+.rc-dated, .rc-note { margin: 1.2rem 0; padding: .85rem 1.1rem; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius-sm); background: var(--glass); color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.rc-dated strong, .rc-note strong { color: var(--ink); }
+
+/* Documents (PDF) */
+.rc-docs { list-style: none; margin: 1.4rem 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
+.rc-doc { display: flex; flex-direction: column; gap: .35rem; padding: 1.2rem 1.3rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); }
+.rc-doc h3 { margin: 0; font-size: 1.2rem; }
+.rc-doc p { margin: 0; color: var(--muted); font-size: .9rem; }
+.rc-doc .rc-meta { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.rc-doc .button-row { margin-top: .8rem; }
+
+/* Tables that stack into labelled rows on a phone */
+.rc-table-wrap { margin: 1.5rem 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--glass); box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-edge); overflow-x: auto; }
+table.rc-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+table.rc-table caption { padding: .9rem 1.1rem .2rem; text-align: left; color: var(--muted); font-size: .84rem; }
+table.rc-table th, table.rc-table td { text-align: left; vertical-align: top; padding: .75rem 1rem; border-bottom: 1px solid var(--line); }
+table.rc-table th { color: var(--forest); font-family: var(--display); font-size: 1rem; border-bottom: 2px solid var(--gold); }
+table.rc-table tbody tr:last-child td { border-bottom: 0; }
+@media (max-width: 40rem) {
+  table.rc-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.rc-table, table.rc-table tbody, table.rc-table tr, table.rc-table td { display: block; width: 100%; }
+  table.rc-table tr { padding: .6rem 0; border-bottom: 2px solid var(--line); }
+  table.rc-table tbody tr:last-child { border-bottom: 0; }
+  table.rc-table td { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .6rem; padding: .35rem 1rem; border: 0; }
+  table.rc-table td::before { content: attr(data-label); color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding-top: .2rem; }
+}
+
+/* Lists inside prose, numbered rules and sub-headings */
+.rc-prose h2, .rc-prose h3 { max-width: 52rem; }
+.rc-prose h3 { margin: 2rem 0 .6rem; font-size: 1.35rem; }
+.rc-prose ol, .rc-prose ul { max-width: 52rem; margin: 0 0 1.25rem; padding-left: 1.4rem; }
+.rc-prose li { margin-bottom: .55rem; }
+.rc-prose ol ol { margin: .5rem 0 0; list-style: lower-alpha; }
+.rc-twocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem 2rem; max-width: 62rem; }
+.rc-twocol ul { margin: 0; padding-left: 1.2rem; }
+.rc-vision { counter-reset: v; list-style: none; padding: 0; margin: 1.2rem 0 2rem; display: grid; gap: .7rem; max-width: 52rem; }
+.rc-vision li { counter-increment: v; display: flex; gap: 1rem; align-items: baseline; padding: .95rem 1.2rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--glass); }
+.rc-vision li::before { content: counter(v); color: var(--gold); font-family: var(--display); font-size: 1.5rem; line-height: 1; }
+.rc-people { list-style: none; margin: 1.2rem 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: .8rem; }
+.rc-people li { padding: .9rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.rc-people strong { display: block; font-family: var(--display); font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+.rc-people span { color: var(--muted); font-size: .84rem; }
+.rc-sources { margin: 2rem 0 0; color: var(--muted); font-size: .84rem; max-width: 52rem; }
+@media (prefers-reduced-motion: reduce) { .rc-fig, .rc-letter { transition: none; } }
+
+/* Institution pages are wider than the 52rem reading column; text blocks keep the reading width. */
+.portal-content .prose.rc-wideprose { max-width: none; }
+.rc-wideprose > p, .rc-wideprose > ol, .rc-wideprose > ul:not(.rc-gallery):not(.rc-people):not(.rc-docs) { max-width: 52rem; }
+.rc-wideprose > h2, .rc-wideprose > h3 { max-width: 52rem; }
+
+/* Footnote under the emblem facts (plain sentence, not the uppercase photo-credit style) */
+.pf-intro .pf-emblem p.rc-emblem-note { margin: 1rem 0 0; color: rgba(246,241,231,.82); font-size: .8rem; line-height: 1.5; text-align: center; }
+.pf-intro .pf-emblem p.rc-emblem-note a { color: #ddb66f; text-underline-offset: .2em; }
+
+/* Phase 9.2: a printed caption typed out verbatim */
+.rc-quote-plain { margin: 1rem 0; padding: .8rem 1.1rem; max-width: 52rem; border-left: 3px solid var(--gold); font-family: var(--display); font-size: 1.05rem; line-height: 1.5; color: var(--ink); overflow-wrap: anywhere; }

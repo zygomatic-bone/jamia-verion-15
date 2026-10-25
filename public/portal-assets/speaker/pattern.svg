@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="#d9b46a" stroke-width="1" stroke-linejoin="round">
+  <g id="star">
+    <rect x="-22" y="-22" width="44" height="44"/>
+    <rect x="-22" y="-22" width="44" height="44" transform="rotate(45)"/>
+    <circle r="9"/>
+  </g>
+  <use href="#star" x="60" y="60"/>
+  <use href="#star" x="0" y="0"/>
+  <use href="#star" x="120" y="0"/>
+  <use href="#star" x="0" y="120"/>
+  <use href="#star" x="120" y="120"/>
+  <path d="M60 0l6 6-6 6-6-6ZM60 108l6 6-6 6-6-6ZM0 60l6-6 6 6-6 6ZM108 60l6-6 6 6-6 6Z" stroke-width=".8"/>
+  <path d="M28 28l16 16M92 28L76 44M28 92l16-16M92 92L76 76" stroke-width=".6"/>
+</svg>

@@ -1,0 +1,53 @@
+name: Update Bayanath videos
+
+# Refreshes public/data/bayanath-videos.json from the official YouTube channel.
+#   * Schedule: every Friday at 21:00 India Standard Time (Asia/Kolkata, UTC+05:30, no daylight saving).
+#     GitHub evaluates cron in UTC, so 21:00 IST = 15:30 UTC on the same Friday: `30 15 * * 5`.
+#     GitHub may start scheduled runs a few minutes late, and only runs them from the default branch.
+#   * "Run workflow" button (workflow_dispatch) in the Actions tab for tests.
+#   * No secret is required (public RSS feed + public oEmbed). OPTIONAL secret YOUTUBE_API_KEY (a YouTube Data API v3
+#     key) lets the job reach back 50 uploads and fill exact publication dates; it is only ever read from the secret.
+#   * If anything fails the job fails and the committed file is left untouched, so the site keeps its last valid list.
+#   * A commit is made only when the list really changed. Pushing to the default branch triggers the host's normal
+#     deployment (Netlify / Cloudflare Pages / GitHub Pages), which publishes the new JSON.
+on:
+  schedule:
+    - cron: '30 15 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed only to commit public/data/bayanath-videos.json
+
+concurrency:
+  group: update-bayanath
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: "Self-tests (simulated YouTube, no network)"
+        run: python3 -I -m unittest discover -s tools/tests -v
+      - name: Fetch, filter and verify videos
+        id: update
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python3 tools/update_bayanath.py
+      - name: Commit if the list changed
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/bayanath-videos.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "Update Bayanath videos from YouTube"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

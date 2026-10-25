@@ -1,0 +1,118 @@
+/* Bayanath page only: Speaker Profile, a glass card over a live navy-and-gold background (prefix sp-).
+   Loaded by Bayanath.html alone (not part of portal.css). It sets its own navy/gold palette on .sp and does not touch
+   any global token, so every other page and the Phase 8 theme are unchanged. Animation uses transform only. */
+.sp {
+  --sp-navy-0: #050d22; --sp-navy-1: #0a1a3d; --sp-navy-2: #12306a;
+  --sp-blue: 74, 132, 238;           /* rgb triplet for translucent blue */
+  --sp-gold: #e6c78a; --sp-gold-soft: #ecd7a6;
+  --sp-ink: #f6f1e4;                 /* off-white headings/labels, contrast on navy > 14:1 */
+  --sp-text: #dde4f3;                /* body copy on the glass, contrast > 9:1 */
+  --sp-edge: rgba(122, 164, 240, .38);
+  position: relative; isolation: isolate; overflow: hidden;
+  margin: clamp(2.5rem, 6vw, 4.5rem) 0 0;
+  padding: clamp(.8rem, 2.6vw, 2rem);
+  border-radius: var(--radius-lg, 2.4rem);
+  background: linear-gradient(150deg, var(--sp-navy-0), #0b1f4a 52%, #071634);
+  color: var(--sp-ink);
+  box-shadow: 0 30px 80px rgba(3, 9, 26, .38);
+  font-family: var(--body, system-ui, sans-serif);
+}
+.sp *, .sp *::before, .sp *::after { box-sizing: border-box; }
+
+/* ---- live background (decorative; never intercepts pointer or keyboard) ---- */
+.sp-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; contain: strict; }
+.sp-orb { position: absolute; border-radius: 50%; will-change: transform; }
+.sp-orb-a { width: 62%; aspect-ratio: 1; left: -14%; top: -22%; background: radial-gradient(circle, rgba(var(--sp-blue), .60), rgba(var(--sp-blue), 0) 66%); animation: sp-drift-a 26s ease-in-out infinite alternate; }
+.sp-orb-b { width: 56%; aspect-ratio: 1; right: -16%; top: 18%; background: radial-gradient(circle, rgba(34, 92, 196, .55), rgba(34, 92, 196, 0) 66%); animation: sp-drift-b 32s ease-in-out infinite alternate; }
+.sp-orb-c { width: 40%; aspect-ratio: 1; left: 30%; bottom: -24%; background: radial-gradient(circle, rgba(220, 184, 114, .22), rgba(220, 184, 114, 0) 68%); animation: sp-drift-c 38s ease-in-out infinite alternate; }
+.sp-pattern { position: absolute; inset: 0; opacity: .34; -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 20%, transparent 100%); mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 20%, transparent 100%); }
+.sp-pattern > span { position: absolute; left: 0; top: 0; width: calc(100% + 120px); height: calc(100% + 120px); background: url(speaker/pattern.svg) 0 0 / 120px 120px; will-change: transform; animation: sp-pattern 80s linear infinite; }
+.sp-shine { position: absolute; inset: -30% -10%; background: linear-gradient(115deg, transparent 42%, rgba(236, 215, 166, .10) 50%, transparent 58%); will-change: transform; animation: sp-shine 24s ease-in-out infinite alternate; }
+@keyframes sp-drift-a { to { transform: translate3d(14%, 10%, 0) scale(1.12); } }
+@keyframes sp-drift-b { to { transform: translate3d(-16%, 8%, 0) scale(.92); } }
+@keyframes sp-drift-c { to { transform: translate3d(-22%, -12%, 0) scale(1.18); } }
+@keyframes sp-pattern { to { transform: translate3d(-120px, -120px, 0); } }
+@keyframes sp-shine { from { transform: translate3d(-14%, 0, 0); } to { transform: translate3d(14%, 0, 0); } }
+.sp.is-paused .sp-bg * { animation-play-state: paused; }
+
+/* ---- main glass card ---- */
+.sp-card {
+  position: relative; z-index: 1; display: grid; gap: clamp(1rem, 2.4vw, 2rem);
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.55fr);
+  padding: clamp(.9rem, 2.4vw, 2rem);
+  border: 1px solid var(--sp-edge); border-radius: calc(var(--radius-lg, 2.4rem) - .5rem);
+  background: rgba(9, 24, 58, .92);                      /* opaque-enough fallback */
+  box-shadow: 0 28px 70px rgba(2, 7, 22, .5), inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 0 0 1px rgba(220, 184, 114, .08);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .sp-card { background: rgba(9, 24, 58, .58); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+}
+
+/* ---- photograph (whole, never cropped; a blurred copy of the same photo only tints the panel behind it) ---- */
+.sp-photo { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; align-self: stretch; min-height: 15rem;
+  padding: clamp(.7rem, 1.6vw, 1.2rem); border: 1px solid rgba(220, 184, 114, .45); border-radius: 1.5rem; background: var(--sp-navy-1);
+  box-shadow: 0 18px 44px rgba(2, 7, 22, .42); }
+.sp-photo-fill { position: absolute; z-index: 0; left: -15%; top: -15%; width: 130%; height: 130%; max-width: none; object-fit: cover; filter: blur(26px) brightness(.5) saturate(.8); opacity: .95; pointer-events: none; }
+.sp-photo::before { content: ""; position: absolute; inset: 0; z-index: 0; background: url(speaker/pattern.svg) 50% 0 / 96px 96px; opacity: .22; pointer-events: none; }
+.sp-photo::after { content: ""; position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 40% at 50% 50%, rgba(220, 184, 114, .16), transparent 70%), linear-gradient(180deg, rgba(24, 62, 140, .62), rgba(7, 18, 44, .88)); pointer-events: none; }
+.sp-frame { position: relative; z-index: 1; margin: 0; width: 100%; overflow: hidden; border: 2px solid rgba(220, 184, 114, .75); border-radius: 1rem; background: #fff; box-shadow: 0 14px 34px rgba(0, 0, 0, .45); }
+.sp-frame img { display: block; width: 100%; height: auto; }
+
+/* ---- name and designations ---- */
+.sp-main { min-width: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+.sp-eyebrow { margin: 0; color: var(--sp-gold); font-size: .78rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.sp-main h2 { margin: 0; color: var(--sp-ink); font-family: var(--display, Georgia, serif); font-size: clamp(1.8rem, 3.9vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; overflow-wrap: break-word; }
+.sp-desig { list-style: none; margin: .2rem 0 0; padding: 0; display: grid; gap: .85rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sp-d { position: relative; min-width: 0; padding: 1rem 1.05rem 1.1rem; border: 1px solid rgba(122, 164, 240, .32); border-radius: 1.1rem;
+  background: rgba(30, 62, 128, .30); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); transition: border-color .25s ease, transform .25s ease, background-color .25s ease; }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .sp-d { background: rgba(40, 80, 160, .20); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+}
+@media (hover: hover) { .sp-d:hover { border-color: rgba(220, 184, 114, .62); transform: translateY(-2px); } }
+.sp-d-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .65rem; }
+.sp-num { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 1px solid rgba(220, 184, 114, .7); border-radius: 50%; color: var(--sp-gold-soft); font-family: var(--display, Georgia, serif); font-size: .95rem; font-weight: 700; line-height: 1; }
+.sp-ico { width: 1.7rem; height: 1.7rem; flex: none; fill: none; stroke: var(--sp-gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.sp-ico-sm { width: 1.3rem; height: 1.3rem; }
+.sp-d h3 { margin: 0 0 .25rem; color: var(--sp-ink); font-family: var(--display, Georgia, serif); font-size: 1.12rem; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; overflow-wrap: break-word; }
+.sp-place { margin: 0 0 .35rem; color: var(--sp-gold-soft); font-size: .88rem; font-weight: 600; line-height: 1.35; }
+.sp-d p:last-child { margin: 0; color: var(--sp-text); font-size: .92rem; line-height: 1.5; overflow-wrap: break-word; }
+
+/* ---- areas of work ---- */
+.sp-areas { grid-column: 1 / -1; min-width: 0; }
+.sp-divider { height: 1px; margin: 0 0 1.2rem; border: 0; background: linear-gradient(90deg, transparent, rgba(220, 184, 114, .6) 20%, rgba(122, 164, 240, .5) 80%, transparent); }
+.sp-areas h3 { margin: 0 0 .9rem; color: var(--sp-gold); font-family: var(--body, system-ui, sans-serif); font-size: .85rem; font-weight: 700; letter-spacing: .2em; text-align: center; }
+.sp-pills { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.sp-pill { display: flex; align-items: center; gap: .6rem; min-width: 0; padding: .7rem 1rem; border: 1px solid rgba(122, 164, 240, .38); border-radius: 999px;
+  background: rgba(30, 62, 128, .32); color: var(--sp-ink); font-size: .93rem; font-weight: 600; line-height: 1.25; transition: border-color .25s ease, background-color .25s ease; }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .sp-pill { background: rgba(40, 80, 160, .20); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+}
+.sp-pill span { min-width: 0; overflow-wrap: break-word; }
+.sp-pill:hover { border-color: rgba(220, 184, 114, .65); background: rgba(52, 96, 184, .30); }
+.sp-pill:focus-visible { outline: 3px solid var(--sp-gold); outline-offset: 2px; border-color: var(--sp-gold); }
+
+/* ---- responsive ---- */
+@media (max-width: 68rem) {
+  .sp-card { grid-template-columns: minmax(0, 1fr); }
+  .sp-photo { min-height: 0; width: 100%; max-width: 34rem; justify-self: center; }
+  .sp-main h2 { text-align: left; }
+  .sp-pills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 46rem) {
+  .sp { border-radius: 1.6rem; padding: .6rem; }
+  .sp-card { border-radius: 1.3rem; padding: .9rem; }
+  .sp-desig { grid-template-columns: minmax(0, 1fr); }
+  .sp-main h2 { font-size: clamp(1.6rem, 7.4vw, 2.1rem); }
+  .sp-d { padding: .9rem; }
+  .sp-ico { width: 1.5rem; height: 1.5rem; }
+  /* lighter animation on phones: the pattern and sheen stand still, three soft gradients keep moving */
+  .sp-pattern > span, .sp-shine { animation: none; }
+}
+@media (max-width: 30rem) { .sp-pills { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- accessibility: no motion when the visitor asks for none ---- */
+@media (prefers-reduced-motion: reduce) {
+  .sp-bg *, .sp-d, .sp-pill { animation: none !important; transition: none !important; }
+  .sp-d:hover { transform: none; }
+}
+@media print { .sp-bg { display: none; } .sp { background: #fff; color: #000; box-shadow: none; } }

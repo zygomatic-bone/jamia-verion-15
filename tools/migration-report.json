@@ -1,0 +1,461 @@
+{
+  "project": "Jame Ul Uloom Residential School, Banikuppa",
+  "generated_at": "2026-10-17",
+  "source_html_pages_archived": 18,
+  "source_pages_rendered": 18,
+  "additional_landing_pages_generated": [
+    "about.html",
+    "academics.html",
+    "activities.html",
+    "facilities.html",
+    "gallery.html",
+    "privacy.html",
+    "404.html"
+  ],
+  "image_files_in_assets": 56,
+  "source_pages": [
+    {
+      "page": "annual.html",
+      "source": "annual.html",
+      "title": "Auditorium & Annual Day",
+      "extracted_images": [
+        "audi4.jpg",
+        "audi1.jpg",
+        "audi2.jpg",
+        "audi3.jpg"
+      ],
+      "text_elements": 1
+    },
+    {
+      "page": "careers.html",
+      "source": "careers.html",
+      "title": "Careers",
+      "extracted_images": [],
+      "text_elements": 3
+    },
+    {
+      "page": "classroom.html",
+      "source": "classroom.html",
+      "title": "Classrooms",
+      "extracted_images": [
+        "classroom.jpg"
+      ],
+      "text_elements": 2
+    },
+    {
+      "page": "clubs.html",
+      "source": "clubs.html",
+      "title": "Clubs",
+      "extracted_images": [
+        "sportsclub.jpg",
+        "scienceclub.jpg",
+        "artsclub.jpg",
+        "litraryclub.jpg"
+      ],
+      "text_elements": 4
+    },
+    {
+      "page": "computerlab.html",
+      "source": "computerlab.html",
+      "title": "Computer Laboratory",
+      "extracted_images": [
+        "computerlab.jpg"
+      ],
+      "text_elements": 2
+    },
+    {
+      "page": "contact.html",
+      "source": "contact.html",
+      "title": "Contact Us",
+      "extracted_images": [],
+      "text_elements": 3
+    },
+    {
+      "page": "hostel.html",
+      "source": "hostel.html",
+      "title": "Hostel & Dining",
+      "extracted_images": [
+        "hostel.jpg",
+        "dinninghall.jpg",
+        "innerdinninghall.jpg",
+        "innerdinninghall1.jpg"
+      ],
+      "text_elements": 3
+    },
+    {
+      "page": "laboratories.html",
+      "source": "laboratories.html",
+      "title": "Science Laboratories",
+      "extracted_images": [
+        "chemistrylab.jpg",
+        "physicslab.jpg",
+        "biologylab.jpg"
+      ],
+      "text_elements": 6
+    },
+    {
+      "page": "library.html",
+      "source": "library.html",
+      "title": "School Library",
+      "extracted_images": [
+        "library.jpg"
+      ],
+      "text_elements": 1
+    },
+    {
+      "page": "masjid.html",
+      "source": "masjid.html",
+      "title": "Campus Masjid",
+      "extracted_images": [
+        "masjid.jpg",
+        "masjid1.jpg",
+        "masjid2.jpg"
+      ],
+      "text_elements": 1
+    },
+    {
+      "page": "medicalfacility.html",
+      "source": "medicalfacility.html",
+      "title": "Medical Facility",
+      "extracted_images": [
+        "dr.fayaz.jpg"
+      ],
+      "text_elements": 2
+    },
+    {
+      "page": "message.html",
+      "source": "message.html",
+      "title": "Principal’s Message",
+      "extracted_images": [
+        "message9.jpeg"
+      ],
+      "text_elements": 0
+    },
+    {
+      "page": "sports.html",
+      "source": "sports.html",
+      "title": "Co-Curricular Activities & Sports",
+      "extracted_images": [
+        "houses.jpg",
+        "sportsevent.jpg",
+        "sportsevent1.jpg"
+      ],
+      "text_elements": 2
+    },
+    {
+      "page": "staff.html",
+      "source": "staff.html",
+      "title": "Staff",
+      "extracted_images": [
+        "staff.jpg"
+      ],
+      "text_elements": 1
+    },
+    {
+      "page": "team.html",
+      "source": "team.html",
+      "title": "Governing Body",
+      "extracted_images": [
+        "governing.jpeg"
+      ],
+      "text_elements": 0
+    },
+    {
+      "page": "trustees.html",
+      "source": "trustees.html",
+      "title": "Trustees",
+      "extracted_images": [
+        "trustees.jpg"
+      ],
+      "text_elements": 0
+    }
+  ],
+  "asset_inventory": [
+    {
+      "filename": "5.gif",
+      "bytes": 139751,
+      "extension": ".gif"
+    },
+    {
+      "filename": "5.jpg",
+      "bytes": 14763,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "activities.jpg",
+      "bytes": 50081,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "annualsports.png",
+      "bytes": 868,
+      "extension": ".png"
+    },
+    {
+      "filename": "artsclub.jpg",
+      "bytes": 76534,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "audi1.jpg",
+      "bytes": 59512,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "audi2.jpg",
+      "bytes": 62810,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "audi3.jpg",
+      "bytes": 51915,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "audi4.jpg",
+      "bytes": 62749,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "biologylab.jpg",
+      "bytes": 58058,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "chairmansmessage.png",
+      "bytes": 1130,
+      "extension": ".png"
+    },
+    {
+      "filename": "chemistrylab.jpg",
+      "bytes": 60309,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "classroom.jpg",
+      "bytes": 68668,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "computerlab.jpg",
+      "bytes": 42299,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "contact.jpg",
+      "bytes": 29197,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "dinninghall.jpg",
+      "bytes": 76035,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "dr.fayaz.jpg",
+      "bytes": 20315,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "facilities.gif",
+      "bytes": 76209,
+      "extension": ".gif"
+    },
+    {
+      "filename": "facilities.jpg",
+      "bytes": 38803,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "fb.png",
+      "bytes": 2533,
+      "extension": ".png"
+    },
+    {
+      "filename": "governing.jpeg",
+      "bytes": 143012,
+      "extension": ".jpeg"
+    },
+    {
+      "filename": "hostel.gif",
+      "bytes": 482709,
+      "extension": ".gif"
+    },
+    {
+      "filename": "hostel.jpg",
+      "bytes": 54019,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "hostel.png",
+      "bytes": 584,
+      "extension": ".png"
+    },
+    {
+      "filename": "houses.jpg",
+      "bytes": 116816,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "in.png",
+      "bytes": 2618,
+      "extension": ".png"
+    },
+    {
+      "filename": "innerdinninghall.jpg",
+      "bytes": 55110,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "innerdinninghall1.jpg",
+      "bytes": 62023,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "labs.png",
+      "bytes": 937,
+      "extension": ".png"
+    },
+    {
+      "filename": "library.jpg",
+      "bytes": 66944,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "litraryclub.jpg",
+      "bytes": 75626,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "logo1.png",
+      "bytes": 86506,
+      "extension": ".png"
+    },
+    {
+      "filename": "logon.jpg",
+      "bytes": 51918,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "masjid.jpg",
+      "bytes": 90833,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "masjid1.jpg",
+      "bytes": 68840,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "masjid2.jpg",
+      "bytes": 72163,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "menubackimg.png",
+      "bytes": 575,
+      "extension": ".png"
+    },
+    {
+      "filename": "message9.jpeg",
+      "bytes": 168743,
+      "extension": ".jpeg"
+    },
+    {
+      "filename": "physicslab.jpg",
+      "bytes": 60153,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "schoolbuilding.jpg",
+      "bytes": 78069,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "scienceclub.jpg",
+      "bytes": 77822,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide1.jpg",
+      "bytes": 113558,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide2.jpg",
+      "bytes": 516775,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide3.jpg",
+      "bytes": 90707,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide4.jpg",
+      "bytes": 585342,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide5.jpg",
+      "bytes": 139024,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide6.jpg",
+      "bytes": 110182,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "slide7.jpg",
+      "bytes": 204317,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "sportsclub.jpg",
+      "bytes": 74790,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "sportsevent.jpg",
+      "bytes": 73131,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "sportsevent1.jpg",
+      "bytes": 92573,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "staff.jpg",
+      "bytes": 55423,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "testimonials.png",
+      "bytes": 834,
+      "extension": ".png"
+    },
+    {
+      "filename": "trustees.jpg",
+      "bytes": 134581,
+      "extension": ".jpg"
+    },
+    {
+      "filename": "twitter.png",
+      "bytes": 2816,
+      "extension": ".png"
+    },
+    {
+      "filename": "youtube.png",
+      "bytes": 2634,
+      "extension": ".png"
+    }
+  ],
+  "notes": [
+    "All original HTML pages remain available in tools/source-html/.",
+    "Images referenced in archived page content were mapped when their filenames existed in public/assets/images/ (matched case-insensitively; emitted with the exact on-disk case).",
+    "The archive alone does not prove completeness against the live site; compare against the live site before claiming every remote asset has been recovered.",
+    "Legacy social icons and some tiny decorative assets remain in assets/images/ but are excluded from the photo gallery."
+  ]
+}
