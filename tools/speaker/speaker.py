@@ -46,25 +46,35 @@ def photo_size():
 
 
 def render(rp=''):
+    """The left-hand profile card. The page stage (background, two columns) is assembled in generate_portal.py.
+    Optional, verified-only fields in the JSON: "biography" (list of {"text": ..., "verified": true}) and "languages"
+    (list of {"name": ..., "verified": true}). Anything not marked verified is never printed, so nothing is invented."""
     d = load()
     w, h = photo_size()
     src = f'{rp}{ASSET_DIR}{d["photo"]["file"]}'
-    cards = []
+    items = []
     for x in (x for x in d['designations'] if x.get('publish', True)):
         place = f'<p class="sp-place">{escape(x["place"])}</p>' if x.get('place') else ''
-        cards.append(
-            f'<li class="sp-d"><div class="sp-d-top"><span class="sp-num" aria-label="Designation {x["n"]}">{x["n"]}</span>{icon(x["icon"])}</div>'
-            f'<h3>{escape(x["title"])}</h3>{place}<p>{escape(x["text"])}</p></li>')
+        text = f'<p class="sp-text">{escape(x["text"])}</p>' if x.get('text') else ''
+        items.append(
+            f'<li class="sp-d"><span class="sp-num" aria-label="Designation {x["n"]}">{x["n"]}</span>'
+            f'<div class="sp-d-body"><h3>{escape(x["title"])}</h3>{place}{text}</div>{icon(x["icon"])}</li>')
+    bio = [b for b in d.get('biography', []) if b.get('verified') and b.get('text')]
+    bio_html = ('<div class="sp-bio">' + ''.join(f'<p>{escape(b["text"])}</p>' for b in bio) + '</div>') if bio else ''
+    langs = [l for l in d.get('languages', []) if l.get('verified') and l.get('name')]
+    lang_html = (f'<div class="sp-langs"><h3>Languages</h3><p>{", ".join(escape(l["name"]) for l in langs)}</p></div>') if langs else ''
     pills = ''.join(f'<li class="sp-pill" tabindex="0">{icon(a["icon"], "sp-ico sp-ico-sm")}<span>{escape(a["label"])}</span></li>' for a in d['areas'])
     return (
-        f'<section class="sp" aria-labelledby="sp-name">'
-        f'<div class="sp-bg" aria-hidden="true"><span class="sp-orb sp-orb-a"></span><span class="sp-orb sp-orb-b"></span><span class="sp-orb sp-orb-c"></span>'
-        f'<span class="sp-pattern"><span></span></span><span class="sp-shine"></span></div>'
-        f'<div class="sp-card">'
-        f'<div class="sp-photo"><img class="sp-photo-fill" src="{src}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async" aria-hidden="true">'
-        f'<figure class="sp-frame"><img src="{src}" alt="{escape(d["photo"]["alt"], quote=True)}" width="{w}" height="{h}" loading="lazy" decoding="async"></figure></div>'
-        f'<div class="sp-main"><p class="sp-eyebrow">{escape(d["eyebrow"])}</p><h2 id="sp-name">{escape(d["name"])}</h2>'
-        f'<ol class="sp-desig" aria-label="Designations">{"".join(cards)}</ol></div>'
-        f'<div class="sp-areas"><hr class="sp-divider"><h3 id="sp-areas-title">{escape(d["areas_title"])}</h3>'
+        f'<aside class="sp-card" aria-labelledby="sp-name">'
+        f'<figure class="sp-frame"><img src="{src}" alt="{escape(d["photo"]["alt"], quote=True)}" width="{w}" height="{h}" decoding="async"></figure>'
+        f'<div class="sp-main"><p class="sp-eyebrow">{escape(d["eyebrow"])}</p><h2 id="sp-name">{escape(d["name"])}</h2>{bio_html}'
+        f'<ol class="sp-desig" aria-label="Designations">{"".join(items)}</ol>{lang_html}</div>'
+        f'<div class="sp-areas"><h3 id="sp-areas-title">{escape(d["areas_title"])}</h3>'
         f'<ul class="sp-pills" aria-labelledby="sp-areas-title">{pills}</ul></div>'
-        f'</div></section>')
+        f'</aside>')
+
+
+def background():
+    """Decorative animated layers for the page stage (hidden from assistive technology, never intercept the pointer)."""
+    return ('<div class="bz-bg" aria-hidden="true"><span class="bz-orb bz-orb-a"></span><span class="bz-orb bz-orb-b"></span><span class="bz-orb bz-orb-c"></span>'
+            '<span class="bz-pattern"><span></span></span><span class="bz-shine"></span></div>')

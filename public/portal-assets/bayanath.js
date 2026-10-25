@@ -124,13 +124,3 @@
       setStatus("The video list could not be loaded right now.", true);
     });
 })();
-
-/* Speaker Profile: pause its decorative background animation while it is off screen (saves battery on phones). */
-(() => {
-  "use strict";
-  const sp = document.querySelector(".sp");
-  if (!sp || !("IntersectionObserver" in window)) return;
-  new IntersectionObserver((entries) => {
-    sp.classList.toggle("is-paused", !entries[entries.length - 1].isIntersecting);
-  }, { rootMargin: "80px" }).observe(sp);
-})();

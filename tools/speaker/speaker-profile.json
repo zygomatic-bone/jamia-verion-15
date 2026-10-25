@@ -7,40 +7,103 @@
     "note": "The exact file supplied by the website owner (650 x 399 px, 17.7 KB, byte-identical). Shown whole, never cropped."
   },
   "designations": [
-    {"n": 1, "icon": "mosque", "title": "Chief Imam & Khateeb", "place": "Jamia Masjid, City Market, Bengaluru.",
-     "text": "Leads the congregation and delivers the Friday Khutbah and religious guidance.",
-     "publish": true, "verification": "verified",
-     "check": "Deccan Herald calls him \"the chief imam of Jamia Masjid\" in Bengaluru. City Market is the location the Trust's own pages give for Jamia Masjid."},
-    {"n": 2, "icon": "college", "title": "Principal", "place": "Jamiul Uloom Arabic College, Bengaluru.",
-     "text": "Provides educational leadership and oversees academic, religious and character development.",
-     "publish": true, "verification": "needs confirmation",
-     "check": "No public source found. The earlier Governing Body poster on this site names a different person as \"Principal in chief\"; confirm the title and its dates with the Trust."},
-    {"n": 3, "icon": "council", "title": "Member, Imarat-e-Shariah, Karnataka", "place": "Three-Member Caretaker Council.",
-     "text": "Contributes to the religious, educational and community responsibilities of Imarat-e-Shariah, Karnataka.",
-     "publish": true, "verification": "needs confirmation",
-     "check": "Imarat-e-Shariah Karnataka announced a three-member committee after the death of its Ameer-e-Shariat in January 2026, but the pages that could be read do not name its members."},
-    {"n": 4, "icon": "moon", "title": "Convener, Karnataka Moon Sighting Committee", "place": "",
-     "text": "Coordinates moon-sighting activities and communicates decisions concerning the commencement of Islamic months, including Ramadan, Shawwal and Dhul-Hijjah.",
-     "publish": true, "verification": "conflicting sources",
-     "check": "Deccan Herald (Ramzan 2024) calls him \"convenor\" of the committee; ETV Bharat (Feb 2025) calls him \"member of the State Moon Sighting Committee\". Confirm the present title."},
-    {"n": 5, "icon": "book", "title": "Islamic Scholar, Educator & Community Leader", "place": "",
-     "text": "Engages in Islamic scholarship, teaching, public lectures, community guidance and youth mentorship.",
-     "publish": true, "verification": "needs confirmation",
-     "check": "A general description. Public sources found do not state the academic titles \"Mufti\" or \"Dr.\"; confirm them."},
-    {"n": 6, "icon": "star", "title": "Ameer-e-Shariyat, Karnataka (Member)", "place": "",
-     "text": "Serves as a member of the Ameer-e-Shariyat leadership structure, contributing to religious guidance and community responsibilities in Karnataka.",
-     "publish": true, "verification": "needs confirmation",
-     "check": "No public source found that names him in this structure. Islamic Voice (Jan 2026) refers to the late Maulana Sagheer Ahmed Rashadi as Karnataka's Ameer-e-Shariat."}
+    {
+      "n": 1,
+      "icon": "mosque",
+      "title": "Chief Imam & Khateeb",
+      "place": "Jamia Masjid, City Market, Bengaluru.",
+      "text": "Leads the congregation and delivers the Friday Khutbah and religious guidance.",
+      "publish": true,
+      "verification": "verified",
+      "check": "Deccan Herald calls him \"the chief imam of Jamia Masjid\" in Bengaluru. City Market is the location the Trust's own pages give for Jamia Masjid."
+    },
+    {
+      "n": 2,
+      "icon": "college",
+      "title": "Principal",
+      "place": "Jamiul Uloom Arabic College, Bengaluru.",
+      "text": "Provides educational leadership and oversees academic, religious and character development.",
+      "publish": true,
+      "verification": "needs confirmation",
+      "check": "No public source found. The earlier Governing Body poster on this site names a different person as \"Principal in chief\"; confirm the title and its dates with the Trust."
+    },
+    {
+      "n": 3,
+      "icon": "council",
+      "title": "Member, Imarat-e-Shariah, Karnataka",
+      "place": "Three-Member Caretaker Council.",
+      "text": "Contributes to the religious, educational and community responsibilities of Imarat-e-Shariah, Karnataka.",
+      "publish": true,
+      "verification": "needs confirmation",
+      "check": "Imarat-e-Shariah Karnataka announced a three-member committee after the death of its Ameer-e-Shariat in January 2026, but the pages that could be read do not name its members."
+    },
+    {
+      "n": 4,
+      "icon": "moon",
+      "title": "Convener, Karnataka Moon Sighting Committee",
+      "place": "",
+      "text": "Coordinates moon-sighting activities and communicates decisions concerning the commencement of Islamic months, including Ramadan, Shawwal and Dhul-Hijjah.",
+      "publish": true,
+      "verification": "conflicting sources",
+      "check": "Deccan Herald (Ramzan 2024) calls him \"convenor\" of the committee; ETV Bharat (Feb 2025) calls him \"member of the State Moon Sighting Committee\". Confirm the present title."
+    },
+    {
+      "n": 5,
+      "icon": "book",
+      "title": "Islamic Scholar, Educator & Community Leader",
+      "place": "",
+      "text": "Engages in Islamic scholarship, teaching, public lectures, community guidance and youth mentorship.",
+      "publish": true,
+      "verification": "needs confirmation",
+      "check": "A general description. Public sources found do not state the academic titles \"Mufti\" or \"Dr.\"; confirm them."
+    },
+    {
+      "n": 6,
+      "icon": "star",
+      "title": "Ameer-e-Shariyat, Karnataka (Member)",
+      "place": "",
+      "text": "Serves as a member of the Ameer-e-Shariyat leadership structure, contributing to religious guidance and community responsibilities in Karnataka.",
+      "publish": true,
+      "verification": "needs confirmation",
+      "check": "No public source found that names him in this structure. Islamic Voice (Jan 2026) refers to the late Maulana Sagheer Ahmed Rashadi as Karnataka's Ameer-e-Shariat."
+    }
   ],
   "areas_title": "AREAS OF WORK",
   "areas": [
-    {"icon": "quran", "label": "Quranic Studies"},
-    {"icon": "scales", "label": "Islamic Jurisprudence"},
-    {"icon": "cap", "label": "Religious Education"},
-    {"icon": "mic", "label": "Public Sermons"},
-    {"icon": "people", "label": "Community Guidance"},
-    {"icon": "dialogue", "label": "Interfaith Dialogue"},
-    {"icon": "moon", "label": "Moon-Sighting Coordination"},
-    {"icon": "sprout", "label": "Student Development"}
-  ]
+    {
+      "icon": "quran",
+      "label": "Quranic Studies"
+    },
+    {
+      "icon": "scales",
+      "label": "Islamic Jurisprudence"
+    },
+    {
+      "icon": "cap",
+      "label": "Religious Education"
+    },
+    {
+      "icon": "mic",
+      "label": "Public Sermons"
+    },
+    {
+      "icon": "people",
+      "label": "Community Guidance"
+    },
+    {
+      "icon": "dialogue",
+      "label": "Interfaith Dialogue"
+    },
+    {
+      "icon": "moon",
+      "label": "Moon-Sighting Coordination"
+    },
+    {
+      "icon": "sprout",
+      "label": "Student Development"
+    }
+  ],
+  "biography": [],
+  "languages": [],
+  "_notes": "biography and languages are printed only when an entry has \"verified\": true. None has been supplied or verified, so none is shown."
 }
