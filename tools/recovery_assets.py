@@ -2,7 +2,7 @@
 
 Every entry maps one authentic file in the original `public_html/` to its place in the deployed site.
 
-    key -> (original path, destination under public/portal-assets/recovered/, alt text, caption)
+    key -> (original path, destination under public/portal-assets/images/, alt text, caption)
 
 * Files are copied byte-for-byte (so they stay provably authentic). The only change made is that CMYK JPEGs, which some
   browsers and phones render with wrong colours, are converted to RGB.
@@ -11,7 +11,7 @@ Every entry maps one authentic file in the original `public_html/` to its place 
 * `tools/import_recovered_assets.py` performs the copy; `tools/recovery_manifest.py` writes the manifest CSV.
 """
 
-R = 'portal-assets/recovered/'            # folder (inside public/) that holds every recovered image
+R = 'portal-assets/images/'            # folder (inside public/) that holds every recovered image
 DOC = 'portal-assets/documents/'          # original PDFs
 
 # key: (source in backup, destination below R, alt text, caption)
@@ -26,17 +26,17 @@ IMAGES = {
     'msg8': ('homeimages/Message8.jpeg', 'messages/message-8-head-mistress.jpeg', 'Scanned message from Naveeda Naaz, Head Mistress', 'Message 8 · Head Mistress'),
 
     # ---- J.U Darul Quran Arabic College (image-only "About Us" pages and plan) ---------------------------------------
-    'dq_en': ('homeimages/AboutEng.jpg', 'darul-quran/about-english.jpg', 'Scanned English page headed “J.U Darul Quran Arabic College, Bangalore” with the history of Jame-ul-Uloom, the Arabic College and an appeal', 'Original “About Us” page (English)'),
-    'dq_ur': ('homeimages/Shobaehifz.jpg', 'darul-quran/about-urdu.jpg', 'Scanned Urdu page headed “J.U Darul Quran Arabic College, Bangalore” carrying the Urdu version of the college history and appeal', 'Original “About Us” page (Urdu)'),
+    'dq_en': ('homeimages/AboutEng.jpg', 'darul-quran/about-english.jpg', 'Scanned English page headed “J.U Darul Quran Arabic College, Bangalore” with the history of Jame-ul-Uloom, the Arabic College and an appeal', 'About Us (English): scanned page'),
+    'dq_ur': ('homeimages/Shobaehifz.jpg', 'darul-quran/about-urdu.jpg', 'Scanned Urdu page headed “J.U Darul Quran Arabic College, Bangalore” carrying the Urdu version of the college history and appeal', 'About Us (Urdu): scanned page'),
     'dq_plan': ('homeimages/Proposed.jpg', 'darul-quran/proposed-plan.jpg', 'Architect’s drawing “Proposed J.U Darul Quran & Arabic College, Bangalore”: front elevation and ground-floor plan', 'Proposed building: front elevation and ground-floor plan'),
 
     # ---- Portraits and group photographs of the main portal ----------------------------------------------------------
-    'imam': ('homeimages/ImamSab.jpg', 'people/moulana-riyazur-rahman-rashadi.jpg', 'Portrait of Late Moulana Riyazur Rahman Rashadi seated at a desk', 'Late Moulana Riyazur Rahman Rashadi (caption printed on the original photograph)'),
-    'trust_group': ('homeimages/Team.jpg', 'people/jamia-masjid-trust-group.jpg', 'Group photograph of fourteen members of the Jamia Masjid Trust standing and seated in two rows', 'Group photograph labelled “Jamai Masjid Trust” in the original'),
+    'imam': ('homeimages/ImamSab.jpg', 'people/moulana-riyazur-rahman-rashadi.jpg', 'Portrait of Late Moulana Riyazur Rahman Rashadi seated at a desk', 'Late Moulana Riyazur Rahman Rashadi'),
+    'trust_group': ('homeimages/Team.jpg', 'people/jamia-masjid-trust-group.jpg', 'Group photograph of fourteen members of the Jamia Masjid Trust standing and seated in two rows', 'Group photograph labelled “Jamai Masjid Trust”'),
 
     # ---- Calligraphy Centre -------------------------------------------------------------------------------------------
     'cal_intro': ('homeimages/Caligraphy1.jpg', 'calligraphy/calligraphy-1.jpg', 'Calligraphy artwork: a basket of fruit with Arabic lettering and the word “Calligraphy”', 'Calligraphy Centre'),
-    'cal1': ('homeimages/cali1.jpg', 'calligraphy/calligraphy-0-emblem.jpg', 'Calligraphy Centre artwork: a palm tree and a mosque inside a circle above the words JAME-UL-ULOOM, with lines of Urdu lettering beside it (the Urdu is not transcribed)', 'Calligraphy Centre artwork “Cali1”'),
+    'cal1': ('homeimages/cali1.jpg', 'calligraphy/calligraphy-0-emblem.jpg', 'Calligraphy Centre artwork: a palm tree and a mosque inside a circle above the words JAME-UL-ULOOM, with lines of Urdu lettering beside it', 'Calligraphy Centre artwork “Cali1”'),
     'cal2': ('homeimages/cali2.jpg', 'calligraphy/calligraphy-2.jpg', 'Calligraphy artwork: Urdu verse in green and red lettering on a brown panel', 'Calligraphy Centre gallery'),
     'cal3': ('homeimages/Cali3.GIF', 'calligraphy/calligraphy-3.gif', 'Calligraphy artwork: a Naskh calligraphy handicraft pot', 'Calligraphy Centre gallery'),
     'cal4': ('homeimages/Cali4.GIF', 'calligraphy/calligraphy-4.gif', 'Calligraphy artwork: an Arabic phrase engraved in relief on a grey surface', 'Calligraphy Centre gallery'),
@@ -50,9 +50,9 @@ IMAGES = {
     'veh1': ('homeimages/Vehicle1.jpg', 'transport/vehicle-1.jpg', 'Three yellow Jame-ul-uloom school buses parked side by side', 'School buses'),
     'veh2': ('homeimages/Vehicle2.jpg', 'transport/vehicle-2.jpg', 'A yellow Jame-ul-uloom school bus seen from the front left', 'School bus'),
     'veh3': ('homeimages/Vehicle3.jpg', 'transport/vehicle-3.jpg', 'A yellow Jame-ul-uloom English Nursery, Primary and High School bus seen from the side', 'School bus'),
-    'fn5': ('homeimages/audi5.jpg', 'events/function-1.jpg', 'Stage of a Jame-ul-uloom function with dignitaries seated in a row under a banner', 'Function of the institutions (original “Auditorium” page)'),
-    'fn6': ('homeimages/audi6.jpg', 'events/function-2.jpg', 'Dignitaries and award recipients standing on a red-draped stage holding certificates and trophies', 'Function of the institutions (original “Auditorium” page)'),
-    'fn7': ('homeimages/audi7.jpg', 'events/function-3.jpg', 'A guest in a shawl presenting a memento to an elderly gentleman in a cap on stage', 'Function of the institutions (original “Auditorium” page)'),
+    'fn5': ('homeimages/audi5.jpg', 'events/function-1.jpg', 'Stage of a Jame-ul-uloom function with dignitaries seated in a row under a banner', 'Function of the institutions'),
+    'fn6': ('homeimages/audi6.jpg', 'events/function-2.jpg', 'Dignitaries and award recipients standing on a red-draped stage holding certificates and trophies', 'Function of the institutions'),
+    'fn7': ('homeimages/audi7.jpg', 'events/function-3.jpg', 'A guest in a shawl presenting a memento to an elderly gentleman in a cap on stage', 'Function of the institutions'),
     'act1': ('homeimages/Activ1.jpg', 'events/activity-schools-1.jpg', 'Children performing on a decorated stage at a school programme', 'School programme'),
     'act2': ('homeimages/Activ2.jpg', 'events/activity-2.jpg', 'Girls speaking at microphones on the stage of a school programme under a “JAMIA-U…” banner', 'School programme'),
     'act3': ('homeimages/Activ3.jpg', 'events/activity-3.jpg', 'A dignitary presenting a trophy to a student at a prize-giving', 'Prize distribution'),
@@ -67,11 +67,11 @@ IMAGES = {
     'mas1': ('homeimages/Masjid.jpg', 'masjid/masjid-1.jpg', 'Interior of the Jamia Masjid prayer hall with a polished floor and pillars', 'Jamia Masjid, prayer hall'),
     'mas2': ('homeimages/Masjid1.jpg', 'masjid/masjid-2.jpg', 'The chandeliered prayer hall of the Jamia Masjid with a purple carpet', 'Jamia Masjid, prayer hall'),
     'mas3': ('homeimages/Masjid2.jpg', 'masjid/masjid-3.jpg', 'The prayer hall of the Jamia Masjid with a red carpet', 'Jamia Masjid, prayer hall'),
-    'mas4': ('BCA/images/Masjid.jpg', 'masjid/masjid-hall-1.jpg', 'A large hall with a polished black floor inlaid with white diamond shapes, red lower walls, high windows and an iron-framed roof', 'Hall (photograph from the original Masjid page of the BCA section; the building is not named there)'),
-    'mas5': ('BCA/images/Masjid1.jpg', 'masjid/masjid-hall-2.jpg', 'The same black-and-white floored hall with glass-fronted book cabinets along the wall under a sign reading Jame ul uloom School Annex Library', 'Hall with book cabinets under a “Jame ul uloom School Annex Library” sign (original Masjid page of the BCA section)'),
-    'mas6': ('BCA/images/Masjid2.jpg', 'masjid/masjid-prayer-row.jpg', 'A row of men in white prayer clothes and caps standing in prayer on mats along a green-lit corridor', 'Prayer in the corridor (original Masjid page of the BCA section)'),
-    'gov_old': ('BCA/images/Team.jpg', 'people/governing-body-earlier.jpg', 'An earlier printed poster headed Governing Body: eight portrait photographs and a mosque picture, each with a printed name and designation', 'Governing Body: earlier poster (the “Team” pages of the school and college sections of the original site)'),
-    'trustees_old': ('EngBoysHighSchool/images/Trustees.jpg', 'people/trustees-earlier.jpg', 'An earlier printed poster headed Trustees: nineteen portrait photographs in blue frames with a printed name under each', 'Trustees: earlier poster (the “Trustees” pages of the school sections of the original site)'),
+    'mas4': ('BCA/images/Masjid.jpg', 'masjid/masjid-hall-1.jpg', 'A large hall with a polished black floor inlaid with white diamond shapes, red lower walls, high windows and an iron-framed roof', 'Hall'),
+    'mas5': ('BCA/images/Masjid1.jpg', 'masjid/masjid-hall-2.jpg', 'The same black-and-white floored hall with glass-fronted book cabinets along the wall under a sign reading Jame ul uloom School Annex Library', 'Hall with book cabinets under a “Jame ul uloom School Annex Library” sign'),
+    'mas6': ('BCA/images/Masjid2.jpg', 'masjid/masjid-prayer-row.jpg', 'A row of men in white prayer clothes and caps standing in prayer on mats along a green-lit corridor', 'Prayer in the corridor'),
+    'gov_old': ('BCA/images/Team.jpg', 'people/governing-body-earlier.jpg', 'An earlier printed poster headed Governing Body: eight portrait photographs and a mosque picture, each with a printed name and designation', 'Governing Body: earlier poster'),
+    'trustees_old': ('EngBoysHighSchool/images/Trustees.jpg', 'people/trustees-earlier.jpg', 'An earlier printed poster headed Trustees: nineteen portrait photographs in blue frames with a printed name under each', 'Trustees: earlier poster'),
     'mas_corr': ('NCPUL/images/Masjid2.jpg', 'masjid/masjid-corridor.jpg', 'A long corridor of the masjid building with a green-lit floor and arches', 'Jamia Masjid, corridor'),
     'cls1': ('homeimages/Classroom.jpg', 'colleges/classroom-pu-1.jpg', 'A classroom with wooden desks, a green board and a projector', 'Classroom'),
     'cls2': ('homeimages/Classroom1.jpg', 'colleges/classroom-pu-2.jpg', 'A classroom with benches, a whiteboard and a green board', 'Classroom'),
@@ -86,13 +86,13 @@ IMAGES = {
     'deg_cls1': ('DegreeGirlsCollege/images/Classroom.jpg', 'colleges/classroom-degree-1.jpg', 'A classroom with long wooden benches and a projector', 'Degree College classroom'),
     'deg_cls2': ('DegreeGirlsCollege/images/Classroom1.jpg', 'colleges/classroom-degree-2.jpg', 'A classroom with a whiteboard and a projector on the ceiling', 'Degree College classroom'),
     'pu_lab1': ('PUGirlsCollege/images/Sciencelab.jpg', 'colleges/science-lab-1.jpg', 'II PU girl students with their lecturer in the chemistry laboratory; caption printed on the photograph', 'Chemistry Lab, II PU students with Mr. Ziaulla Khan (Lecturer)'),
-    'pu_lab2': ('PUGirlsCollege/images/Sciencelab1.jpg', 'colleges/science-lab-2.jpg', 'Three photographs of PUC students in the chemistry, biology and physics laboratories, with printed captions', 'Chemistry Lab II PUC · Biology Lab II PUC · Physics Lab I PUC (as printed)'),
+    'pu_lab2': ('PUGirlsCollege/images/Sciencelab1.jpg', 'colleges/science-lab-2.jpg', 'Three photographs of PUC students in the chemistry, biology and physics laboratories, with captions', 'Chemistry Lab II PUC · Biology Lab II PUC · Physics Lab I PUC'),
     'pu_prin': ('PUGirlsCollege/images/PrincipalBig.jpg', 'colleges/principal-pu.jpg', 'The Principal of the Pre University College seated at her desk', 'Principal, Pre University College for Girls'),
     'pu_staff': ('PUGirlsCollege/images/Staff.jpeg', 'colleges/staff-pu.jpeg', 'PUC staff members with the Principal, seated and standing in two rows; names printed on the photograph', 'PUC staff members with Principal'),
     'pu_school': ('PUGirlsCollege/images/SchoolPhoto.jpg', 'colleges/group-pu.jpg', 'Group photographs from a college function: students wearing sashes beside staff on the left, a large group of women staff and students on the right', 'Pre University College'),
     'deg_prin': ('BCA/images/PrincipalBig.jpg', 'colleges/principal-degree-bca.jpg', 'The Principal of the Degree and BCA colleges seated at her desk with a telephone and papers', 'Principal, Degree and BCA colleges'),
     'deg_staff': ('BCA/images/Staff.jpeg', 'colleges/staff-degree-bca.jpeg', 'Women faculty members of the Degree and BCA colleges seated and standing in a classroom', 'Faculty of the Degree and BCA colleges'),
-    'deg_staff_names': ('BCA/images/STNames.jpeg', 'colleges/staff-degree-bca-names.jpeg', 'Printed caption naming the faculty members in the photograph above', 'Names printed with the faculty photograph'),
+    'deg_staff_names': ('BCA/images/STNames.jpeg', 'colleges/staff-degree-bca-names.jpeg', 'The printed caption naming the faculty members in the photograph above', 'Names of the faculty in the photograph'),
 
     # ---- NCPUL --------------------------------------------------------------------------------------------------------
     'ncpul_aw': ('NCPUL/images/Awards.jpeg', 'ncpul/awards.jpeg', 'Two photographs of certificates being handed over to women students on stage', 'Certificate presentation'),
@@ -111,8 +111,8 @@ IMAGES = {
     'iti_mmv': ('ITI/ITIimages/iti5.jpg', 'iti/mmv-lab.jpg', 'Instructor and trainees working on a vehicle engine in the Mechanic Motor Vehicle workshop', 'MMV laboratory'),
     'iti_work': ('ITI/ITIimages/iti2.jpg', 'iti/workshop.jpg', 'Trainees and instructors gathered around machinery in the ITI workshop', 'ITI workshop'),
     'iti_play1': ('ITI/ITIimages/itiPlaygroud.jpg', 'iti/playground-1.jpg', 'The open playground of the ITI campus', 'ITI playground'),
-    'iti_play2': ('ITI/ITIimages/itiPlaygroud1.jpg', 'iti/playground-2.jpg', 'An elderly gentleman in white greeting boys in navy blazers on a sports ground, with onlookers behind', 'Prize distribution (original ITI Sports page)'),
-    'iti_play3': ('ITI/ITIimages/itiPlaygroud2.jpg', 'iti/playground-3.jpg', 'Men in white caps handing over trophies to a boy at an outdoor prize distribution', 'Prize distribution (original ITI Sports page)'),
+    'iti_play2': ('ITI/ITIimages/itiPlaygroud1.jpg', 'iti/playground-2.jpg', 'An elderly gentleman in white greeting boys in navy blazers on a sports ground, with onlookers behind', 'Prize distribution'),
+    'iti_play3': ('ITI/ITIimages/itiPlaygroud2.jpg', 'iti/playground-3.jpg', 'Men in white caps handing over trophies to a boy at an outdoor prize distribution', 'Prize distribution'),
     # ---- Phase 9.2: photographs published after review of the unreferenced originals ---------------------------------
     'iti_dsc1': ('ITI/ITIimages/DSC02796.JPG', 'iti/prize-distribution-full-1.jpg', 'Boys in navy blazers and white trousers standing in a line on open ground while an elderly man in white shakes hands with one of them; palm trees behind', 'Prize distribution: full photograph'),
     'iti_dsc2': ('ITI/ITIimages/DSC03089.JPG', 'iti/prize-distribution-full-2.jpg', 'A boy in a white shirt and red wristband holds a gold trophy beside a table of trophies while a crowd of children and men watches', 'Prize distribution: full photograph'),
@@ -134,7 +134,7 @@ IMAGES = {
     'girls_comp': ('EngGirlsHighSchool/images/CompLab.jpg', 'colleges/computer-lab-2.jpg', 'Girls seated in rows at computers', 'English Girls High School computer laboratory'),
 
     # ---- Awards ----------------------------------------------------------------------------------------------------
-    'award_trophy': ('homeimages/6.jpg', 'recognitions/udyog-rattan-award-trophy.jpg', 'A glass trophy on a black base held in two hands, engraved “Udyog Rattan Award”; the recipient’s line is too small to read', 'Trophy engraved “Udyog Rattan Award” (small original image; recipient and year not legible)'),
+    'award_trophy': ('homeimages/6.jpg', 'recognitions/udyog-rattan-award-trophy.jpg', 'A glass trophy on a black base held in two hands, engraved “Udyog Rattan Award”; the recipient’s line is too small to read', 'Trophy engraved “Udyog Rattan Award” (recipient and year not legible)'),
 
     # ---- Institution logo banners (originally Institutions/*Logo.jpg, 316x81) ---------------------------------------
     'logo_iti': ('Institutions/ITILogo.jpg', 'logos/iti.jpg', 'Jame ul uloom crest with the words Industrial Training Institute (ITI)', 'Industrial Training Institute (ITI)'),
@@ -155,8 +155,8 @@ IMAGES = {
 # Original PDFs, copied unchanged: key -> (source, destination below DOC, title, description)
 DOCUMENTS = {
     'diary': ('homeimages/Diary Edited-1.pdf', 'admissions-diary-2013-14.pdf', 'Admissions Diary 2013–14', '11-page school diary with rules, admission conditions and calendars (PageMaker, November 2013)'),
-    'tareeq': ('masjidimages/Masjid Tareeq.pdf', 'masjid-tareeq.pdf', 'Masjid Tareeq (Urdu)', '23-page Urdu document printed as “Jamia Masjid in the mirror of history” (scanned layout, no text layer)'),
-    'majalla': ('masjidimages/majalah qurbani  fainal 1.pdf', 'majalla-qurbani.pdf', 'Majalla Qurbani (Urdu magazine)', '51-page Urdu magazine issue of the Jamia Masjid (scanned layout, no text layer)'),
+    'tareeq': ('masjidimages/Masjid Tareeq.pdf', 'masjid-tareeq.pdf', 'Masjid Tareeq (Urdu)', '23-page Urdu document printed as “Jamia Masjid in the mirror of history”'),
+    'majalla': ('masjidimages/majalah qurbani  fainal 1.pdf', 'majalla-qurbani.pdf', 'Majalla Qurbani (Urdu magazine)', '51-page Urdu magazine issue of the Jamia Masjid'),
 }
 
 
@@ -166,6 +166,6 @@ EXISTING = {
     # key: (path inside public/, alt text, caption)
     'gov': (P8 + 'governing.jpeg', 'The Governing Body of the Trust: printed portrait photographs with names and designations', 'Governing Body'),
     'trustees': (P8 + 'trustees.jpg', 'The Trustees: printed portrait photographs with names', 'Trustees'),
-    'audi1': (P8 + 'audi1.jpg', 'Boys in green waistcoats and white caps standing in rows in the auditorium, with a large audience behind them', 'Auditorium (original “Auditorium” page)'),
-    'audi2': (P8 + 'audi2.jpg', 'A packed auditorium: women and girls in the balcony and a large audience of students in the stalls', 'Auditorium (original “Auditorium” page)'),
+    'audi1': (P8 + 'audi1.jpg', 'Boys in green waistcoats and white caps standing in rows in the auditorium, with a large audience behind them', 'Auditorium'),
+    'audi2': (P8 + 'audi2.jpg', 'A packed auditorium: women and girls in the balcony and a large audience of students in the stalls', 'Auditorium'),
 }

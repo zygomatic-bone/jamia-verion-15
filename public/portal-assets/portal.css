@@ -1014,34 +1014,7 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
   .pf-grid-long .pf-media .fit-bg { filter: blur(8px) brightness(.6) saturate(1.1); }
 }
 
-/* ==== Bayanath: YouTube video cards (prefix by-) ==== */
-.by-grid { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1.3rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr)); }
-.by-grid[aria-busy="true"] { min-height: 12rem; }
-.by-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-.by-card:hover, .by-card:focus-within { transform: translateY(-4px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
-.by-card.is-playing { grid-column: 1 / -1; transform: none; }
-.by-thumb, .by-player { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; background: #0a1f17; overflow: hidden; }
-.by-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease, filter .3s ease; } /* YouTube's own 4:3 thumbnail has letterbox bars; cover trims only those */
-.by-thumb:hover img, .by-thumb:focus-visible img { transform: scale(1.04); filter: brightness(.85); }
-.by-thumb.no-thumb::before { content: "Video"; position: absolute; inset: 0; display: grid; place-items: center; color: #f6f1e7; font-family: var(--display); font-size: 1.2rem; }
-.by-play { position: absolute; left: 50%; top: 50%; width: 3.6rem; height: 3.6rem; margin: -1.8rem 0 0 -1.8rem; border-radius: 50%; background: rgba(18, 60, 46, .88); border: 2px solid rgba(255, 255, 255, .85); box-shadow: 0 6px 20px rgba(0, 0, 0, .35); }
-.by-play::after { content: ""; position: absolute; left: 1.45rem; top: 1.05rem; border-style: solid; border-width: .75rem 0 .75rem 1.2rem; border-color: transparent transparent transparent #fff; }
-.by-thumb:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
-.by-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.by-card.is-playing .by-player { max-width: 52rem; margin-inline: auto; }
-.by-body { display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.15rem 1.2rem; }
-.by-body h3 { margin: 0; font-family: var(--display); font-size: 1.08rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-.by-title { color: inherit; text-decoration: none; }
-.by-title:hover { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: .18em; }
-.by-title:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
-.by-card.is-playing .by-body h3 { -webkit-line-clamp: unset; display: block; }
-.by-date { color: var(--muted); font-size: .85rem; }
-.by-yt { color: var(--forest-2); font-weight: 700; font-size: .9rem; }
-.by-status { margin: 1.4rem 0 0; padding: 1.1rem 1.3rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); color: var(--muted); }
-.by-status a, .by-meta a { color: var(--forest-2); font-weight: 700; }
-.by-meta { margin: 1.4rem 0 0; color: var(--muted); font-size: .85rem; }
-:root[data-theme="dark"] .by-status a, :root[data-theme="dark"] .by-yt, :root[data-theme="dark"] .by-meta a { color: var(--gold-pale); }
-@media (prefers-reduced-motion: reduce) { .by-card, .by-thumb img { transition: none; } }
+/* Bayanath page styles (video cards, speaker card, navy glass layout) now live in bayanath.css, loaded by Bayanath.html only. */
 
 /* ==== Interior-page photograph galleries (prefix pv-): whole photographs, caption below, same card language as the rest of the portal ==== */
 .pv-section { margin: clamp(2rem, 4vw, 3rem) 0 1.2rem; }

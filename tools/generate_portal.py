@@ -48,7 +48,7 @@ def fit_media(rp, fn, alt, cls='pf-media', loading='lazy'):
 ICON_SCHOOL = '<svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2.5M12 2.5h3"></path></svg>'
 ICON_INSTITUTIONS = '<svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M4 10l8-6 8 6M6 10v8M10 10v8M14 10v8M18 10v8"></path></svg>'
 
-# Photograph for each institution card: an authentic photograph of that institution (recovered in Phase 9), shown whole.
+# Photograph for each institution card: an authentic photograph of that institution (Phase 9), shown whole.
 def _P(key):
     """Card photograph tuple (file, alt, caption) for a recovered image key."""
     _, dest, alt, cap = RA.IMAGES[key]
@@ -172,8 +172,8 @@ def page(filename, title, body, desc, root_prefix=''):
               f'<div><h2>Contact</h2><a href="{rp}Contact.html">Contact directory</a><a href="mailto:jamiaululoom@gmail.com">jamiaululoom@gmail.com</a><a href="{rp}ResidentialSchoolBanikuppa/index.html">Banikuppa school</a></div>'
               f'</div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Jamia Masjid &amp; Muslim Charitable Fund Trust</span><span>Jame-ul-Uloom, Bangalore</span></div></div></footer>')
     extra_js = f'<script src="{rp}portal-assets/bayanath.js" defer></script>' if filename == 'Bayanath.html' and not rp else ''
-    extra_css = f'<link rel="stylesheet" href="{rp}portal-assets/speaker.css">' if filename == 'Bayanath.html' and not rp else ''  # Speaker Profile styles load on this page only
-    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else ''  # lets the homepage-only dark theme in extras.css find the homepage
+    extra_css = f'<link rel="stylesheet" href="{rp}portal-assets/bayanath.css">' if filename == 'Bayanath.html' and not rp else ''  # Bayanath layout, speaker card and video-card styles load on this page only
+    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else (' class="page-bayanath"' if (filename == 'Bayanath.html' and not rp) else '')  # lets the homepage-only dark theme in extras.css find the homepage
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{escape(title)} | {NAME}</title><meta name="description" content="{escape(desc, quote=True)}"><meta name="theme-color" content="#123c2e"><script src="{rp}portal-assets/theme-init.js"></script><link rel="stylesheet" href="{rp}portal-assets/portal.css">{extra_css}</head><body{body_cls}>{site_header(rp, current=(filename if not rp else None))}<main id="main">{main}</main>{footer}<button class="icon-button back-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button><script src="{rp}portal-assets/app.js" defer></script>{extra_js}</body></html>"""
 
 # 1. index.html: the single official homepage. This text feeds the hero (eyebrow, heading, lede);
@@ -193,9 +193,9 @@ INSTS = [
     ('Industrial Training Institute (ITI)', 'ITI/home.html', 'Shikshanagar campus (27th km off the Bangalore–Mysore Highway); Fitter, MRAC & MMV trades.'),
     ('Pre University College for Girls', 'PUGirlsCollege/home.html', 'Pre-University education for girls (Science PCMB and Commerce combinations) at S.J.P. Road, City Market (Ph: 0826705591).'),
     ('Degree College for Girls (B.Com)', 'DegreeGirlsCollege/home.html', 'Bachelor of Commerce programme for women (Ph: 0826709915).'),
-    ('Bachelor of Computer Application (BCA)', 'BCA/home.html', 'Bachelor of Computer Application college for girls, “at an arms length from the Jamia Mosque” (original wording).'),
+    ('Bachelor of Computer Application (BCA)', 'BCA/home.html', 'Bachelor of Computer Application college for girls, “at an arms length from the Jamia Mosque”'),
     ('Boys Residential Higher & Primary School, Banikuppa', 'ResidentialSchoolBanikuppa/index.html', 'Residential campus on the Bangalore–Mysore Highway.'),
-    ('English Girls High School', 'EngGirlsHighSchool/home.html', 'High school for girls, started in 1990-91 with 13 girls (as printed on the school’s original page).'),
+    ('English Girls High School', 'EngGirlsHighSchool/home.html', 'High school for girls, started in 1990-91 with 13 girls .'),
     ('English Boys High School', 'EngBoysHighSchool/home.html', 'High school for boys at Ibrahim Ali Shah complex, S.P. Road (Boys Block Ph: 0822221726).'),
     ('English Higher Primary School', 'EngPrimarySchoolDEL/home.html', 'Primary school from 1st to VII standard, three sections in each class.'),
     ('English Nursery School', 'EngNurSchoolDEL/home.html', 'Nursery school; moral education and the learning of Hadiths begin at this stage.'),
@@ -205,7 +205,7 @@ INSTS = [
     ('Shoba-e-Hifz', 'ShobaehifzDel/home.html', 'The Hifz section: Hafiz and Hafiza classes for boys and girls.'),
     ('Shoba-e-Alimiyath', 'ShobaeAlimiyathDel/home.html', 'J.U Darul Quran Arabic College: Arabic studies at the Bannikuppa campus (proposed building).'),
 ]
-institutions = f'''<p class="eyebrow">Jame-ul-Uloom Group of Institutions</p><h1>Institutions</h1><p class="lede">The 14 educational institutions operated by the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p><ul class="pf-grid pf-grid-long pf-stagger">{''.join(inst_card(n, u, d) for n, u, d in INSTS)}</ul><p class="pf-credit">Photographs on the cards are authentic photographs of each institution from the original site. Where the original published no photograph of the institution itself, the card shows the closest authentic image (the proposed-building drawing for the Shoba sections).</p>'''+content_more.institutions_extra()
+institutions = f'''<p class="eyebrow">Jame-ul-Uloom Group of Institutions</p><h1>Institutions</h1><p class="lede">The 14 educational institutions operated by the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p><ul class="pf-grid pf-grid-long pf-stagger">{''.join(inst_card(n, u, d) for n, u, d in INSTS)}</ul>'''+content_more.institutions_extra()
 COMPACT = {'Institutions.html': ('page-hero-compact', 'portal-content-tight')}
 
 # 4. Activities.html
@@ -235,7 +235,7 @@ activities = f'''<p class="eyebrow">Students</p><h1>Extra-Curricular Activities 
 # 5. Services.html, Recognitions.html, ScienceLabs.html, Transport.html
 services = content_more.services
 
-recognitions = '''<p class="eyebrow">Institution</p><h1>Awards &amp; Recognition</h1><p class="lede">Recognitions and letters of appreciation documented on the original site of Jame-ul-Uloom, Jamia Masjid, Bangalore.</p>
+recognitions = '''<p class="eyebrow">Institution</p><h1>Awards &amp; Recognition</h1><p class="lede">Recognitions and letters of appreciation received by Jame-ul-Uloom, Jamia Masjid, Bangalore.</p>
 ''' + content_more.recognitions_intro
 
 sciencelabs = content_more.sciencelabs(photo_section('ScienceLabs.html'))
@@ -258,14 +258,18 @@ tailoring = content_more.tailoring
 #    portal-assets/bayanath.js from public/data/bayanath-videos.json, which tools/update_bayanath.py keeps fresh
 #    (scheduled by .github/workflows/update-bayanath.yml).
 YT_CHANNEL = 'https://www.youtube.com/@MuftiMaqsoodImran'
-bayanath = ('<p class="eyebrow">Presentations</p><h1>Bayanath</h1><p class="lede">The latest Bayanath videos from the official YouTube channel, newest first.</p>'
-            f'<div data-bayanath data-src="data/bayanath-videos.json" data-channel="{YT_CHANNEL}">'
+bayanath = ('<p class="eyebrow">Presentations</p><h1>Bayanath</h1><p class="lede">Latest Bayanath videos from the official YouTube channel, with the speaker\u2019s profile.</p>'
+            + speaker.background()
+            + '<div class="bz-grid">'
+            + '<div class="bz-side">' + speaker.render() + '</div>'
+            + '<div class="bz-main"><div class="bz-head"><p class="eyebrow">Latest videos</p><h2>Latest Bayanath videos</h2><p>The newest ten, with the most recent first.</p></div>'
+            + f'<div data-bayanath data-src="data/bayanath-videos.json" data-channel="{YT_CHANNEL}">'
             '<p class="by-status" role="status">Loading the latest Bayanath videos…</p>'
             '<ul class="by-grid" aria-busy="true" aria-label="Latest Bayanath videos"></ul>'
             '<p class="by-meta"></p>'
             f'<p class="by-meta"><a href="{YT_CHANNEL}" target="_blank" rel="noopener">Watch all videos on the official YouTube channel ↗</a></p>'
             f'<noscript><p class="by-status">Please enable JavaScript to see the video list, or <a href="{YT_CHANNEL}" target="_blank" rel="noopener">open the official YouTube channel</a>.</p></noscript></div>'
-            + speaker.render())  # Phase 9.2: Speaker Profile, immediately below the latest-videos section
+            '</div></div>')
 
 
 # 1b. Photographic sections under the hero (index.html only). All copy is taken from existing portal content.
@@ -300,7 +304,7 @@ SCHOOL_FEATURE = f"""<div class="pf-feature pf-reveal">
 </div>"""
 
 EMBLEM = f"""<aside class="pf-emblem pf-reveal" aria-label="Trust at a glance"><img src="{IMG_REL}logon.jpg" alt="Emblem of Jamia Masjid &amp; Muslim Charitable Fund Trust" width="188" height="188" loading="lazy" decoding="async">
-  <dl><div><dt>Trust established</dt><dd>1939*</dd></div><div><dt>Institutions</dt><dd>14</dd></div><div><dt>Campus</dt><dd>City Market</dd></div></dl><p class="rc-emblem-note">*Year as printed on the Trust’s own Institution page; other pages of the original site give other years. See <a href="AboutUs.html">About Us</a>.</p></aside>"""
+  <dl><div><dt>Trust established</dt><dd>1939*</dd></div><div><dt>Institutions</dt><dd>14</dd></div><div><dt>Campus</dt><dd>City Market</dd></div></dl><p class="rc-emblem-note">*Year as given on the Trust’s Institution page; other pages of this website give other years. See <a href="AboutUs.html">About Us</a>.</p></aside>"""
 prayer_html = ''.join(f'<li><strong>{n}</strong>{t}</li>' for n, t in PRAYERS)
 announcement_html = ''.join(f'<li><a href="{u}">{escape(a)}</a></li>' for a, u in ANNOUNCEMENTS)
 
@@ -437,7 +441,7 @@ red = (PUB / '_redirects').read_text(encoding='utf-8')
 if RB in red: red = red[:red.index(RB)] + red[red.index(RE) + len(RE) + 1:]
 (PUB / '_redirects').write_text(red.rstrip('\n') + '\n\n' + '\n'.join(lines) + '\n', encoding='utf-8')
 ht = ['# Root routing for jameululoom.org (generated by tools/generate_portal.py). Security headers and the Residential School rules live in',
-      '# ResidentialSchoolBanikuppa/.htaccess; this file only carries the legacy-URL redirects of the original site.',
+      '# ResidentialSchoolBanikuppa/.htaccess; this file only carries the legacy-URL redirects of the earlier site address.',
       'Options -Indexes', '',
       '<IfModule mod_headers.c>', '  # Ask search engines not to list photographs of pupils and staff in image search (same policy as the Residential School)',
       '  <FilesMatch "\\.(jpe?g|png|gif|webp)$">', '    Header set X-Robots-Tag "noimageindex"', '  </FilesMatch>', '</IfModule>', '',
@@ -448,13 +452,12 @@ for o, n in sorted(REDIRECTS.items()):
 ht += ['</IfModule>', '']
 (PUB / '.htaccess').write_text('\n'.join(ht), encoding='utf-8')
 
-hdr = (PUB / '_headers').read_text(encoding='utf-8')
-HB = '# Privacy for the recovered photographs of pupils and staff (generated by tools/generate_portal.py)'
-if HB not in hdr:
-    (PUB / '_headers').write_text(hdr.rstrip('\n') + f'\n\n{HB}\n/portal-assets/recovered/*\n  X-Robots-Tag: noimageindex\n', encoding='utf-8')
+hdr = re.split(r'\n\s*# Privacy', (PUB / '_headers').read_text(encoding='utf-8'))[0]   # drop any earlier generated block, then write it again
+HB = '# Privacy: keep photographs of pupils and staff out of image search (generated by tools/generate_portal.py)'
+(PUB / '_headers').write_text(hdr.rstrip('\n') + f'\n\n{HB}\n/portal-assets/images/*\n  X-Robots-Tag: noimageindex\n', encoding='utf-8')
 
 (ASSETS / 'portal.css').write_text(''.join((UI / f).read_text(encoding='utf-8') for f in ('base.css', 'extras.css', 'recovered.css')), encoding='utf-8')
-for _f in ('app.js', 'theme-init.js', 'bayanath.js', 'speaker.css'):
+for _f in ('app.js', 'theme-init.js', 'bayanath.js', 'bayanath.css'):
     shutil.copyfile(UI / _f, ASSETS / _f)
 (ASSETS / 'speaker').mkdir(exist_ok=True)
 shutil.copyfile(speaker.PHOTO_DIR / speaker.load()['photo']['file'], ASSETS / 'speaker' / speaker.load()['photo']['file'])  # the owner-supplied photograph, byte for byte

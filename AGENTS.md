@@ -21,8 +21,10 @@
 - Generated routing files: `public/_redirects`, `public/.htaccess` and `public/_headers` are written by `generate_portal.py`; do not edit them by hand.
 
 ## Phase 9.2 additions
-- Speaker Profile on the Bayanath page: edit `tools/speaker/speaker-profile.json` (text, designations, areas), never the HTML. The six designation titles and eight area labels are exact wording from the owner; do not reword them. Do not add biography text. Do not show the `verification` notes on the page. The photograph is shown whole; never crop it.
-- `tools/portal-ui/speaker.css` is scoped under `.sp`; keep `backdrop-filter` with the `-webkit-` prefix and the `@supports` fallback, keep the animated layers `pointer-events: none` and transform-only, and keep the `prefers-reduced-motion` block.
+- Speaker Profile on the Bayanath page: edit `tools/speaker/speaker-profile.json` (text, designations, areas), never the HTML. The six designation titles and eight area labels are exact wording from the owner; do not reword them. Do not invent biography, credentials, affiliations or languages: `biography` and `languages` in the JSON stay empty until the owner supplies verified text. Do not show the `verification` notes on the page. The photograph is shown whole; never crop it.
+- `tools/portal-ui/bayanath.css` is scoped under `body.page-bayanath` (speaker card `sp-`, video cards `by-`, layout `bz-`); no green on this page; keep `backdrop-filter` with the `-webkit-` prefix and the `@supports` fallback, keep the animated layers `pointer-events: none` and transform-only, and keep the `prefers-reduced-motion` block.
 - Changes to `tools/update_bayanath.py` or the workflow must keep `python3 -I -m unittest discover -s tools/tests` green. Never print or log the API key; it goes in the `X-Goog-Api-Key` header only.
 - `NCPUL/images/CERT1.jpeg` (a named student's certificate) is permanently excluded by the owner. Do not publish it. Unpublished originals and reasons are listed in the manifest.
 - No MP3 audio is published (removed at the owner's request). Bayanath is YouTube videos plus the Speaker Profile; do not add an audio archive back.
+- Public wording: do not publish internal notes about where content came from or how it was recovered, scanned-document disclaimers, or audit and unresolved-item notices. Keep dated caveats that help a reader (for example that a figure comes from an undated printed page). Those notes belong in the reports, not on the pages.
+- Image folder: `public/portal-assets/images/` (renamed from `recovered/`; old name must not reappear).

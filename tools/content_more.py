@@ -22,51 +22,51 @@ DQ_ENGLISH = '''<div class="rc-text"><blockquote>
 <p>Donors are hereby informed that a hall measuring 25x30 will cost Rs: 7 Lakhs; this can be donated in the names of their relatives who have passed away so that the Allah will reward them. <em>Jazak-Allah</em></p>
 </blockquote></div>'''
 
-DQ_CAVEAT = dated('<strong>Dated appeal.</strong> This is the text of an undated printed page. The appeal, the donor note (“a hall measuring 25x30 will cost Rs: 7 Lakhs”) and the remark that construction “has already begun” describe the time it was written and are <strong>not</strong> a current request or statement of progress. This website does not invite donations and publishes no bank details; please contact the Trust office (<a href="Contact.html">Contact</a>) for anything of that kind. Years and land figures are quoted as printed and differ from other pages of the original site.')
+DQ_CAVEAT = dated('<strong>Dated appeal.</strong> This is the text of an undated printed page. The appeal, the donor note (“a hall measuring 25x30 will cost Rs: 7 Lakhs”) and the remark that construction “has already begun” describe the time it was written and are <strong>not</strong> a current request or statement of progress. This website does not invite donations and publishes no bank details; please contact the Trust office (<a href="Contact.html">Contact</a>) for anything of that kind. Years and land figures are quoted as given on that page and differ from other pages of this website.')
 
-services = f'''<p class="eyebrow">About Us</p><h1>Services</h1><p class="lede">The services of the Jamia Masjid &amp; Muslim Charitable Fund Trust, as described on the original English and Urdu “Services” pages.</p>
+services = f'''<p class="eyebrow">About Us</p><h1>Services</h1><p class="lede">The services of the Jamia Masjid &amp; Muslim Charitable Fund Trust, as described in its English and Urdu service documents.</p>
 <ul class="card-grid portal-cards">
   <li class="card"><h3>Educational Services</h3><p>Fourteen institutions spanning nursery, primary, high school, Pre-University, B.Com, BCA, ITI vocational trades, and computer training.</p><a class="go" href="Institutions.html">View institutions →</a></li>
   <li class="card"><h3>Moral &amp; Religious Instruction</h3><p>A daily Arabic period from L.K.G. to PUC, a weekly Thursday <em>ijtima</em> for girl students, Shoba-e-Hifz, Shoba-e-Alimiyath and adult education arranged outside school hours.</p><a class="go" href="ShobaeAlimiyathDel/home.html">Shoba-e-Alimiyath →</a></li>
   <li class="card"><h3>Vocational Training</h3><p>Tailoring School for Women, the Calligraphy Centre, the MMI-NCPUL Computer Centre and the Industrial Training Institute (ITI) at Shikshanagar.</p><a class="go" href="Tailoring.html">Tailoring School →</a></li>
-  <li class="card"><h3>Charitable Activity</h3><p>Care for the educational needs of Muslims unable to study because of poverty, as the Trust describes it.</p><a class="go" href="#english">Read the original page →</a></li>
+  <li class="card"><h3>Charitable Activity</h3><p>Care for the educational needs of Muslims unable to study because of poverty, as the Trust describes it.</p><a class="go" href="#english">Read the full text →</a></li>
 </ul>
 <div class="rc-prose">
 <h2 id="english">Services (English)</h2>
-<p class="source-note">The original “Services (English)” page is a scanned page headed “J.U Darul Quran Arabic College, Bangalore”. Its text is typed out below and checked against the scan, spelling as printed except for the obvious typing slips listed in the audit.</p>
-{split(DQ_ENGLISH, single('', 'dq_en', big=False, caption='Original “Services (English)” page (scan)'))}
+
+{split(DQ_ENGLISH, single('', 'dq_en', big=False, caption='Services (English): scanned page'))}
 {DQ_CAVEAT}
 <h2 id="urdu">Services (Urdu)</h2>
-{split('<p>The original “Services (Urdu)” scan is the Urdu version of the page above, headed “J.U Darul Quran Arabic College, Bangalore”. It is shown as a scan only; it has not been transcribed or translated because no Urdu text recognition was available and its wording must not be guessed.</p><p>The original site’s “Services (Urdu)” link also reached a copy of the activity-calendar page, which is on the <a href="Activities.html">Activities</a> page here.</p>', single('', 'dq_ur', caption='Original “Services (Urdu)” page (scan)'), flip=True)}
+{split('<p>The Urdu version of the page above, headed “J.U Darul Quran Arabic College, Bangalore”, shown as a scan. The activity calendar is on the <a href="Activities.html">Activities</a> page.</p>', single('', 'dq_ur', caption='Services (Urdu): scanned page'), flip=True)}
 <p>See also the proposed building drawing on the <a href="ShobaeAlimiyathDel/Proposed.html">Shoba-e-Alimiyath</a> pages.</p>
 </div>'''
 
-recognitions_intro = '''<div class="prose"><p>This page gathers the recognitions documented on the original site. Below are the scanned letters of appreciation. The Admissions Diary also describes an awards function held on 13 December 2012 at Town Hall for meritorious students of the Group of Institutions, with the Governor of Karnataka as Chief Guest; it is recorded in the <a href="AdmissionsDiary.html#school-awards">Admissions Diary</a> as printed.</p></div>
-<p>See also the <a href="ResidentialSchoolBanikuppa/sports.html">Banikuppa Residential School awards and competitions</a> and <a href="ResidentialSchoolBanikuppa/gallery.html">campus photograph archive</a>.</p>'''
+recognitions_intro = '''<div class="prose"><p>This page gathers the Trust’s recognitions. Below are the scanned letters of appreciation. The Admissions Diary also describes an awards function held on 13 December 2012 at Town Hall for meritorious students of the Group of Institutions, with the Governor of Karnataka as Chief Guest; it is recorded in the <a href="AdmissionsDiary.html#school-awards">Admissions Diary</a>.</p></div>
+<p>See also the <a href="ResidentialSchoolBanikuppa/sports.html">Banikuppa Residential School awards and competitions</a> and <a href="ResidentialSchoolBanikuppa/gallery.html">campus photograph gallery</a>.</p>'''
 
-recognitions_intro += single('', 'award_trophy', caption='Trophy picture used as the “Recognitions” menu image on the original site', detail='The engraving reads “Udyog Rattan Award”; the recipient’s line and the year are too small to read, and the original text does not mention the award, so nothing more is said about it here.')
+recognitions_intro += single('', 'award_trophy', caption='Trophy', detail='The engraving reads “Udyog Rattan Award”; the recipient’s line and the year are too small to read.')
 
 def sciencelabs(photo_section_html):
     return f'''<p class="eyebrow">Facilities</p><h1>Science Laboratories</h1><p class="lede">Science laboratories of the Pre University College for Girls, and laboratory photographs from the Banikuppa campus.</p>
 <div class="rc-prose">
 <h2>PU College for Girls</h2>
 {p('The college is housed in a spacious building with well furnished and ventilated class rooms, well equipped laboratories and library with good collection of books. Magazines and News papers are also subscribed for the benefit of the students. The computer lab is provided with internet facility. A spacious auditorium is also under construction. We aim to provide canteen facility for our students. A nationalized bank (Canara Bank) is also located in the same building.')}
-{dated('Paragraph as printed on the original PU College pages; the remarks about the auditorium and canteen are dated.')}
+{dated('The remarks about the auditorium and canteen date from when this text was written and may no longer apply.')}
 {gallery('', ['pu_lab1', 'pu_lab2'], cls='rc-wide')}
 </div>
 {photo_section_html}
-<p>The English Boys High School’s original Laboratories page describes these Banikuppa photographs as students conducting experiments under the guidance of subject teachers (chemistry), exhibiting an experiment to a guest from U.S.A. (physics) and conducting practicals using natural specimens (biology). More on the <a href="ResidentialSchoolBanikuppa/laboratories.html">Banikuppa Science Laboratories page</a>.</p>'''
+<p>The English Boys High School’s Laboratories page describes these Banikuppa photographs as students conducting experiments under the guidance of subject teachers (chemistry), exhibiting an experiment to a guest from U.S.A. (physics) and conducting practicals using natural specimens (biology). More on the <a href="ResidentialSchoolBanikuppa/laboratories.html">Banikuppa Science Laboratories page</a>.</p>'''
 
 transport_cards = '''<p class="eyebrow">Facilities</p><h1>Transport &amp; Campus Facilities</h1><p class="lede">School buses, and campus facilities across the Jame-ul-Uloom Group of Institutions.</p>
 <ul class="card-grid portal-cards">
   <li class="card"><h3>City Market Central Campus</h3><p>Located at S.J.P. Road, City Market, in the heart of Bangalore, on the campus of Jamia Masjid.</p><a class="go" href="Contact.html">Central contact directory →</a></li>
   <li class="card"><h3>Science Laboratories</h3><p>Physics, Chemistry and Biology laboratories: the PU College’s, and the Banikuppa campus’s.</p><a class="go" href="ScienceLabs.html">Science Labs →</a></li>
-  <li class="card"><h3>Banikuppa Residential Campus</h3><p>On the Bangalore–Mysore highway; the distance from the city is given differently on different pages of the original site. See the campus’s own facilities pages.</p><a class="go" href="ResidentialSchoolBanikuppa/facilities.html">Banikuppa facilities →</a></li>
+  <li class="card"><h3>Banikuppa Residential Campus</h3><p>On the Bangalore–Mysore highway; the distance from the city is given differently on different pages of this website. See the campus’s own facilities pages.</p><a class="go" href="ResidentialSchoolBanikuppa/facilities.html">Banikuppa facilities →</a></li>
 </ul>'''
 
 def transport(photo_section_html):
     return (transport_cards + f'''<div class="rc-prose"><h2 id="buses">School buses</h2>
-<p>Photographs of the school buses, from the original “Transport” page (which held photographs only). The Admissions Diary 2013–14 lists the rules for students travelling by bus or van; see <a href="AdmissionsDiary.html#discipline">School Discipline</a>.</p>
+<p>Photographs of the school buses. The Admissions Diary 2013–14 lists the rules for students travelling by bus or van; see <a href="AdmissionsDiary.html#discipline">School Discipline</a>.</p>
 {gallery('', ['veh1', 'veh2', 'veh3'])}</div>''' + photo_section_html)
 
 tailoring = f'''<p class="eyebrow">Institutions</p><h1>Jame-ul-Uloom Tailoring School for Women</h1><p class="lede">The Tailoring Department of Jame-ul-Uloom, Jamia Masjid — girls learning the art of tailoring.</p>
@@ -76,16 +76,16 @@ tailoring = f'''<p class="eyebrow">Institutions</p><h1>Jame-ul-Uloom Tailoring S
          'The Founder Secretary’s essay lists a tailoring institute among the institutions established in the mosque after the nursery (<a href="AboutUs.html#fond-memories">read the essay</a>), and the <a href="Calligraphy.html">Calligraphy Centre</a> page says its students are also given the chance to learn tailoring.',
          'For admission enquiries, contact the Administrative Office through the <a href="Contact.html">contact directory</a>.'),
         single('', 'tailoring', caption='Tailoring Department, Jamia Masjid'))}
-<p class="source-note">The original page had no other text. Course length, fees and timings were not given, so none are shown.</p>
+<p class="source-note">For course length, fees and timings, please ask the Trust office (see <a href="Contact.html">Contact</a>).</p>
 </div>'''
 
 admissions = '''<p class="eyebrow">Admissions</p><h1>Admissions</h1><p class="lede">Where to find admission information for each institution of Jame-ul-Uloom, Jamia Masjid, Bangalore.</p>
-<div class="prose"><p>Admission rules, documents and fees are published separately for each institution on the original site. They are restored on the pages below, each as printed and with its own date caveat. For current forms, eligibility and fees, contact the respective office listed in the contact directory.</p></div>
+<div class="prose"><p>Admission rules, documents and fees are published separately for each institution on the pages below, each with its own date. For current forms, eligibility and fees, contact the respective office listed in the contact directory.</p></div>
 <ul class="card-grid portal-cards">
   <li class="card"><h3>Nursery, Primary &amp; High Schools</h3><p>The 2013–14 school diary: rules and admission, discipline, awards and calendars.</p><a class="go" href="AdmissionsDiary.html">Admissions Diary 2013–14 →</a></li>
   <li class="card"><h3>Pre University College for Girls</h3><p>Combinations, fee structure (dated), eligibility and procedure.</p><a class="go" href="PUGirlsCollege/Admissions.html">PU College admissions →</a></li>
   <li class="card"><h3>Degree College (B.Com)</h3><p>Admission procedure and documents.</p><a class="go" href="DegreeGirlsCollege/Admissions.html">Degree College admissions →</a></li>
-  <li class="card"><h3>BCA College</h3><p>Admission procedure (the original page repeats the B.Com text).</p><a class="go" href="BCA/Admissions.html">BCA admissions →</a></li>
+  <li class="card"><h3>BCA College</h3><p>Admission procedure.</p><a class="go" href="BCA/Admissions.html">BCA admissions →</a></li>
   <li class="card"><h3>MMI-NCPUL Computer Centre</h3><p>Course structure, fees and intake.</p><a class="go" href="NCPUL/Admissions.html">NCPUL admissions →</a></li>
   <li class="card"><h3>Industrial Training Institute</h3><p>Trades, duration, eligibility and seating.</p><a class="go" href="ITI/Admissions.html">ITI admissions →</a></li>
 </ul>
@@ -93,22 +93,22 @@ admissions = '''<p class="eyebrow">Admissions</p><h1>Admissions</h1><p class="le
 
 def institutions_extra():
     return f'''<div class="rc-prose"><h2 id="welcome">Welcome to the Jame ul uloom Group of Institutions</h2>
-{quote('I am glad that Jame-ul-uloom English Nursery, Primary and High School, Bangalore is bringing out a school website.', sign='Mr. K. Rahman Khan', role='Greeting printed on the original Institutions page. His signed letter of 15 February 2011, about the school magazine, is on the Recognitions page.')}
+{quote('I am glad that Jame-ul-uloom English Nursery, Primary and High School, Bangalore is bringing out a school website.', sign='Mr. K. Rahman Khan', role='Greeting. His signed letter of 15 February 2011, about the school magazine, is on the Recognitions page.')}
 {p('Jame-ul-uloom is an Arabic name meaning “Center of Knowledge”. Jame-ul-uloom is housed in the campus of Jamia Mosque, one of the biggest mosques in the state, located in the heart of the Bangalore City. Apart from imparting education, the Institution aims at “character building”. This is achieved through moral education and religious instruction.',
    'Upliftment of the downtrodden in the Minority Community is the aim of Jame-ul-uloom. It also aims in preparing good and useful citizens, so that they can face the situations in this world of competition. To accomplish many such purposes, Jame-ul-uloom has in its fold institutions.')}
 <h2 id="trust">The Trust</h2>
-{quote('JAMIA MASJID &amp; MUSLIM CHARITABLE FUND TRUST (JM&amp;MCF) is one of the reputed trust. Established in the year 1939 with a mission to support the nation by educating people and to create good society. The trust with a core mission to establish a world class university has started schools, colleges in and around Bangalore.', sign='The Trust’s introduction', role='As printed on the original Institution page. The year is the one that page gives; other pages of the original site give other years (see About Us).')}
+{quote('JAMIA MASJID &amp; MUSLIM CHARITABLE FUND TRUST (JM&amp;MCF) is one of the reputed trust. Established in the year 1939 with a mission to support the nation by educating people and to create good society. The trust with a core mission to establish a world class university has started schools, colleges in and around Bangalore.', sign='The Trust’s introduction', role='The year is the one this introduction gives; other pages of this website give other years (see About Us).')}
 <p><a href="Masjid.html">More about Jamia Masjid and the Trust’s charitable activity →</a> · <a href="AboutUs.html">About Us →</a></p></div>'''
 
 def activities_extra():
     return f'''<section class="pv-section" aria-labelledby="pv-functions"><div class="pv-head"><h2 id="pv-functions">Functions and programmes</h2>
-<p>Photographs of programmes of the institutions, from the original “Activities” and “Auditorium” pages. No dates or names were printed with them.</p></div>
+<p>Photographs of programmes of the institutions, from the Activities and Auditorium pages.</p></div>
 {gallery('', ['act1', 'act2', 'act3', 'fn6', 'fn7', 'act_col', 'act_nur2', 'act_nur3'])}
 <p>More photographs: <a href="Auditorium.html">Auditorium</a> · <a href="Sports.html">Sports</a>.</p></section>'''
 
 COLLEGE_AIMS = f'''<p class="eyebrow">Institutions</p><h1>Colleges: Aims, Mission &amp; Vision</h1><p class="lede">The aims and mission shared by the Pre University, Degree and BCA colleges of Jame-ul-Uloom.</p>
 <div class="rc-prose">
-<p class="source-note">The same two statements appear, unchanged, on the original “Message” page of the PU College, the Degree College and the BCA College. They are shown once here, and each college links to this page.</p>
+
 <h2>Aims and objectives</h2>
 {p('The PU College was established with the sole aim of educating the girl child of our community. Apart from imparting education, the institution aims at “Character Building” which is achieved through moral education. Upliftment of the downtrodden in the minority community is the aim of Jame-ul-uloom Institutions. It also aims in preparing good and responsible citizens, who can compete in today’s challenging world.')}
 <h2>Our Mission &amp; Vision</h2>
@@ -122,9 +122,9 @@ COLLEGE_AIMS = f'''<p class="eyebrow">Institutions</p><h1>Colleges: Aims, Missio
 <p><a href="CollegeRegulations.html">Rules and regulations of the colleges and the computer centre →</a></p>
 </div>'''
 
-COLLEGE_RULES = f'''<p class="eyebrow">Institutions</p><h1>College Rules &amp; Regulations</h1><p class="lede">The rules printed for the PU, Degree and BCA colleges and for the MMI-NCPUL Computer Centre.</p>
+COLLEGE_RULES = f'''<p class="eyebrow">Institutions</p><h1>College Rules &amp; Regulations</h1><p class="lede">The rules for the PU, Degree and BCA colleges and for the MMI-NCPUL Computer Centre.</p>
 <div class="rc-prose">
-<p class="source-note">Four original “Regulations” pages (PU College, Degree College, BCA and NCPUL) carry identical text; it is shown once here. The wording is as printed.</p>
+
 <h2>Rules and Regulations</h2>
 <ol>
 <li>Students shall abide by all general and specific rules that are in force and that may be made by the institution as regard to their conduct and studies from time to time.</li>
@@ -138,7 +138,7 @@ COLLEGE_RULES = f'''<p class="eyebrow">Institutions</p><h1>College Rules &amp; R
 <li>To develop all round qualities in students, extra-curricular activities are conducted; participants are encouraged by awarding prizes.</li>
 <li>To enhance students’ knowledge in Deeniyath, Islamic Quiz and seminars are organized…</li>
 </ol>
-<p class="rc-note">Rule 10 ends with an ellipsis on the original page, as shown.</p>
+
 <p>See also: <a href="Colleges.html">Aims, Mission &amp; Vision</a> · <a href="PUGirlsCollege/home.html">PU College</a> · <a href="DegreeGirlsCollege/home.html">Degree College</a> · <a href="BCA/home.html">BCA</a> · <a href="NCPUL/home.html">NCPUL</a></p>
 </div>'''
 
