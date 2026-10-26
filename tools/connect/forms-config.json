@@ -1,0 +1,4 @@
+{
+  "_note": "Where the website forms (Feedback, Admissions, Careers) are sent. Leave endpoint empty until the forms service in serverless/forms-worker/ has been deployed (see README, 'Forms'); while it is empty the forms say plainly that online sending is not switched on and prepare an email to the office instead, and they never report a message as sent. When it is deployed, put its full https address here (for example https://jame-forms.<account>.workers.dev/submit), add the same site address to ALLOWED_ORIGINS in serverless/forms-worker/wrangler.toml, and run python tools/build.py. Only an https address without credentials, query or fragment is accepted. No secret ever belongs in this file: it is published.",
+  "endpoint": ""
+}

@@ -127,14 +127,6 @@
   ],
   "sha256": "7931275700050f3a"
  },
- "pathway-01.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.55 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "7b609f7cd298d1a4"
- },
  "pathway-02.jpg": {
   "original": "WhatsApp Image 2026-10-25 at 10.14.56 PM (1).jpeg",
   "size": [
@@ -143,110 +135,6 @@
   ],
   "sha256": "3973c5219d18be1f"
  },
- "pathway-03.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.56 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "ce4a7cb129abdab9"
- },
- "pathway-04.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.57 PM (1).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "91c17883a9d8e506"
- },
- "pathway-05.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.57 PM (2).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "5fb364179739d14a"
- },
- "pathway-06.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.57 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "24d750ec21d9a01a"
- },
- "pathway-07.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.58 PM (1).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "f20807ea6382aefc"
- },
- "pathway-08.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.59 PM (2).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "f0391c585f363c84"
- },
- "pathway-09.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.14.59 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "d4d7d56ff6d91fc7"
- },
- "pathway-10.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.01 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "82beb3529b9c4254"
- },
- "pathway-11.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.02 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "7c054d2b0b9544eb"
- },
- "pathway-12.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.03 PM (2).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "22bc10e0b58032b7"
- },
- "pathway-13.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.05 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "770868be0eeb8b51"
- },
- "pathway-14.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.06 PM (1).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "7ea7fa77627a4f6c"
- },
- "pathway-15.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.06 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "6832b81b1c61cf15"
- },
  "pathway-16.jpg": {
   "original": "WhatsApp Image 2026-10-25 at 10.15.07 PM (2).jpeg",
   "size": [
@@ -254,46 +142,6 @@
    1280
   ],
   "sha256": "1ad218e14653bcdf"
- },
- "pathway-17.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.07 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "cb416df01e952688"
- },
- "pathway-18.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.08 PM (2).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "c514df5ef1875318"
- },
- "pathway-19.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.09 PM (1).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "82163c6e697e0d68"
- },
- "pathway-20.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.09 PM.jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "041e1df55e5002db"
- },
- "pathway-21.jpg": {
-  "original": "WhatsApp Image 2026-10-25 at 10.15.10 PM (1).jpeg",
-  "size": [
-   591,
-   1280
-  ],
-  "sha256": "edf7944abfd46c48"
  },
  "shoba-e-hifz-1.jpg": {
   "original": "image attached to the chat on 26 Oct 2026 (the same picture was attached twice)",

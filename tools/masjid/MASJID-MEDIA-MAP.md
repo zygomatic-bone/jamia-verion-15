@@ -4,10 +4,10 @@ This document records all photographs and videos placed on the Jamia Masjid page
 
 ## Summary
 
-- **Total photographs:** 39 JPEG images (37 from the first folder, 2 sent afterwards)
+- **Total photographs:** 20 JPEG images (the Pathway and Water House set holds 2 photographs, reduced from 21 at the owner's request)
 - **Total videos:** 10 silent MP4 videos (compressed from the supplied clips)
-- **Sections:** 7 (Main Hall, Secondary Hall, Pathway and Water House, Advanced Library, Niswan Female Study Hall, Large Library and Classroom Facilities, Shoba-e-Hifz Study Hall)
-- **Status:** every supplied photo and video is placed; none is left unmatched. Two attachments were byte-identical copies of one picture, so 2 files cover 3 attachments.
+- **Sections:** 7 (Main Hall, Secondary Hall, Pathway and Water House, Advanced Library, Library, Large Library and Classroom Facilities, Shoba-e-Hifz Study Hall)
+- **Status:** every video is placed; the surplus Pathway and Water House photographs were removed on purpose. Two attachments were byte-identical copies of one picture, so 2 files cover 3 attachments.
 
 ---
 
@@ -58,39 +58,16 @@ This document records all photographs and videos placed on the Jamia Masjid page
 
 **Description:** The central pathway beneath a sky-blue ceiling with a long water channel, fountain jets, seating blocks and columns with gold bands.
 
-### Photographs (21)
+### Photographs (2)
 
-All photos display as: "The central pathway and water channel beneath the sky-blue ceiling, photograph [N] of 21"
+All photos display as: "The central pathway and water channel beneath the sky-blue ceiling, photograph [N] of 2"
 
 | Displayed Name | Original File | Dimensions |
 |---|---|---|
-| pathway-01.jpg | WhatsApp Image 2026-10-25 at 10.14.55 PM.jpeg | 591 × 1280 |
 | pathway-02.jpg | WhatsApp Image 2026-10-25 at 10.14.56 PM (1).jpeg | 591 × 1280 |
-| pathway-03.jpg | WhatsApp Image 2026-10-25 at 10.14.56 PM.jpeg | 591 × 1280 |
-| pathway-04.jpg | WhatsApp Image 2026-10-25 at 10.14.57 PM (1).jpeg | 591 × 1280 |
-| pathway-05.jpg | WhatsApp Image 2026-10-25 at 10.14.57 PM (2).jpeg | 591 × 1280 |
-| pathway-06.jpg | WhatsApp Image 2026-10-25 at 10.14.57 PM.jpeg | 591 × 1280 |
-| pathway-07.jpg | WhatsApp Image 2026-10-25 at 10.14.58 PM (1).jpeg | 591 × 1280 |
-| pathway-08.jpg | WhatsApp Image 2026-10-25 at 10.14.59 PM (2).jpeg | 591 × 1280 |
-| pathway-09.jpg | WhatsApp Image 2026-10-25 at 10.14.59 PM.jpeg | 591 × 1280 |
-| pathway-10.jpg | WhatsApp Image 2026-10-25 at 10.15.01 PM.jpeg | 591 × 1280 |
-| pathway-11.jpg | WhatsApp Image 2026-10-25 at 10.15.02 PM.jpeg | 591 × 1280 |
-| pathway-12.jpg | WhatsApp Image 2026-10-25 at 10.15.03 PM (2).jpeg | 591 × 1280 |
-| pathway-13.jpg | WhatsApp Image 2026-10-25 at 10.15.05 PM.jpeg | 591 × 1280 |
-| pathway-14.jpg | WhatsApp Image 2026-10-25 at 10.15.06 PM (1).jpeg | 591 × 1280 |
-| pathway-15.jpg | WhatsApp Image 2026-10-25 at 10.15.06 PM.jpeg | 591 × 1280 |
 | pathway-16.jpg | WhatsApp Image 2026-10-25 at 10.15.07 PM (2).jpeg | 591 × 1280 |
-| pathway-17.jpg | WhatsApp Image 2026-10-25 at 10.15.07 PM.jpeg | 591 × 1280 |
-| pathway-18.jpg | WhatsApp Image 2026-10-25 at 10.15.08 PM (2).jpeg | 591 × 1280 |
-| pathway-19.jpg | WhatsApp Image 2026-10-25 at 10.15.09 PM (1).jpeg | 591 × 1280 |
-| pathway-20.jpg | WhatsApp Image 2026-10-25 at 10.15.09 PM.jpeg | 591 × 1280 |
-| pathway-21.jpg | WhatsApp Image 2026-10-25 at 10.15.10 PM (1).jpeg | 591 × 1280 |
 
-### Featured Pathway Photographs
-
-The following 8 images are displayed first in a featured order, followed by the remaining 13:
-
-Featured order: pathway-02, pathway-16, pathway-05, pathway-08, pathway-19, pathway-11, pathway-07, pathway-12
+The other 19 photographs of this section (pathway-01, -03 to -15, -17 to -21) were removed at the owner's request and are no longer in `tools/masjid/photos/` or `public/portal-assets/masjid/`; the three videos are unchanged.
 
 ### Videos (3)
 
@@ -121,9 +98,9 @@ None.
 
 ---
 
-## Section 5: Niswan Female Study Hall
+## Section 5: Library
 
-**Description:** A study hall with desks, chairs and open bookshelves, accessed through a lattice door, with white arches and carved lattice window. (Assignment inferred from photographs.)
+**Description:** A library with desks, chairs and open bookshelves, accessed through a lattice door, with white arches and carved lattice window. (Assignment inferred from photographs.)
 
 ### Photographs (4)
 
@@ -183,14 +160,14 @@ None.
 
 ### Facility Name Verification
 
-The facility name "Pathway and Water House" is taken from the Phase 9.3 brief. This name has not been verified against independent sources and is a placeholder description based on the brief's terminology.
+The facility name "Pathway and Water House" was given by the owner. It has not been verified against independent sources.
 
 ### Library and Study Hall Section Assignments
 
 The assignments for three sections are **inferred from the photographs only**:
 
 - **Advanced Library:** Identified by subject-labelled shelves (Engineering, Medical), computers at desks, and flower arrangements consistent with a reference library.
-- **Niswan Female Study Hall:** Identified by the geometric lattice door entry and carved lattice window detail visible in the photos, plus open shelves and study desks.
+- **Library:** Identified by the geometric lattice door entry and carved lattice window detail visible in the photos, plus open shelves and study desks.
 - **Large Library and Classroom Facilities:** Identified by the large scale, long reading desks, open shelving and lattice window.
 
 No independent documentation, signage or institution description was available to verify these assignments. If the owner can provide clarification or correction, please update this document and the section titles in `tools/masjid/masjid_page.py`.
@@ -206,5 +183,5 @@ All 39 supplied photographs and all 10 supplied videos are placed on the Jamia M
 ---
 
 **Last updated:** 2026-10-26  
-**Source files location:** `/home/claude/work/p9/tools/masjid/photos/` (JPEG), `/home/claude/work/p9/tools/masjid/media/` (MP4, JPG poster frames)  
+**Source files location:** `tools/masjid/photos/` (JPEG), `tools/masjid/media/` (MP4, JPG poster frames)  
 **Published location:** `public/portal-assets/masjid/`

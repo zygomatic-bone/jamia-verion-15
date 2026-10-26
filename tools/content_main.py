@@ -1,11 +1,11 @@
-"""Phase 9: restored content of the main portal (root pages).
+"""Restored content of the main portal (root pages).
 
 Text comes from the original site (backup `public_html/`) and is attributed to its writers. Where the original contained an obvious
-typing slip the page corrects it silently and the change is listed in JAMIA_PHASE9_FINAL_CONTENT_AUDIT.md (editorial corrections).
-Dates and figures are given exactly as each original page printed them; conflicts are recorded in JAMIA_PHASE9_UNRESOLVED_ITEMS.md.
+typing slip the page corrects it silently.
+Dates and figures are given exactly as each original page printed them; conflicting figures are never merged, each is labelled with its source.
 
 ROOT: filename -> (title, body, description)  new root pages
-OVERRIDES: filename -> body  replaces the Phase 8 body of an existing page
+OVERRIDES: filename -> body  replaces the body of a page that also exists in the Residential School generator
 """
 from html import escape
 import recovery_assets as RA

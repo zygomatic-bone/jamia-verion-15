@@ -1,4 +1,4 @@
-/* ==== Phase 9: recovered original content (prefix rc-). Uses only the existing design tokens; light and dark follow the theme. ==== */
+/* ==== Recovered original content (prefix rc-). Uses only the existing design tokens; light and dark follow the theme. ==== */
 
 /* Photograph galleries: every picture is shown whole at its own proportions (never cropped), caption below. */
 .rc-gallery { list-style: none; margin: 1.4rem 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: 1.2rem; align-items: start; }
@@ -91,5 +91,5 @@ table.rc-table tbody tr:last-child td { border-bottom: 0; }
 .pf-intro .pf-emblem p.rc-emblem-note { margin: 1rem 0 0; color: rgba(246,241,231,.82); font-size: .8rem; line-height: 1.5; text-align: center; }
 .pf-intro .pf-emblem p.rc-emblem-note a { color: #ddb66f; text-underline-offset: .2em; }
 
-/* Phase 9.2: a printed caption typed out verbatim */
+/* A printed caption typed out verbatim */
 .rc-quote-plain { margin: 1rem 0; padding: .8rem 1.1rem; max-width: 52rem; border-left: 3px solid var(--gold); font-family: var(--display); font-size: 1.05rem; line-height: 1.5; color: var(--ink); overflow-wrap: anywhere; }

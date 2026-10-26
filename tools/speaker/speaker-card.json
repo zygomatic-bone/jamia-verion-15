@@ -1,0 +1,137 @@
+{
+  "note": "Content of the channel card, the Official Social Media Links card and the Photo Slideshow on Bayanath.html (the speaker profile above them is rendered from speaker-profile.json). Everything printed comes from this file. Roles and biography are the official YouTube channel's own description, as supplied by the website owner. Edit here, then run python3 tools/build.py.",
+  "eyebrow": "On the official channel",
+  "name": "Mufti Dr. Mohamed Maqsood Imran Rashadi",
+  "roles": [
+    {
+      "icon": "mosque",
+      "text": "Imam & Khateeb of Jamia Masjid Bengaluru City"
+    },
+    {
+      "icon": "college",
+      "text": "Chief Principal of Jamia-ul-Uloom Arabic College, Bengaluru"
+    }
+  ],
+  "intro": "Discover inspiring lectures, authentic Islamic guidance, and educational talks rooted in the Qur’an and Sunnah.",
+  "biography": "Islamic scholar, speaker, author, and educator dedicated to sharing Islamic knowledge with wisdom, knowledge, and compassion.",
+  "categories_title": "On the channel",
+  "categories": [
+    {
+      "icon": "mic",
+      "text": "Inspiring Khutbahs and lectures"
+    },
+    {
+      "icon": "mosque",
+      "text": "Friday speeches"
+    },
+    {
+      "icon": "star",
+      "text": "Authentic Islamic guidance"
+    },
+    {
+      "icon": "quran",
+      "text": "Tafseer explanations"
+    },
+    {
+      "icon": "book",
+      "text": "Hadith explanations"
+    },
+    {
+      "icon": "people",
+      "text": "Social and educational talks"
+    }
+  ],
+  "source_note": "Name, roles and biography follow the official YouTube channel’s own description.",
+  "primary": {
+    "label": "Watch Lectures on YouTube",
+    "url": "https://www.youtube.com/@MuftiMaqsoodImran"
+  },
+  "more_label": "Explore All Channels",
+  "links": [
+    {
+      "key": "linktree",
+      "label": "Linktree",
+      "sub": "linktr.ee/MuftiMaqsoodImran",
+      "url": "https://linktr.ee/MuftiMaqsoodImran"
+    },
+    {
+      "key": "facebook",
+      "label": "Facebook",
+      "sub": "MuftiMaqsoodImran",
+      "url": "https://www.facebook.com/MuftiMaqsoodImran"
+    },
+    {
+      "key": "instagram",
+      "label": "Instagram",
+      "sub": "@muftimaqsoodimran",
+      "url": "https://www.instagram.com/muftimaqsoodimran"
+    },
+    {
+      "key": "x",
+      "label": "X",
+      "sub": "@maqsoodimran",
+      "url": "https://x.com/maqsoodimran"
+    },
+    {
+      "key": "whatsapp",
+      "label": "WhatsApp Community",
+      "sub": "Join the community",
+      "url": "https://chat.whatsapp.com/C2AGE85WofaEseRcOpnddp"
+    }
+  ],
+  "slides_note": "The slideshow photographs, in tools/speaker/slides/. They are shown whole (never cropped). Alt text describes only what is visible and names the speaker only where he is the one person pictured. TO ADD A PHOTOGRAPH: copy the file into tools/speaker/slides/ (JPEG, about 1600 px on the long side, under 300 KB), add one entry below with a plain description in alt, then run python3 tools/build.py. Fill in source and rights for every new photograph (who took it, or where it came from, and the permission to use it); the build refuses an entry without them. Reorder by moving entries.",
+  "interval_seconds": 10,
+  "slides": [
+    {
+      "file": "portrait-white-turban.jpg",
+      "alt": "Portrait of Mufti Dr. Mohamed Maqsood Imran Rashadi in a white turban and a navy waistcoat",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    },
+    {
+      "file": "speaking-at-microphone.png",
+      "alt": "Mufti Dr. Mohamed Maqsood Imran Rashadi in a white turban, speaking at a microphone",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    },
+    {
+      "file": "courtesy-meeting-wide.jpg",
+      "alt": "A courtesy meeting in a formal sitting room: scholars in white attire on a sofa, opposite a leader in a white dhoti and shawl",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    },
+    {
+      "file": "conference-front-row.jpg",
+      "alt": "Scholars in the front row of a large conference hall, with television cameras behind them",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    },
+    {
+      "file": "courtesy-meeting-sofa.jpg",
+      "alt": "A courtesy meeting: scholars seated on a sofa beside a glass table, with a leader seated opposite them",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    },
+    {
+      "file": "speaking-at-microphone-tall.png",
+      "alt": "Mufti Dr. Mohamed Maqsood Imran Rashadi in a white turban, speaking at a microphone, in a tall video frame",
+      "source": "Supplied by the website owner",
+      "rights": "Owner-supplied"
+    }
+  ],
+  "social_card": {
+    "heading": "Official Social Media Links",
+    "text": "YouTube, Facebook, Instagram, X and Threads.",
+    "url": "https://linktr.ee/MuftiMaqsoodImran",
+    "portrait": "portrait-white-turban.jpg",
+    "icons": [
+      "youtube",
+      "facebook",
+      "instagram",
+      "x",
+      "threads"
+    ],
+    "_note": "The official Linktree page. The address ends in \"Imran\"; the shorter form \"MuftiMaqsoodImra\" does not exist."
+  },
+  "slideshow_title": "Photo Slideshow"
+}

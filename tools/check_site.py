@@ -5,7 +5,7 @@ Checks every local href/src in every HTML file:
   - a #fragment points at an existing id,
   - nothing links to the removed root portal page (public/home.html),
   - public/home.html itself does not exist.
-Phase 9 additions:
+Routing and publishing checks:
   - every legacy redirect in _redirects (and the matching public/.htaccess rule) points at an existing page and, where it
     has one, an existing #id; no redirect chains or loops, and no redirect source is also a real file,
   - nothing that must never be published is in public/ (design sources, thumbnail databases, server config backups, archives, keys),
@@ -60,10 +60,10 @@ def exists_exact(path):
     return True
 
 
-FORBIDDEN = re.compile(r'(^|/)(cgi-bin|\.well-known)(/|$)|\.(psd|uga|db|sql|pem|key|tar|tgz|gz|zip|bak|orig)$|(^|/)(thumbs\.db|\.env|error_log|\.ftpquota|id_rsa)$|phpupgrader', re.I)
+FORBIDDEN = re.compile(r'(^|/)(cgi-bin|\.well-known)(/|$)|\.(psd|uga|db|sql|pem|key|tar|tgz|gz|zip|bak|orig)$|(^|/)(thumbs\.db|\.env|error_log|\.ftpquota|id_rsa)$|\.php[0-9]?$', re.I)   # the site is static: a .php file in public/ is always a mistake
 
 
-def phase9_checks(pages):
+def routing_checks(pages):
     out = []
     # redirects
     rules = {}
@@ -143,7 +143,7 @@ def main():
             if target == PUB / 'home.html': problems.append(f'{rel}: links to the removed root home.html')
             if u.fragment and target in pages and u.fragment not in pages[target].ids:
                 problems.append(f'{rel}: {ref} -> id "{u.fragment}" not found in {target.relative_to(PUB)}')
-    problems += phase9_checks(pages)
+    problems += routing_checks(pages)
     print(f'Checked {len(pages)} HTML files, {links} local references.')
     for p in problems: print('PROBLEM:', p)
     print('OK: no broken links or assets.' if not problems else f'{len(problems)} problem(s) found.')

@@ -1,4 +1,4 @@
-"""Jamia Masjid page: six photo/video sections built from tools/masjid/photos and tools/masjid/media.
+"""Jamia Masjid page: seven photo/video sections built from tools/masjid/photos and tools/masjid/media.
 
 Photographs are the files supplied by the owner (byte for byte); videos are compressed, silent copies of the supplied clips
 (see media-info.json). Everything shown about a room is limited to what can be seen in its pictures or what the site already
@@ -46,16 +46,16 @@ SECTIONS = [
          videos=['secondary-hall-a', 'secondary-hall-b', 'secondary-hall-c'], lead=1, vlabel='Secondary Hall'),
     dict(id='pathway-water-house', title='Pathway and Water House', icon='water',
          facts=['The central pathway of the mosque beneath a high ceiling painted with a blue sky and clouds. A long water channel with fountain jets runs down the middle, between rows of dark seating blocks and columns with gold bands.'],
-         photos=[(f'pathway-{i:02d}.jpg', f'The central pathway and water channel beneath the sky-blue ceiling, photograph {i} of 21') for i in range(1, 22)],
-         videos=['pathway-a', 'pathway-b', 'pathway-c'], lead=3, vlabel='Pathway and Water House', order=[2, 16, 5, 8, 19, 11, 7, 12]),
+         photos=[(f'pathway-{i:02d}.jpg', f'The central pathway and water channel beneath the sky-blue ceiling, photograph {n} of 2') for n, i in enumerate((2, 16), 1)],
+         videos=['pathway-a', 'pathway-b', 'pathway-c'], lead=2, vlabel='Pathway and Water House'),
     dict(id='advanced-library', title='Advanced Library', icon='books',
          facts=['Reference shelves with books arranged by subject (shelf labels include Engineering Books and Medical Books), reading tables with chairs and computers, and flower arrangements at the shelf ends.'],
          photos=[('adv-library-1.jpg', 'Shelves of books and magazines with flower arrangements, reading tables and black lattice chairs'),
                  ('adv-library-2.jpg', 'The library seen from above: shelves labelled by subject, reading tables with books and desktop computers'),
                  ('adv-library-3.jpg', 'Library shelves of books beside reading tables, with flowers at the end of the shelves'),
                  ('adv-library-4.jpg', 'A wall of bookshelves holding books and magazines, with display shelves and flowers')], videos=[], lead=2),
-    dict(id='niswan-study-hall', title='Niswan Female Study Hall', icon='study',
-         facts=['A study hall with desks, chairs and open bookshelves, reached through a door with a geometric lattice panel. White arches and a carved lattice window match the rest of the building.'],
+    dict(id='library', title='Library', icon='books',
+         facts=['A library with desks, chairs and open bookshelves, reached through a door with a geometric lattice panel. White arches and a carved lattice window match the rest of the building.'],
          photos=[('study-hall-1.jpg', 'A passage between bookshelves and study desks, seen through an open doorway'),
                  ('study-hall-2.jpg', 'A wood-grain door with a geometric lattice glass panel and a grey floor'),
                  ('study-hall-3.jpg', 'A white room with arches, a long desk, black chairs and a bookshelf'),
@@ -92,11 +92,7 @@ def sections():
     out = []
     for s in SECTIONS:
         photos = dict(s['photos'])
-        order = s.get('order')
         names = [f for f, _ in s['photos']]
-        if order:  # featured pictures first, in the order given; the rest follow
-            feat = [f'pathway-{i:02d}.jpg' for i in order]
-            names = feat + [n for n in names if n not in feat]
         lead = names[:s['lead']]; rest = names[s['lead']:]
         ph = lambda fns, lazy=True: ''.join(_img(f, photos[f], '', lazy) for f in fns)
         # only the very first picture of the page loads at once; everything else waits until it is near the screen

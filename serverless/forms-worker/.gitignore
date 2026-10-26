@@ -1,0 +1,5 @@
+# Local secrets and tool folders of Wrangler: never commit them
+.dev.vars
+.dev.vars.*
+.wrangler/
+node_modules/

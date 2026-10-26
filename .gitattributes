@@ -1,0 +1,24 @@
+# Keep every text file on LF so a Windows checkout (core.autocrlf=true) does not rewrite generated files or the
+# test fixtures. After adding this file to an existing clone run once:  git add --renormalize .
+* text=auto eol=lf
+*.mjs text eol=lf
+*.toml text eol=lf
+*.py text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.xml text eol=lf
+.htaccess text eol=lf
+_headers text eol=lf
+_redirects text eol=lf
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.mp4 binary
+*.webm binary

@@ -1,0 +1,638 @@
+/* Motion layer. Shared by the root pages (concatenated into portal.css) and the Residential School pages
+   (assets/css/motion.css). Written in the style of the original site: 4 spaces, "selector{" and one declaration per line.
+   Rules for everything below:
+   - only transform and opacity are animated (no top/left/width, no filter on large areas);
+   - the hidden "before" states exist only while motion.js has switched them on (html.mo-on), so a failed script never hides content;
+   - prefers-reduced-motion switches every effect off at the bottom of this file. */
+
+:root{
+    --mo-ease: cubic-bezier(.2, .7, .2, 1);
+    --mo-dist: 1.25rem;
+}
+@media (max-width: 46rem){
+    :root{
+        --mo-dist: .8rem;
+    }
+}
+
+/* the original hero entrance also blurred its text while it rose; on phones the blur is dropped (it repaints whole blocks) */
+@media (max-width: 46rem){
+    @keyframes rise-in{
+        from{
+            opacity: 0;
+            transform: translateY(1.2rem);
+        }
+        to{
+            opacity: 1;
+            transform: none;
+        }
+    }
+}
+
+/* ---- 1. page entrance: crumbs, heading and lead sentence follow each other (CSS only, plays once per page load) ---- */
+@keyframes mo-rise{
+    from{
+        opacity: 0;
+        transform: translate3d(0, var(--mo-dist), 0);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+.page-hero .crumbs{
+    animation: mo-rise .6s var(--mo-ease) both;
+}
+.page-hero h1{
+    animation: mo-rise .85s var(--mo-ease) .08s both;
+}
+.page-hero .lede{
+    animation: mo-rise .85s var(--mo-ease) .2s both;
+}
+.page-hero .button-row{
+    animation: mo-rise .85s var(--mo-ease) .3s both;
+}
+
+/* ---- 2. scroll reveals: motion.js adds mo-pre to blocks that start below the fold, mo-in when they come into view ---- */
+html.mo-on .mo-pre{
+    opacity: 0;
+    transform: translate3d(0, var(--mo-dist), 0);
+    transition: opacity .7s var(--mo-ease) var(--mo-d, 0s), transform .8s var(--mo-ease) var(--mo-d, 0s);
+    will-change: opacity, transform;
+}
+html.mo-on .mo-pre.mo-left{
+    transform: translate3d(calc(var(--mo-dist) * -2), 0, 0);
+}
+html.mo-on .mo-pre.mo-right{
+    transform: translate3d(calc(var(--mo-dist) * 2), 0, 0);
+}
+html.mo-on .mo-pre.mo-scale{
+    transform: scale(.96);
+}
+html.mo-on .mo-pre.mo-in{
+    opacity: 1;
+    transform: none;
+}
+@media (max-width: 52rem){
+    html.mo-on .mo-pre.mo-left,
+    html.mo-on .mo-pre.mo-right{
+        transform: translate3d(0, var(--mo-dist), 0);
+    }
+    html.mo-on .mo-pre.mo-in{
+        transform: none;
+    }
+}
+
+/* groups (galleries, people lists, document lists, footer columns): the children enter one after another */
+html.mo-on .mo-group > *{
+    transition: opacity .6s var(--mo-ease), transform .7s var(--mo-ease);
+}
+html.mo-on .mo-group:not(.mo-in) > *{
+    opacity: 0;
+    transform: translate3d(0, var(--mo-dist), 0) scale(.97);
+}
+html.mo-on .mo-group.mo-in > :nth-child(2){
+    transition-delay: .07s;
+}
+html.mo-on .mo-group.mo-in > :nth-child(3){
+    transition-delay: .14s;
+}
+html.mo-on .mo-group.mo-in > :nth-child(4){
+    transition-delay: .21s;
+}
+html.mo-on .mo-group.mo-in > :nth-child(5){
+    transition-delay: .28s;
+}
+html.mo-on .mo-group.mo-in > :nth-child(6){
+    transition-delay: .35s;
+}
+html.mo-on .mo-group.mo-in > :nth-child(n+7){
+    transition-delay: .42s;
+}
+
+/* section headings get a short gold line that draws itself in when the heading appears */
+.mo-heading::after{
+    content: "";
+    display: block;
+    width: 3.2rem;
+    height: 3px;
+    margin-top: .7rem;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-pale, var(--gold)));
+}
+html.mo-on .mo-heading::after{
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform .8s var(--mo-ease) .15s;
+}
+html.mo-on .mo-heading.mo-in::after{
+    transform: none;
+}
+
+/* ---- 3. navigation: underline that draws itself, dropdown that fades out as well as in, drawer items that arrive in turn ---- */
+.desktop-nav > a,
+.nav-group > summary{
+    position: relative;
+}
+.desktop-nav > a::before,
+.nav-group > summary::before{
+    content: "";
+    position: absolute;
+    left: .8rem;
+    right: .8rem;
+    bottom: .3rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: 50% 50%;
+    transition: transform .3s var(--mo-ease);
+    pointer-events: none;
+}
+.desktop-nav > a:hover::before,
+.desktop-nav > a:focus-visible::before,
+.desktop-nav > a[aria-current="page"]::before,
+.nav-group > summary:hover::before,
+.nav-group[open] > summary::before{
+    transform: scaleX(1);
+}
+@keyframes mo-menu-out{
+    to{
+        opacity: 0;
+        transform: translateX(-50%) translateY(-.35rem);
+    }
+}
+.nav-group.is-closing .drop-menu{
+    animation: mo-menu-out .16s ease forwards;
+    pointer-events: none;
+}
+.drop-menu a{
+    transition: color .2s ease, background-color .2s ease, transform .2s var(--mo-ease);
+}
+.drop-menu a:hover{
+    transform: translateX(3px);
+}
+@keyframes mo-item-in{
+    from{
+        opacity: 0;
+        transform: translate3d(1.2rem, 0, 0);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+.mobile-drawer[open] .drawer-nav > *{
+    animation: mo-item-in .45s var(--mo-ease) both;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(1){
+    animation-delay: .05s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(2){
+    animation-delay: .09s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(3){
+    animation-delay: .13s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(4){
+    animation-delay: .17s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(5){
+    animation-delay: .21s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(6){
+    animation-delay: .25s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(7){
+    animation-delay: .29s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(8){
+    animation-delay: .33s;
+}
+.mobile-drawer[open] .drawer-nav > :nth-child(n+9){
+    animation-delay: .37s;
+}
+.drawer-nav summary span{
+    transition: transform .3s var(--mo-ease);
+}
+.drawer-nav details[open] > summary span{
+    transform: rotate(45deg);
+}
+
+/* ---- 4. buttons and touch feedback: every control answers at once, on a phone as well as with a pointer ---- */
+a,
+button,
+summary,
+label{
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.button,
+.icon-button,
+.filter-button,
+.back-top,
+.mp-chips a,
+.mp-home,
+.mp-more summary{
+    transition: transform .2s var(--mo-ease), box-shadow .25s ease, background-color .25s ease, border-color .25s ease, color .25s ease;
+}
+.button:active,
+.icon-button:active,
+.filter-button:active,
+.back-top:active,
+.mp-chips a:active,
+.mp-home:active,
+.mp-more summary:active{
+    transform: translateY(0) scale(.97);
+    box-shadow: none;
+    transition-duration: .08s;
+}
+.button[disabled],
+.button[aria-disabled="true"]{
+    opacity: .55;
+    pointer-events: none;
+}
+.card:active,
+.pf-card:active,
+.pf-tile:active,
+.rc-doc:active{
+    transform: scale(.985);
+    transition: transform .1s ease;
+}
+.rc-fig a:active img,
+.mp-ph:active img{
+    transform: scale(.985);
+}
+.text-link,
+.rc-prose a{
+    transition: color .2s ease, text-decoration-color .2s ease;
+}
+:focus-visible{
+    transition: outline-offset .15s ease;
+}
+/* the back-to-top control slides in instead of popping */
+.back-top{
+    transition: opacity .3s ease, transform .3s var(--mo-ease), background-color .25s ease;
+}
+
+/* ---- 5. photographs: a quiet zoom inside the frame for people with a pointer (touch screens get the pressed state above) ---- */
+@media (hover: hover) and (pointer: fine){
+    .rc-fig a,
+    .mp-ph{
+        overflow: hidden;
+    }
+    .rc-fig a img,
+    .mp-ph img{
+        transition: transform .7s var(--mo-ease);
+    }
+    .rc-fig a:hover img,
+    .rc-fig a:focus-visible img,
+    .mp-ph:hover img,
+    .mp-ph:focus-visible img{
+        transform: scale(1.035);
+    }
+    .rc-fig{
+        transition: transform .35s var(--mo-ease), box-shadow .35s ease, border-color .35s ease;
+    }
+    .rc-fig:hover{
+        transform: translateY(-3px);
+        border-color: var(--gold);
+        box-shadow: var(--shadow);
+    }
+    .rc-doc,
+    .rc-people li,
+    .rc-letter{
+        transition: transform .3s var(--mo-ease), box-shadow .3s ease, border-color .3s ease;
+    }
+    .rc-doc:hover,
+    .rc-people li:hover{
+        transform: translateY(-3px);
+        border-color: var(--gold);
+        box-shadow: var(--shadow-soft);
+    }
+}
+/* a figure caption never depends on hover: it is always printed under the picture */
+
+/* ---- 6. numbers that count up once (only elements marked data-count, final value is already in the HTML) ---- */
+.mo-count{
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 7. expandable sections: height and content ease open where the browser supports it (elsewhere they simply open) ---- */
+@supports (interpolate-size: allow-keywords){
+    :root{
+        interpolate-size: allow-keywords;
+    }
+}
+@supports selector(details::details-content){
+    .mp-more::details-content,
+    .rc-prose details::details-content{
+        block-size: 0;
+        overflow: clip;
+        opacity: 0;
+        transition: block-size .4s var(--mo-ease), opacity .3s ease, content-visibility .4s allow-discrete;
+    }
+    .mp-more[open]::details-content,
+    .rc-prose details[open]::details-content{
+        block-size: auto;
+        opacity: 1;
+    }
+}
+
+/* ---- 8. lightbox for photographs that open as plain image links (created by motion.js on first use) ---- */
+.mo-lb{
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    opacity: 0;
+    transition: opacity .25s ease, display .25s allow-discrete, overlay .25s allow-discrete;
+}
+.mo-lb[open]{
+    opacity: 1;
+}
+@starting-style{
+    .mo-lb[open]{
+        opacity: 0;
+    }
+}
+.mo-lb::backdrop{
+    background: rgba(4, 8, 22, .86);
+    opacity: 0;
+    transition: opacity .3s ease, display .3s allow-discrete, overlay .3s allow-discrete;
+}
+.mo-lb[open]::backdrop{
+    opacity: 1;
+}
+@starting-style{
+    .mo-lb[open]::backdrop{
+        opacity: 0;
+    }
+}
+.mo-lb-stage{
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 4rem 1rem 4.6rem;
+    touch-action: pan-y pinch-zoom;
+}
+.mo-lb-img{
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: .6rem;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, .6);
+    opacity: 0;
+    transform: scale(.94);
+    transition: opacity .3s ease, transform .35s var(--mo-ease);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.mo-lb[open] .mo-lb-img.is-ready{
+    opacity: 1;
+    transform: none;
+}
+.mo-lb-img.is-out-left{
+    opacity: 0;
+    transform: translate3d(-3rem, 0, 0);
+}
+.mo-lb-img.is-out-right{
+    opacity: 0;
+    transform: translate3d(3rem, 0, 0);
+}
+.mo-lb-cap{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: .9rem 4.5rem 1.1rem;
+    text-align: center;
+    font-size: .92rem;
+    line-height: 1.4;
+    color: #e6ecfa;
+    background: linear-gradient(0deg, rgba(4, 8, 22, .75), transparent);
+    pointer-events: none;
+}
+.mo-lb-btn{
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 50%;
+    background: rgba(10, 17, 44, .6);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .2s var(--mo-ease), background-color .2s ease;
+}
+.mo-lb-btn:hover{
+    background: rgba(10, 17, 44, .9);
+}
+.mo-lb-btn:active{
+    transform: scale(.94);
+}
+.mo-lb-btn:focus-visible{
+    outline: 3px solid #e6c78a;
+    outline-offset: 2px;
+}
+.mo-lb-close{
+    top: .8rem;
+    right: .8rem;
+}
+.mo-lb-prev,
+.mo-lb-next{
+    top: 50%;
+    margin-top: -1.5rem;
+}
+.mo-lb-prev{
+    left: .8rem;
+}
+.mo-lb-next{
+    right: .8rem;
+}
+.mo-lb-count{
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    font-size: .85rem;
+    color: #c9d3ee;
+}
+@media (max-width: 40rem){
+    .mo-lb-stage{
+        padding: 3.6rem .4rem 4.2rem;
+    }
+    .mo-lb-prev,
+    .mo-lb-next{
+        top: auto;
+        bottom: .7rem;
+        margin-top: 0;
+    }
+    .mo-lb-cap{
+        padding: .8rem 4.2rem 1.2rem;
+    }
+}
+
+/* ---- 9. light cost on every device ----
+   A glass card that blurs what is behind it costs a re-computation every time the page scrolls past it, and a page can hold dozens
+   (the Institutions page has 14). Repeated cards, tiles and lists therefore keep their translucent tint and lose only the blur; the
+   header, the hero panels, the dropdown, the drawer and the lightbox (one element each) keep theirs. On a touch screen, a narrow window,
+   or a device motion.js measured as slow (html.mo-lite), the single glass panels lose the blur too. */
+.card:not(.photo-card),
+.pf-card,
+.pf-tile,
+.pf-link,
+.rg-card,
+.gallery-item,
+.contact-item,
+.source-panel,
+.source-copy,
+.profile-list,
+.stats,
+.filter-button,
+.button-quiet{
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+@media (hover: none), (max-width: 62rem){
+    .contact-cta,
+    .icon-button,
+    .pf-glass,
+    .pf-emblem,
+    .pf-feature,
+    .pf-fig figure,
+    .button-secondary{
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+}
+@media (max-width: 46rem){
+    .site-header,
+    .page-home .site-header.is-scrolled,
+    .hero .hero-bottom,
+    .hero.portal-hero .button-row .hx-btn-ghost{
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    body::before{
+        display: none;
+    }
+}
+html.mo-lite .card:not(.photo-card),
+html.mo-lite .stats,
+html.mo-lite .contact-item,
+html.mo-lite .source-panel,
+html.mo-lite .source-copy,
+html.mo-lite .contact-cta,
+html.mo-lite .profile-list,
+html.mo-lite .gallery-item,
+html.mo-lite .icon-button,
+html.mo-lite .filter-button,
+html.mo-lite .button-quiet,
+html.mo-lite .pf-glass,
+html.mo-lite .pf-tile,
+html.mo-lite .pf-emblem,
+html.mo-lite .pf-feature,
+html.mo-lite .pf-fig figure,
+html.mo-lite .rg-card,
+html.mo-lite .button-secondary,
+html.mo-lite .site-header,
+html.mo-lite .hero .hero-bottom{
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+html.mo-lite .ambient span,
+html.mo-lite .page-hero::before,
+html.mo-lite .page-hero::after,
+html.mo-lite .site-footer::before{
+    animation: none;
+    will-change: auto;
+}
+html.mo-lite body::before{
+    display: none;
+}
+/* a hidden tab or a window that is not visible paints nothing, so its endless animations stop too */
+html.mo-away .ambient span,
+html.mo-away .bz-au > i{
+    animation-play-state: paused;
+}
+
+/* ---- 10. page-to-page transition: a short cross-fade where the browser supports it (no script, history and speed unaffected) ---- */
+@media (prefers-reduced-motion: no-preference){
+    @view-transition{
+        navigation: auto;
+    }
+    ::view-transition-old(root){
+        animation: mo-vt-out .14s ease both;
+    }
+    ::view-transition-new(root){
+        animation: mo-vt-in .24s ease both;
+    }
+}
+@keyframes mo-vt-out{
+    to{
+        opacity: 0;
+    }
+}
+@keyframes mo-vt-in{
+    from{
+        opacity: 0;
+    }
+}
+
+/* ---- 11. reduced motion, print ---- */
+@media (prefers-reduced-motion: reduce){
+    .page-hero .crumbs,
+    .page-hero h1,
+    .page-hero .lede,
+    .page-hero .button-row,
+    .mobile-drawer[open] .drawer-nav > *{
+        animation: none;
+    }
+    html.mo-on .mo-pre,
+    html.mo-on .mo-group > *,
+    html.mo-on .mo-heading::after{
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .desktop-nav > a::before,
+    .nav-group > summary::before,
+    .mo-lb-img,
+    .rc-fig a img,
+    .mp-ph img{
+        transition: none;
+    }
+    .drop-menu a:hover,
+    .rc-fig:hover,
+    .rc-doc:hover,
+    .rc-people li:hover{
+        transform: none;
+    }
+    .nav-group.is-closing .drop-menu{
+        animation: none;
+    }
+}
+@media print{
+    html.mo-on .mo-pre,
+    html.mo-on .mo-group > *{
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .mo-lb{
+        display: none;
+    }
+}

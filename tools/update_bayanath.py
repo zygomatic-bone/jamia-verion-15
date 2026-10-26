@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Refresh public/data/bayanath-videos.json from the official YouTube channel (standard library only).
 
-Run by .github/workflows/update-bayanath.yml every Friday at 21:00 IST (15:30 UTC), or by hand:
+Run by .github/workflows/update-bayanath.yml every Saturday at 21:00 IST (15:30 UTC), or by hand. It is the only updater: the site
+is static, so nothing runs on the hosting. The workflow commits the file and starts the Pages deployment.
     python3 tools/update_bayanath.py
 
 How it works
@@ -72,16 +73,47 @@ def fail(msg):
     sys.exit(1)
 
 
+LOOPBACK = ('127.0.0.1', 'localhost', '::1')   # the self-tests talk to a local fake YouTube over plain http
+TRUSTED = ('youtube.com', 'google.com', 'googleapis.com', 'ytimg.com')
+MAX_BYTES = 5000000   # no answer from YouTube is ever larger than this
+
+
+def allowed(url):
+    """Only https addresses on YouTube or Google hosts (or the loopback test server) may be fetched, followed or sent the API key."""
+    u = urllib.parse.urlsplit(url)
+    host = (u.hostname or '').lower()
+    if host in LOOPBACK:
+        return u.scheme in ('http', 'https')
+    return u.scheme == 'https' and any(host == d or host.endswith('.' + d) for d in TRUSTED)
+
+
+class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    """A redirect may not leave the trusted hosts, and the API key header is dropped if it ever changes host."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        target = urllib.parse.urljoin(req.full_url, newurl)
+        if not allowed(target):
+            raise urllib.error.URLError(f'refusing a redirect to {urllib.parse.urlsplit(target).hostname}')
+        new = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if new is not None and urllib.parse.urlsplit(target).hostname != urllib.parse.urlsplit(req.full_url).hostname:
+            new.remove_header('X-goog-api-key')
+        return new
+
+
+OPENER = urllib.request.build_opener(SafeRedirect)
+
+
 def get(url, timeout=25, headers=None):
+    if not allowed(url):
+        raise urllib.error.URLError(f'refusing to fetch {urllib.parse.urlsplit(url).scheme}://{urllib.parse.urlsplit(url).hostname}')
     h = {'User-Agent': UA, 'Accept-Language': 'en', 'Cookie': 'CONSENT=YES+1'}
     h.update(headers or {})
-    return urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=timeout)
+    return OPENER.open(urllib.request.Request(url, headers=h), timeout=timeout)
 
 
 def check_channel(cfg):
     """Soft safety check: the handle page must belong to the configured channel id (skipped if the page can't be read)."""
     try:
-        html = get(f"{PAGE_BASE}/@{cfg['channel_handle']}").read().decode('utf-8', 'replace')
+        html = get(f"{PAGE_BASE}/@{cfg['channel_handle']}").read(MAX_BYTES).decode('utf-8', 'replace')
     except Exception as e:
         log(f'WARN: could not read the channel page to confirm the channel id ({e}); continuing.')
         return
@@ -107,7 +139,7 @@ def fetch_feed(cfg):
     q = {'playlist_id': cfg['playlist_id']} if cfg.get('playlist_id') else {'channel_id': cfg['channel_id']}
     url = f"{FEED_BASE}?{urllib.parse.urlencode(q)}"
     try:
-        root = ET.fromstring(get(url).read())
+        root = ET.fromstring(get(url).read(MAX_BYTES))
     except Exception as e:
         fail(f'could not download or parse the YouTube feed {url}: {e}')
     out = []
@@ -125,7 +157,7 @@ def fetch_feed(cfg):
 def api_get(path, params):
     url = f"{API_BASE}/{path}?{urllib.parse.urlencode(params)}"
     with get(url, headers={'X-Goog-Api-Key': API_KEY, 'Accept': 'application/json'}) as r:
-        return json.loads(r.read().decode('utf-8'))
+        return json.loads(r.read(MAX_BYTES).decode('utf-8'))
 
 
 def fetch_api(cfg):
@@ -177,7 +209,7 @@ def oembed(video_id):
             if r.status != 200:
                 return None, None
             try:
-                return True, (json.loads(r.read().decode('utf-8')).get('title') or '').strip()
+                return True, (json.loads(r.read(MAX_BYTES).decode('utf-8')).get('title') or '').strip()
             except ValueError:
                 return True, ''
     except urllib.error.HTTPError as e:
@@ -302,7 +334,7 @@ def main():
     if [fields(v) for v in verified] == [fields(v) for v in old]:
         log('No change: the cached list is already up to date; nothing written.')
         if os.environ.get('GITHUB_OUTPUT'):
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+            with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
                 f.write('changed=false\n')
         summary('no update needed')
         return
@@ -318,12 +350,12 @@ def main():
         fail(f'the result failed validation ({e})')
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=CACHE.parent, suffix='.tmp')
-    with os.fdopen(fd, 'w', encoding='utf-8') as f:
+    with os.fdopen(fd, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, ensure_ascii=False, indent=2); f.write('\n')
     os.replace(tmp, CACHE)
     log(f'Wrote {len(verified)} videos to {CACHE.name}; new: {len(new_ids)}; newest: {verified[0]["title"]}')
     if os.environ.get('GITHUB_OUTPUT'):
-        with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+        with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
             f.write('changed=true\n')
     summary(f'updated, {len(new_ids)} new video(s)')
 

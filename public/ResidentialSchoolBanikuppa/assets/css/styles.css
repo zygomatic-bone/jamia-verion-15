@@ -54,15 +54,15 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background-color .3s ease, color .3s ease;
 }
+/* Film grain: a plain low-opacity layer. mix-blend-mode: soft-light on a full-screen fixed layer made the browser blend the whole page again on every frame. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: .14;
+  opacity: .05;
   z-index: 20;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
 }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
@@ -296,15 +296,15 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 .back-top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
 
 /* 6. Responsive & motion */
-.reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.65,.2,1); }
-.reveal.is-visible { opacity: 1; transform: none; }
-.stagger > * { opacity: 0; transform: translateY(1.2rem); transition: opacity .6s ease, transform .6s ease; }
-.stagger.is-visible > * { opacity: 1; transform: none; }
-.stagger.is-visible > *:nth-child(2) { transition-delay: .08s; }
-.stagger.is-visible > *:nth-child(3) { transition-delay: .16s; }
-.stagger.is-visible > *:nth-child(4) { transition-delay: .24s; }
-.stagger.is-visible > *:nth-child(5) { transition-delay: .32s; }
-.stagger.is-visible > *:nth-child(6) { transition-delay: .4s; }
+.js .reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.65,.2,1); }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+.js .stagger > * { opacity: 0; transform: translateY(1.2rem); transition: opacity .6s ease, transform .6s ease; }
+.js .stagger.is-visible > * { opacity: 1; transform: none; }
+.js .stagger.is-visible > *:nth-child(2) { transition-delay: .08s; }
+.js .stagger.is-visible > *:nth-child(3) { transition-delay: .16s; }
+.js .stagger.is-visible > *:nth-child(4) { transition-delay: .24s; }
+.js .stagger.is-visible > *:nth-child(5) { transition-delay: .32s; }
+.js .stagger.is-visible > *:nth-child(6) { transition-delay: .4s; }
 
 @media (max-width: 70rem) {
   .desktop-nav { display: none; }
@@ -345,7 +345,7 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-  .reveal, .stagger > * { opacity: 1; transform: none; }
+  .js .reveal, .js .stagger > * { opacity: 1; transform: none; }
 }
 
 /* Additional presentation rules for the completed static migration. */
@@ -402,10 +402,12 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 
 /* Ambient drifting colour behind the glass panels (injected by app.js). */
 .ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.ambient span { position: absolute; width: 42vmax; aspect-ratio: 1; border-radius: 50%; filter: blur(70px); animation: orb-drift 26s ease-in-out infinite alternate; }
-.ambient span:nth-child(1) { top: -12vmax; left: -10vmax; background: var(--orb-a); }
-.ambient span:nth-child(2) { top: 30vh; right: -14vmax; background: var(--orb-b); animation-duration: 32s; animation-delay: -8s; }
-.ambient span:nth-child(3) { bottom: -18vmax; left: 25vw; background: var(--orb-c); animation-duration: 38s; animation-delay: -16s; }
+/* Soft-edged gradient discs instead of filter: blur(70px): animating a big blurred layer repaints it every frame (about 80 ms per frame in tests);
+   a gradient disc is painted once and then only moved by the compositor. */
+.ambient span { position: absolute; width: 54vmax; aspect-ratio: 1; border-radius: 50%; animation: orb-drift 26s ease-in-out infinite alternate; will-change: transform; }
+.ambient span:nth-child(1) { top: -12vmax; left: -10vmax; background: radial-gradient(closest-side, var(--orb-a) 30%, transparent); }
+.ambient span:nth-child(2) { top: 30vh; right: -14vmax; background: radial-gradient(closest-side, var(--orb-b) 30%, transparent); animation-duration: 32s; animation-delay: -8s; }
+.ambient span:nth-child(3) { bottom: -18vmax; left: 25vw; background: radial-gradient(closest-side, var(--orb-c) 30%, transparent); animation-duration: 38s; animation-delay: -16s; }
 @keyframes orb-drift {
   0% { transform: translate3d(0, 0, 0) scale(1); }
   50% { transform: translate3d(8vw, 6vh, 0) scale(1.12); }
@@ -492,16 +494,16 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 .page-hero h1 { animation: rise-in 1s cubic-bezier(.2,.7,.2,1) both .1s; }
 .page-hero .container { position: relative; z-index: 1; }
 
-/* Richer reveals: slight blur-to-sharp and scale. */
-.reveal { filter: blur(4px); transform: translateY(1.8rem) scale(.985); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.65,.2,1), filter .8s ease; }
-.reveal.is-visible { filter: none; transform: none; }
-.stagger > * { transform: translateY(1.4rem) scale(.97); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
-.stagger.is-visible > *:nth-child(7) { transition-delay: .48s; }
-.stagger.is-visible > *:nth-child(8) { transition-delay: .56s; }
-.stagger.is-visible > *:nth-child(9) { transition-delay: .64s; }
-.stagger.is-visible > *:nth-child(n+10) { transition-delay: .72s; }
+/* Richer reveals: slight scale (no blur filter: it repainted whole blocks while they faded in). */
+.js .reveal { transform: translateY(1.8rem) scale(.985); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.65,.2,1); }
+.js .reveal.is-visible { transform: none; }
+.js .stagger > * { transform: translateY(1.4rem) scale(.97); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+.js .stagger.is-visible > *:nth-child(7) { transition-delay: .48s; }
+.js .stagger.is-visible > *:nth-child(8) { transition-delay: .56s; }
+.js .stagger.is-visible > *:nth-child(9) { transition-delay: .64s; }
+.js .stagger.is-visible > *:nth-child(n+10) { transition-delay: .72s; }
 /* After the entrance, cards hand transforms back to hover/tilt with no delay. */
-.stagger.is-settled > * { transition-delay: 0s !important; }
+.js .stagger.is-settled > * { transition-delay: 0s !important; }
 
 /* Gallery: animated filtering and glass captions. */
 .gallery-item { transition: transform .35s ease, box-shadow .35s ease; }
@@ -531,11 +533,10 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 @media (prefers-reduced-motion: reduce) {
   .ambient span, .page-hero::before, .page-hero::after, .site-footer::before, .hero-copy em { animation: none !important; }
   .hero-copy > *, .hero .hero-bottom { opacity: 1; }
-  .reveal { filter: none; }
   .card, .card:hover { transform: none; }
 }
 @media (max-width: 38rem) {
-  .ambient span { filter: blur(50px); }
+  .ambient span { will-change: auto; }
 }
 
 /* ---- Image zoom: photographs enlarge 20% when hovered, focused or touched ----

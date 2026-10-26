@@ -1,0 +1,27 @@
+# Cloudflare Worker: the form service of the Jame ul uloom website (see README.md in this folder).
+# NOTHING SECRET BELONGS IN THIS FILE: it is committed. Secrets are set with `npx wrangler secret put NAME`.
+name = "jame-forms"
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Exactly the addresses the website is published at (scheme + host, no path), comma separated. Only these may post.
+ALLOWED_ORIGINS = "https://jameululoom.org,https://www.jameululoom.org"
+# Where messages are delivered (the address printed on the website), and the sender shown on them. MAIL_FROM must be an address on a
+# domain verified with the mail provider (see README.md), otherwise the provider refuses to send and the forms report failure.
+MAIL_TO = "jamiaululoom@gmail.com"
+MAIL_FROM = "website@jameululoom.org"
+# Optional limits (defaults shown): messages per visitor per hour and per day, overall per day, and the "too fast" trap in seconds.
+RATE_PER_IP_HOUR = "5"
+RATE_PER_IP_DAY = "15"
+RATE_GLOBAL_DAY = "300"
+MIN_FILL_SECONDS = "2"
+
+# Counters for the rate limits. Create it once:  npx wrangler kv namespace create FORMS_KV   and paste the id it prints.
+[[kv_namespaces]]
+binding = "FORMS_KV"
+id = "REPLACE_WITH_THE_ID_PRINTED_BY_WRANGLER"
+
+# Secrets (never in this file):
+#   RESEND_API_KEY  an API key from the mail provider (https://resend.com), sending access only
+#   RATE_SALT       a long random text (16+ characters) that hides visitors' addresses in the counters

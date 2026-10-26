@@ -2,8 +2,7 @@
 
 The profile data is kept apart from the automatic video feed. Entries with "publish": false are skipped, so a
 designation that the Trust does not confirm can be withdrawn by editing one flag and rebuilding.
-The "verification" and "check" fields are for the maintainers (see JAMIA_PHASE9_2_SPEAKER_VERIFICATION in the reports);
-they are never printed on the page.
+The "verification" and "check" fields are for the maintainers ; they are never printed on the page.
 """
 import json
 from html import escape
@@ -78,8 +77,11 @@ def render(rp=''):
 
 
 def background():
-    """Live Aurora Glow (Phase 9.3): four soft aurora bands (blue, violet, teal, a restrained gold) over a near-black navy,
-    fixed to the screen behind the whole page. Plain CSS gradients moved with transform/opacity only; static under
-    prefers-reduced-motion. Hidden from assistive technology and never intercepts the pointer."""
-    return ('<div class="bz-bg" aria-hidden="true"><span class="bz-au bz-au-blue"></span><span class="bz-au bz-au-violet"></span>'
-            '<span class="bz-au bz-au-teal"></span><span class="bz-au bz-au-gold"></span><span class="bz-veil"></span></div>')
+    """Live Aurora Glow: four soft aurora bands (blue, violet, teal, a restrained gold) over a
+    near-black navy, fixed to the screen behind the whole page. Each band is a wrapper (moved by the pointer, a touch and the scroll
+    position through two CSS variables) around an inner layer that carries the drift animation; a soft spot follows the pointer or
+    the finger. Plain CSS gradients moved with transform/opacity only; static under prefers-reduced-motion. Hidden from assistive
+    technology and never intercepts the pointer. aurora.js drives it."""
+    return ('<div class="bz-bg" aria-hidden="true"><span class="bz-au bz-au-blue"><i></i></span><span class="bz-au bz-au-violet"><i></i></span>'
+            '<span class="bz-au bz-au-teal"><i></i></span><span class="bz-au bz-au-gold"><i></i></span><span class="bz-spot"></span>'
+            '<span class="bz-veil"></span></div>')
