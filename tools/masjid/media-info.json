@@ -1,0 +1,82 @@
+{
+ "main-hall-a": {
+  "w": 640,
+  "h": 360,
+  "seconds": 34.4,
+  "mp4_bytes": 673167,
+  "poster_bytes": 25706,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.14.56 PM.mp4"
+ },
+ "main-hall-b": {
+  "w": 640,
+  "h": 360,
+  "seconds": 30.9,
+  "mp4_bytes": 605969,
+  "poster_bytes": 29824,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.04 PM.mp4"
+ },
+ "main-hall-c": {
+  "w": 640,
+  "h": 360,
+  "seconds": 44.0,
+  "mp4_bytes": 810161,
+  "poster_bytes": 29227,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.11 PM.mp4"
+ },
+ "secondary-hall-a": {
+  "w": 640,
+  "h": 360,
+  "seconds": 34.0,
+  "mp4_bytes": 624155,
+  "poster_bytes": 27602,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.00 PM.mp4"
+ },
+ "secondary-hall-b": {
+  "w": 640,
+  "h": 360,
+  "seconds": 9.0,
+  "mp4_bytes": 172128,
+  "poster_bytes": 26686,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.01 PM (1).mp4"
+ },
+ "secondary-hall-c": {
+  "w": 360,
+  "h": 640,
+  "seconds": 31.1,
+  "mp4_bytes": 725157,
+  "poster_bytes": 27987,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.01 PM.mp4"
+ },
+ "pathway-a": {
+  "w": 360,
+  "h": 640,
+  "seconds": 28.5,
+  "mp4_bytes": 512192,
+  "poster_bytes": 26937,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.00 PM (1).mp4"
+ },
+ "pathway-b": {
+  "w": 640,
+  "h": 360,
+  "seconds": 22.3,
+  "mp4_bytes": 401522,
+  "poster_bytes": 27253,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.02 PM.mp4"
+ },
+ "pathway-c": {
+  "w": 360,
+  "h": 640,
+  "seconds": 15.3,
+  "mp4_bytes": 209412,
+  "poster_bytes": 25929,
+  "original_file": "WhatsApp Video 2026-10-25 at 10.15.10 PM.mp4"
+ },
+ "shoba-e-hifz-a": {
+  "w": 640,
+  "h": 360,
+  "seconds": 57.5,
+  "mp4_bytes": 1080309,
+  "poster_bytes": 24704,
+  "original_file": "WhatsApp Video 2026-10-26 at 12.26.31 AM.mp4"
+ }
+}

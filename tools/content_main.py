@@ -9,7 +9,7 @@ OVERRIDES: filename -> body  replaces the Phase 8 body of an existing page
 """
 from html import escape
 import recovery_assets as RA
-from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, sources, table, people, vision, doc_list,
+from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, info, sources, table, people, vision, doc_list,
                         scan, logo, phone, img_tag)
 
 DATE_NOTE = ('Dates and figures on this page are quoted as the Trust’s documents give them. The documents do not always agree '
@@ -41,7 +41,7 @@ about = f'''<p class="eyebrow">About Us</p><h1>About Jame-ul-Uloom</h1><p class=
 </blockquote></div>
 <h2 id="fond-memories">Jamia-ul-Uloom — Fond Memories</h2>
 {split(
- '<p class="source-note">Two essays by <strong>Alhaj Mohammed Ateeq Ahmed</strong>, Founder Secretary, Jame-ul-uloom, Jamia Masjid . The years are the writer’s own.</p>'
+ '<p class="source-note">Two essays by <strong>Alhaj Mohammed Ateeq Ahmed</strong>, Founder Secretary, Jame-ul-uloom, Jamia Masjid .</p>'
  '<blockquote>' + p(
   'Among all the sites in the world, the best and the most honoured site is that on which a mosque is built, as the mosque are the most loved homes of Allah. In these mosques we receive peace of mind, soul and conscience. Construction of mosque is a very grand act, as the construction of the mosques has been termed as the best of the deeds of a momin, and Allah gifts a palace, which would be the eternal abode of the momin who constructs a mosque.',
   'A mosque is unique sign of Deen-e-Islam. The Masjid-e-Nabvi (at Madeena) is the most distinguished mosque, as in this mosque the prayers were not just restricted to Namaz, recitation of the Holy Quran and remembrance of Allah, but it was the center of Islamic brotherhood, learning and teaching and all the Islamic activities. As far as learning and teaching in the masjid-e-nabvi is concerned, the institution of Suffa and As’hab-e-Suffa are the most illuminous examples. On this suffa (seat) stood the house of knowledge of the Holy Prophet. Poor and homeless companions of Holy Prophet assembled here, these companions had dedicated their to acquire knowledge. It would be better if the mosques are constructed on the basis of aforesaid objectives, by this way we would also be acting according to sunnath.',
@@ -52,8 +52,7 @@ about = f'''<p class="eyebrow">About Us</p><h1>About Jame-ul-Uloom</h1><p class=
   'In 1986, there were two halls in the west side of the mosque. We started Nursery classes in these halls with prayers, this nursery is now a college. Gradually we established a tailoring institute, a calligraphy center and a Computer institute in the mosque.',
   '<strong>Jamia-Ul-Uloom, Shikshanagar (Bannikuppe):</strong> as we felt many hurdles in imparting standard to students in the busy life of the city, the trust plan for establishing a residential school away from the city, that children are educated in a peaceful atmosphere. Allah helped the trust to purchase 52 hectares of land at a cost of only Rs. 13.5 lakhs which is 27 Km from the city.',
  ) + '<p class="rc-sign">Alhaj Mohammed Ateeq Ahmed<small>Founder Secretary, Jame-ul-uloom, Jamia Masjid</small></p></blockquote>',
- single('', 'imam', caption='Late Moulana Riyazur Rahman Rashadi', detail='The essay above names him as Khateeb-o-Imam of Jamia Masjid.'), flip=False)}
-{note(DATE_NOTE)}
+ single('', 'imam', caption='Late Moulana Riyazur Rahman Rashadi'), flip=False)}
 <p>See also: <a href="Team.html">Governing Body</a> · <a href="Trustees.html">Trustees</a> · <a href="Message.html">Chairmen’s Messages</a> · <a href="Institutions.html">Institutions</a> · <a href="Masjid.html">Jamia Masjid</a></p>
 </div>'''
 
@@ -68,8 +67,7 @@ HM_2013 = ['I take this opportunity to express my deep sense of gratitude to the
               'The academic year 2013-2014 will go down into the annals as another eventful year at JUU. Academically our students have done us proud by their brilliant performances. I thank whole heartedly the members of Editorial Committee for their tireless effort in bringing out the website this year.',
               'My best wishes for all the students in their endeavors.']
 
-message = f'''<p class="eyebrow">About Us</p><h1>Chairmen’s Messages</h1><p class="lede">Messages from the Trust’s office-bearers and school heads, shown as scanned letters.</p>
-{note('Messages written for the school magazine “Impression” (about 2010–11), shown as scans. The text of the English letters follows each scan.')}
+message = f'''<p class="eyebrow">About Us</p><h1>Chairmen’s Messages</h1><p class="lede">Messages from the Trust’s office-bearers and school heads.</p>
 <ul class="rc-letters">
 {letter('msg2', 'Message from the Secretary', 'Mohammed Ateeq Ahmed, Secretary',
   quote('I am pleased to learn that the Jame-ul-uloom Institutions are bringing out the new edition of their magazine “Impression”.',
@@ -78,8 +76,7 @@ message = f'''<p class="eyebrow">About Us</p><h1>Chairmen’s Messages</h1><p cl
         'I am confident in the coming years all our institutions will continue to witness further success and achievement.',
         sign='Mohammed Ateeq Ahmed', role='Secretary'))}
 {letter('msg3', 'Message from the President (Kannada)', 'Signed “Adhyakṣaru” (President), Jame-ul-Uloom Muslim Charitable Trust',
-  '<p>A Kannada message headed “Shubha Sandesha” (a message of good wishes), with a portrait.</p>',
-  'This message is in Kannada. Open the full-size scan to read it.')}
+  '<p>A Kannada message headed “Shubha Sandesha” (a message of good wishes), with a portrait.</p>')}
 {letter('msg4', 'From the Editors’ Desk', 'Syed Murtaza Hussain @ Gufran, Convener &amp; Vice President',
   quote('Penning down my feelings while writing this message can never be fully circumscribed by the words which follow. The aim of this magazine is to capture the various slices of activities, curricular and extracurricular, the tit bits of joys which we have lived passionately as the members of the Jame Ul Uloom family.',
         'Today the JU family is a reference in the educational sector because of all those who are directly and indirectly related and involved with it. Ours is a daily struggle to provide the best to our children and this relentless quest is a journey and not a destination for us. The vibrant young and dedicated staff, the supportive parents, the commitment of the administrative body have fused to usher an excellent working ethos which permeates almost all the activities under taken by Jamia Ululoom.',
@@ -87,12 +84,11 @@ message = f'''<p class="eyebrow">About Us</p><h1>Chairmen’s Messages</h1><p cl
         'May truth, humility, compassion and a sense of justice guide us in every journey we all under take in life.',
         sign='Syed Murtaza Hussain @ Gufran', role='Convener &amp; Vice President'))}
 {letter('msg5', 'Message from the Joint Secretary (Urdu)', 'Syed Noorul Ameen Anwar, Joint Secretary',
-  '<p>The scan carries an Urdu message headed “جامع العلوم قوم کا ایک عظیم ورثہ ہے” (“Jame-ul-Uloom is a great heritage of the community”), signed by Syed Noorul Ameen Anwar, Joint Secretary, with a portrait.</p>')}
+  '<p>An Urdu message headed “جامع العلوم قوم کا ایک عظیم ورثہ ہے” (“Jame-ul-Uloom is a great heritage of the community”), signed by Syed Noorul Ameen Anwar, Joint Secretary, with a portrait.</p>')}
 {letter('msg6', 'Message from the Treasurer', 'Mohammed Athiulla Khan, Treasurer',
-  quote('Education is an ability to meet life’s situations. Knowledge leads to our destinations. To turn events into ideas is the function of literature. Work satisfaction is closely related to life satisfaction. The fines anti doe for w <span class="rc-illegible">[a part of the scan is damaged and cannot be read]</span> … of our Institution all the best in the endeavors in the pursuit of knowledge and to make it as means of their empowerment towards a better world.',
+  quote('Education is an ability to meet life’s situations. Knowledge leads to our destinations. To turn events into ideas is the function of literature. Work satisfaction is closely related to life satisfaction. The fines anti doe for w <span class="rc-illegible">[…]</span> … of our Institution all the best in the endeavors in the pursuit of knowledge and to make it as means of their empowerment towards a better world.',
         'I congratulate the Editorial Board for publishing a impressive “Impression”.',
-        sign='Mohammed Athiulla Khan', role='Treasurer'),
-  'Part of one sentence is lost in the scan and is not reconstructed.')}
+        sign='Mohammed Athiulla Khan', role='Treasurer'))}
 {letter('msg7', 'Message from the Superintendent', 'Syed Rasool, Superintendent (school magazine 2010–11)',
   quote('It gives me a great pleasure to present our school magazine for the academic year 2010-11. Our school is striving hard to provide qualitative education to our students and to help them to combat the vices. Our school emblem endorses our goal to aim more knowledge and to reach higher destinations.',
         'I appreciate the nobility, sincerity and honesty of our respected Secretary Alhaj Mohammed Atheeq Ahmed Saheb who has dedicated his life for the welfare of the Institution in particular, and to the community at large in spite of his many other social services. In his endeavor, he gets the full co-operation of the Trustees. We pray for his long and healthy life.',
@@ -114,13 +110,13 @@ message = f'''<p class="eyebrow">About Us</p><h1>Chairmen’s Messages</h1><p cl
 # ---------------------------------------------------------------------------------------------------------------------
 GOV = [('Maqbool Ahmed', 'President'), ('Mohammed Ateeq Ahmed', 'Secretary'), ('Syed Murtuza Husain @ Gufran', 'Vice President'),
        ('Mohammed Athiulla Khan', 'Treasurer'), ('Syed Noorul Ameen @ Anwer', 'Joint Secretary'), ('Syed Abdul Gafoor', 'Internal Auditor')]
-team = f'''<p class="eyebrow">About Us</p><h1>Governing Body</h1><p class="lede">The office-bearers of the Jamia Masjid &amp; Muslim Charitable Fund Trust, as shown on the Governing Body photograph.</p>
+team = f'''<p class="eyebrow">About Us</p><h1>Governing Body</h1><p class="lede">The office-bearers of the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p>
 <div class="rc-prose">
-{split('<h2>Office-bearers</h2>' + people(GOV), single('', 'gov', caption='Governing Body', detail='Printed portraits with names and designations.'))}
+{split('<h2>Office-bearers</h2>' + people(GOV), single('', 'gov', caption='Governing Body'))}
 <h2>Jamia Masjid Trust</h2>
-{single('', 'trust_group', big=True, caption='Group photograph labelled “Jamai Masjid Trust”', detail='Fourteen members of the Trust in two rows.')}
+{single('', 'trust_group', big=True, caption='Group photograph labelled “Jamai Masjid Trust”')}
 <h2 id="earlier">Earlier Governing Body poster</h2>
-{single('', 'gov_old', caption='Governing Body: earlier poster', detail='An earlier poster. It prints different designations from the poster above (for example C.M. Aleemulla Khan Mushtaq as President, Maqbool Ahmed as Vice President and Moulana Riyazur Rahman Rashedi as Principal in chief). It carries no date, so it is kept as a historical record, not as the current list.')}
+{single('', 'gov_old', caption='Governing Body: earlier poster', detail='An earlier poster.')}
 <h3 id="earlier-names">Names and designations printed on the earlier poster</h3>
 {people([('C.M. Aleemulla Khan · Mushtaq', 'President'), ('Mohammed Ateeq Ahmed', 'Secretary'), ('Maqbool Ahmed', 'Vice President'), ('Mohammed Athiulla Khan', 'Treasurer'), ('Syed Noorul Ameen · Anwar', 'Joint Secretary'), ('Moulana Riyazur Rahman Rashedi', 'Principal in chief'), ('Attar Syed Murtaza Hussain · Gufran', 'Convenor'), ('Syed Abdul Gafoor', 'Internal Auditor')])}
 <p>See also the <a href="Trustees.html">Trustees</a> and <a href="Message.html">Chairmen’s Messages</a>.</p>
@@ -128,11 +124,11 @@ team = f'''<p class="eyebrow">About Us</p><h1>Governing Body</h1><p class="lede"
 
 TRUSTEES = ['Abbas Khan', 'Naveed Ahmed', 'Syed Sadaqath Peeran', 'J. Shafiulla', 'Moin Abdul Kareem', 'Zaheeruddin Ahmed', 'Mohammed Saifulla', 'L. Mohamed Farooq',
             'Zafrulla Khan', 'Allah Bakash Khan', 'Ashfaq Ahmed', 'Allah Bakash', 'B. Md. Ghouse Qureshi', 'Syed Hussain', 'Mir Qamar Hussain', 'Abdulla Basha', 'Iqbal Ahmed']
-trustees = f'''<p class="eyebrow">About Us</p><h1>Trustees</h1><p class="lede">The Trustees of the Jamia Masjid &amp; Muslim Charitable Fund Trust, as shown on the Trustees photograph.</p>
+trustees = f'''<p class="eyebrow">About Us</p><h1>Trustees</h1><p class="lede">The Trustees of the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p>
 <div class="rc-prose">
-{split('<h2>Trustees</h2><p class="source-note">Names as shown in the Trustees image. The photograph is undated, so the list may no longer be current.</p>' + people([(n, '') for n in TRUSTEES]).replace('<span></span>', ''), single('', 'trustees', caption='Trustees', detail='Printed portraits with names.'))}
+{split('<h2>Trustees</h2>' + people([(n, '') for n in TRUSTEES]).replace('<span></span>', ''), single('', 'trustees', caption='Trustees'))}
 <h2 id="earlier">Earlier Trustees poster</h2>
-{single('', 'trustees_old', caption='Trustees: earlier poster', detail='An earlier poster. It shows a different set of portraits from the poster above and carries no date, so it is kept as a historical record.')}
+{single('', 'trustees_old', caption='Trustees: earlier poster', detail='An earlier poster.')}
 <p>See also the <a href="Team.html">Governing Body</a>.</p>
 </div>'''
 
@@ -146,7 +142,7 @@ calligraphy = f'''<p class="eyebrow">Institutions</p><h1>Calligraphy Centre</h1>
   'Though NCPUL has withdrawn the support, MMI is running this course which consists of a 2 years calligraphy training along with learning urdu language and use of computers where students can learn basics in computer and DTP and use of urdu software.',
   'The students also are given a chance to learn diniyat and tailoring and also pottery painting. This course is very useful for those who have failed in 10th std. or who don’t want to continue their studies after passing their 10th std. Muslim girls can come in full purdah and they have a secure learning atmosphere in the Mosque along with a very good library. The students can also get jobs and help their family financially. All this facility is free of cost. No fee is charged and all the expenditure is borne by MMI and Jamia-Ul-Uloom. The students and their parents can take full advantage of this facility to learn our own urdu language and also get themselves skilled and fit to be appointed.'),
  single('', 'cal_intro', caption='Calligraphy Centre'))}
-{dated('<strong>Please confirm with the office.</strong> NCPUL support has been withdrawn; the fee-free arrangement and course length stated here should be confirmed before relying on them. See <a href="Contact.html">Contact</a> and the <a href="NCPUL/home.html">MMI-NCPUL Computer Centre</a>.')}
+{info('For current course details and fees, please contact the office (<a href="Contact.html">Contact</a>).')}
 <h2>Gallery</h2>
 {gallery('', ['cal1', 'cal2', 'cal3', 'cal4', 'cal5', 'cal6', 'cal7', 'cal8'])}
 </div>'''
@@ -157,13 +153,12 @@ classroom = f'''<p class="eyebrow">Facilities</p><h1>Smart Classrooms</h1><p cla
 {p('An opportunity has been created by Jame-ul-uloom School for the students who can access a unique way of computerised education in their curriculum. Hoping that the students shall enhance their knowledge and make learning more interactive and interesting.',
    'Digital classes play a crucial role in the life of a student as well as teachers and cover the subjects like English, Mathematics, Science, Social Sciences, Comprehension passages, nursery rhymes with animations, videos and examination guidelines etc. Thus the school has worked a massive project to develop an information which will cater to the needs of the students in all subjects.')}
 {gallery('', ['cls1', 'cls2', 'cls3'])}
-<p>The same text appears in the Admissions Diary 2013–14 (<a href="AdmissionsDiary.html">read it here</a>). Classroom photographs of individual institutions are on their own Facilities pages: <a href="PUGirlsCollege/Facilities.html">PU College</a> · <a href="DegreeGirlsCollege/Facilities.html">Degree College</a> · <a href="BCA/Facilities.html">BCA</a> · <a href="EngBoysHighSchool/Facilities.html">Boys High School</a> · <a href="EngGirlsHighSchool/Facilities.html">Girls High School</a>.</p>
+<p>Classroom photographs of individual institutions are on their own Facilities pages: <a href="PUGirlsCollege/Facilities.html">PU College</a> · <a href="DegreeGirlsCollege/Facilities.html">Degree College</a> · <a href="BCA/Facilities.html">BCA</a> · <a href="EngBoysHighSchool/Facilities.html">Boys High School</a> · <a href="EngGirlsHighSchool/Facilities.html">Girls High School</a>.</p>
 </div>'''
 
 computerlab = f'''<p class="eyebrow">Facilities</p><h1>Computer Laboratory</h1><p class="lede">The college computer laboratory.</p>
 <div class="rc-prose">
 {p('The college is housed in a spacious building with well furnished and ventilated class rooms, well equipped laboratories and library with good collection of books. Magazines and News papers are also subscribed for the benefit of the students. The computer lab is provided with internet facility. A spacious auditorium is also under construction. We aim to provide canteen facility for our students. A nationalized bank (Canara Bank) is also located in the same building.')}
-{dated('<strong>Dated description.</strong> The remarks that the auditorium is “under construction” and that a canteen is an aim date from when this text was written; they may no longer apply.')}
 {gallery('', ['col_comp', 'col_comp2'], captions={'col_comp': 'Computer laboratory (BCA / Degree college)', 'col_comp2': 'Computer laboratory (PU college)'})}
 <p>School computer education (from 1st to 10th standard) is described on the <a href="EngGirlsHighSchool/Facilities.html">English High School Facilities</a> pages. The <a href="NCPUL/home.html">MMI-NCPUL Computer Centre</a> has its own pages.</p>
 </div>'''
@@ -189,18 +184,19 @@ SPORTS_TEXT = ('The students are grouped into four houses and each house is unde
 sports = f'''<p class="eyebrow">Students</p><h1>Co-Curricular Activities &amp; Sports</h1><p class="lede">Co-curricular activities and sports at the Residential Higher &amp; Primary School, Banikuppa.</p>
 <div class="rc-prose">
 {p(SPORTS_TEXT)}
-{note('This text describes the Residential School at Banikuppa. The other institutions’ Sports pages link here. Banikuppa’s own pages: <a href="ResidentialSchoolBanikuppa/sports.html">Sports</a> and <a href="ResidentialSchoolBanikuppa/clubs.html">Clubs</a>.')}
 <h2>Photographs</h2>
 {gallery('', ['iti_play1'], captions={'iti_play1': 'Playground of the ITI campus'})}
 <p>Sports-day and house photographs from the Banikuppa campus are in <a href="Activities.html#pv-activities">Activities in pictures</a>. The annual calendar of school competitions is on the <a href="Activities.html">Activities</a> page.</p>
 </div>'''
 
 # ---------------------------------------------------------------------------------------------------------------------
-masjid = f'''<p class="eyebrow">Jamia Masjid</p><h1>Jamia Masjid, Bangalore</h1><p class="lede">The mosque at City Market, on whose campus Jame-ul-uloom functions: prayer times, the Trust’s charitable activity, photographs and historical documents.</p>
+masjid = f'''<p class="eyebrow">Jamia Masjid</p><h1>Jamia Masjid, Bangalore</h1><p class="lede">The mosque at City Market, on whose campus Jame-ul-uloom functions: prayer times, photographs and videos of the halls, library and study rooms, the Trust’s charitable activity and historical documents.</p>
 <div class="rc-prose">
+@@MASJID_TOP@@
 <h2 id="prayer-times">Prayer times</h2>
 <ul class="times"><li><strong>Fajar</strong>5:40 AM</li><li><strong>Zohar</strong>1:30 PM</li><li><strong>Asar</strong>5:00 PM</li><li><strong>Magrib</strong>6:35 PM</li><li><strong>Isha</strong>8:15 PM</li></ul>
 <p>Prayer times change through the year; please confirm with the masjid office on <a href="tel:0822239495">0822239495</a>.</p>
+@@MASJID_SECTIONS@@
 <h2>About Jame-ul-uloom</h2>
 {p('Jame-ul-uloom is an Arabic name meaning “Center of Knowledge”. Jame-ul-uloom is housed in the campus of Jamia Mosque, one of the biggest mosques in the state, located in the heart of the Bangalore City. Apart from imparting education, the Institution aims at “character building”. This is achieved through moral education and religious instruction.',
    'Upliftment of the downtrodden in the Minority Community is the aim of Jame-ul-uloom. It also aims in preparing good and useful citizens, so that they can face the situations in this world of competition. To accomplish many such purposes, Jame-ul-uloom has in its fold institutions.',
@@ -208,8 +204,6 @@ masjid = f'''<p class="eyebrow">Jamia Masjid</p><h1>Jamia Masjid, Bangalore</h1>
 <h2>Charitable activity</h2>
 {p('In general a Masjid committee is formed to look after Masjid activity whereas Jamia Masjid has added one more activity, i.e. Charitable activity, which means to take care of muslims educational needs so as to make every muslims future very bright, particularly those who are unable to get educated due to poverty.')}
 <p><a href="AboutUs.html">Read the founding story and the Founder Secretary’s essays →</a></p>
-<h2>Photographs</h2>
-{gallery('', ['mas1', 'mas2', 'mas3', 'mas_corr', 'mas4', 'mas5', 'mas6'])}
 <h2 id="documents">Historical documents (Urdu)</h2>
 <p>Two Urdu PDF documents about the Jamia Masjid are available to read and download below.</p>
 {doc_list('', ['tareeq', 'majalla'])}
@@ -228,7 +222,6 @@ DIARY_EVENTS = [
  ('March 2014', 'To be announced', 'Final Semester Exam'), ('April 2014', '', 'Results of all classes')]
 diary = f'''<p class="eyebrow">Admissions</p><h1>Admissions Diary 2013–14</h1><p class="lede">Rules, admission conditions, discipline and calendars from the school diary.</p>
 <div class="rc-prose">
-{dated('<strong>This is the 2013–14 school diary.</strong> It describes the rules and arrangements of that year (for example, “final examination report … will be issued in April 2014”). Fees, dates and student numbers are not current. For present admissions, contact the school office on the <a href="Contact.html">Contact page</a>.')}
 {doc_list('', ['diary'])}
 <h2>Our Vision</h2>
 <p>In our school we take pride in the following:</p>
@@ -296,13 +289,11 @@ diary = f'''<p class="eyebrow">Admissions</p><h1>Admissions Diary 2013–14</h1>
 {p('Deccan Herald in Education programme was introduced in our school since 2004-05. It is a programme designed to help the students identify and harness it as a classroom tool. The newspaper is a vibrant current medium that can be effectively used by the students to relate the textual facts to reality, thus bringing enthusiasm into classroom situations, besides increasing the child’s general awareness it also gives the child a basic reading habit and enhancing his/her knowledge of the changing world hand in hand with the text book.',
    'The DHIE hold workshops on various topics. These workshops are conducted by highly talented and qualified personalities of Deccan Herald. Children participate in these workshops enthusiastically. The child is therefore exposed to a wider range of knowledge, besides the regular curriculum.')}
 <h2>Smart Classrooms</h2>
-<p>See the <a href="Classroom.html">Smart Classrooms</a> page for the diary’s text.</p>
+<p>Read about the <a href="Classroom.html">Smart Classrooms</a>.</p>
 <h2>Declaration by Parent / Guardian</h2>
-{note('The diary ends its rules with a form addressed to “The Head Mistress, Jame-ul-uloom Nursery, Higher Primary &amp; High School, S. J. P. Road, Bangalore – 560 002”, in which a parent states that they have read all the rules of the school and agree to co-operate with the school management in inculcating the habit of punctuality, regularity and discipline in their children and abide by its decision. The form (with date and signature lines) is on page 9 of the PDF.')}
 <h2>Activity Calendar 2013–2014</h2>
-<p>The month-by-month competitions printed in the diary match those on the <a href="Activities.html">Activities</a> page (October to January differ only in the week for the High School: the diary prints “Fourth week”). The diary heads its January row “January 2012”.</p>
+<p>The month-by-month competitions are listed on the <a href="Activities.html">Activities</a> page.</p>
 <h2>Calendar of Events</h2>
-<p>Printed under the heading “Calendar of Events 2012-2013”, although every date in it falls in 2013 or 2014.</p>
 {table(['Date', 'Day', 'Event'], [[escape(a), escape(b), escape(c)] for a, b, c in DIARY_EVENTS])}
 </div>'''
 
@@ -317,6 +308,6 @@ ROOT = {
     'Library.html': ('Library', library, 'Library photographs of Jame-ul-uloom.'),
     'Auditorium.html': ('Auditorium', auditorium, 'The auditorium and functions of the Jame ul uloom Group of Institutions.'),
     'Sports.html': ('Co-Curricular Activities & Sports', sports, 'Co-curricular activities and sports.'),
-    'Masjid.html': ('Jamia Masjid', masjid, 'Jamia Masjid, Bangalore: prayer times, charitable activity, photographs and historical Urdu documents.'),
+    'Masjid.html': ('Jamia Masjid', masjid, 'Jamia Masjid, Bangalore: prayer times, the main and secondary halls, the pathway and water channel, libraries and study halls, charitable activity and historical Urdu documents.'),
     'AdmissionsDiary.html': ('Admissions Diary 2013–14', diary, 'The 2013–14 school diary of Jame-ul-uloom: rules, admission conditions, discipline and calendars.'),
 }

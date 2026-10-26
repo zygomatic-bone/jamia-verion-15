@@ -515,3 +515,8 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 @media (prefers-reduced-motion: reduce) {
   :root[data-theme="dark"] .page-home .button, :root[data-theme="dark"] .page-home .site-header { transition: none; }
 }
+
+/* Homepage Jamia Masjid card and hero button icon */
+.pf-ico { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; margin-right: .4rem; }
+.button .pf-ico { margin-right: .5rem; width: 1.15rem; height: 1.15rem; }
+.pf-card-masjid .pf-tag { color: var(--gold); }

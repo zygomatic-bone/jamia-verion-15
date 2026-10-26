@@ -1,0 +1,60 @@
+/* Jamia Masjid page (Masjid.html only). Uses the site's tokens, so light and dark themes follow the visitor's choice.
+   Photographs are shown whole (never cropped); clips are muted, silent loops that start when they scroll into view. */
+.page-masjid .mp-top { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin: 0 0 1.6rem; }
+.mp-home { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1.05rem .55rem .85rem; border-radius: 999px; background: var(--forest); color: #fff; font-weight: 700; text-decoration: none; box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease; }
+:root[data-theme="dark"] .mp-home { color: #07110d; }
+.mp-home:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.mp-home .mp-ico { width: 1.25rem; height: 1.25rem; }
+.mp-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.mp-chips a { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .8rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: .88rem; text-decoration: none; transition: border-color .2s ease, background .2s ease; }
+.mp-chips a:hover, .mp-chips a:focus-visible { border-color: var(--gold); background: var(--paper-2); }
+.mp-ico { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.mp-ico-sm { width: 1.05rem; height: 1.05rem; color: var(--gold); }
+
+.mp-sec { position: relative; margin: 0 0 2.2rem; padding: clamp(1rem, 2.4vw, 1.6rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); scroll-margin-top: calc(var(--header-h) + 1rem); }
+.mp-sec::before { content: ""; position: absolute; left: clamp(1rem, 2.4vw, 1.6rem); right: clamp(1rem, 2.4vw, 1.6rem); top: 0; height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, var(--gold), transparent 70%); }
+.mp-head { display: flex; gap: 1rem; align-items: flex-start; margin: 1.2rem 0 1.1rem; }
+.mp-head h2 { margin: 0 0 .35rem; font-size: clamp(1.35rem, 2.6vw, 1.8rem); }
+.mp-head p { margin: 0 0 .5rem; color: var(--muted); max-width: 62ch; }
+.mp-head p:last-child { margin-bottom: 0; }
+.mp-badge { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--paper-2); color: var(--forest); border: 1px solid var(--gold); flex: none; }
+:root[data-theme="dark"] .mp-badge { color: var(--gold); }
+
+.mp-lead { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: .8rem; align-items: start; }
+.mp-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 11.5rem), 1fr)); gap: .7rem; align-items: start; margin-top: .8rem; }
+.mp-ph { display: block; border-radius: var(--radius-sm); overflow: hidden; background: #0b1220; border: 1px solid var(--line); line-height: 0; transition: transform .25s ease, box-shadow .25s ease; }
+.mp-ph:hover, .mp-ph:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); }
+.mp-ph img { display: block; width: auto; max-width: 100%; height: auto; margin: 0 auto; }
+.mp-ph.is-landscape img { width: 100%; }
+.mp-lead .mp-ph.is-portrait img { max-height: 26rem; }
+@media (min-width: 40rem) { .mp-gallery .mp-ph.is-landscape { grid-column: span 2; } }
+
+.mp-videos { display: flex; flex-wrap: wrap; gap: .9rem; align-items: flex-start; margin: 1.1rem 0 0; }
+.mp-vid { position: relative; margin: 0; border-radius: var(--radius-sm); overflow: hidden; background: #000; border: 1px solid var(--line); max-width: 100%; }
+.mp-vid video { display: block; height: 11.5rem; width: auto; max-width: 100%; background: #000; }
+.mp-vid.is-landscape video { aspect-ratio: 16 / 9; }
+/* a section with a single landscape clip gives it more room */
+.mp-videos > .mp-vid.is-landscape:only-child video { height: auto; width: min(100%, 34rem); }
+.mp-vid.is-portrait video { aspect-ratio: 9 / 16; height: 20rem; }
+@media (max-width: 40rem) {
+  .mp-vid { flex: 1 1 100%; }
+  .mp-vid.is-portrait { flex: 0 1 17rem; margin-inline: auto; }
+  .mp-vid video, .mp-vid.is-portrait video { width: 100%; height: auto; }
+}
+.mp-vid figcaption { padding: .5rem .8rem; background: var(--surface); color: var(--muted); font-size: .84rem; border-top: 1px solid var(--line); }
+.mp-vbtn { position: absolute; top: .55rem; right: .55rem; display: grid; place-items: center; width: 2.4rem; height: 2.4rem; padding: 0; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(8, 14, 28, .62); color: #fff; cursor: pointer; }
+.mp-vbtn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.mp-vbtn svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.mp-vbtn .q { display: none; fill: currentColor; stroke-width: 1; }
+.mp-vbtn.is-paused .p { display: none; }
+.mp-vbtn.is-paused .q { display: block; }
+
+.mp-more { margin-top: .9rem; }
+.mp-more summary { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1.1rem; border: 1px solid var(--gold); border-radius: 999px; background: var(--paper-2); color: var(--ink); font-weight: 700; cursor: pointer; list-style: none; }
+.mp-more summary::-webkit-details-marker { display: none; }
+.mp-more summary::after { content: "+"; font-size: 1.2rem; line-height: 1; color: var(--gold); }
+.mp-more[open] summary::after { content: "–"; }
+.mp-more summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+@media (max-width: 40rem) { .mp-head { flex-direction: column; gap: .6rem; } .mp-chips a span { white-space: normal; } }
+@media (prefers-reduced-motion: reduce) { .mp-ph, .mp-home { transition: none; } .mp-ph:hover, .mp-home:hover { transform: none; } }

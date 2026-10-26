@@ -35,6 +35,9 @@ from imgutil import image_size  # PNG / JPEG / GIF header reader
 import recovery_assets as RA
 import content_main, content_more, content_inst   # Phase 9: restored original content (see tools/content_*.py)
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'speaker'))
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'masjid'))
+import masjid_page   # Phase 9.3: Jamia Masjid photo and video sections (tools/masjid/)
+masjid_page.copy_assets(ASSETS)   # homepage card and Masjid page use these files; copied before pages are written
 import speaker   # Phase 9.2: Speaker Profile on Bayanath.html (tools/speaker/)
 
 def fit_media(rp, fn, alt, cls='pf-media', loading='lazy'):
@@ -149,7 +152,7 @@ def page(filename, title, body, desc, root_prefix=''):
                 f'<h1>Jame ul <span class="hx-gold">uloom</span></h1>'
                 f'<p class="hx-label">Islamic Educational Institution</p><span class="hx-rule" aria-hidden="true"></span>'
                 f'<p class="hero-lede">{lede or ""}</p>'
-                f'<div class="button-row"><a class="button hx-btn-gold" href="Institutions.html">Institutions</a>'
+                f'<div class="button-row"><a class="button hx-btn-gold" href="Masjid.html">{ICON_MOSQUE}Jamia Masjid</a><a class="button hx-btn-gold" href="Institutions.html">Institutions</a>'
                 f'<a class="button hx-btn-gold" href="ResidentialSchoolBanikuppa/index.html">Residential School</a>'
                 f'<a class="button hx-btn-ghost" href="Bayanath.html"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M10 8.5v7l6-3.5Z"></path></svg>Watch Bayanath</a></div>'
                 f'<ul class="hx-points" aria-label="Highlights">'
@@ -171,9 +174,11 @@ def page(filename, title, body, desc, root_prefix=''):
               f'<div><h2>Community</h2><a href="{rp}AboutUs.html">About Us</a><a href="{rp}Message.html">Chairmen’s Messages</a><a href="{rp}Team.html">Governing Body</a><a href="{rp}Recognitions.html">Recognitions</a><a href="{rp}Bayanath.html">Bayanath</a><a href="{rp}Admissions.html">Admissions</a><a href="{rp}Careers.html">Careers</a></div>'
               f'<div><h2>Contact</h2><a href="{rp}Contact.html">Contact directory</a><a href="mailto:jamiaululoom@gmail.com">jamiaululoom@gmail.com</a><a href="{rp}ResidentialSchoolBanikuppa/index.html">Banikuppa school</a></div>'
               f'</div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Jamia Masjid &amp; Muslim Charitable Fund Trust</span><span>Jame-ul-Uloom, Bangalore</span></div></div></footer>')
-    extra_js = f'<script src="{rp}portal-assets/bayanath.js" defer></script>' if filename == 'Bayanath.html' and not rp else ''
-    extra_css = f'<link rel="stylesheet" href="{rp}portal-assets/bayanath.css">' if filename == 'Bayanath.html' and not rp else ''  # Bayanath layout, speaker card and video-card styles load on this page only
-    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else (' class="page-bayanath"' if (filename == 'Bayanath.html' and not rp) else '')  # lets the homepage-only dark theme in extras.css find the homepage
+    extra_js = (f'<script src="{rp}portal-assets/bayanath.js" defer></script>' if filename == 'Bayanath.html' and not rp else
+                f'<script src="{rp}portal-assets/masjid.js" defer></script>' if filename == 'Masjid.html' and not rp else '')
+    extra_css = (f'<link rel="stylesheet" href="{rp}portal-assets/bayanath.css">' if filename == 'Bayanath.html' and not rp else
+                 f'<link rel="stylesheet" href="{rp}portal-assets/masjid.css">' if filename == 'Masjid.html' and not rp else '')  # Bayanath layout, speaker card and video-card styles load on this page only
+    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else (' class="page-bayanath"' if (filename == 'Bayanath.html' and not rp) else ' class="page-masjid"' if (filename == 'Masjid.html' and not rp) else '')  # lets the homepage-only dark theme in extras.css find the homepage
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{escape(title)} | {NAME}</title><meta name="description" content="{escape(desc, quote=True)}"><meta name="theme-color" content="#123c2e"><script src="{rp}portal-assets/theme-init.js"></script><link rel="stylesheet" href="{rp}portal-assets/portal.css">{extra_css}</head><body{body_cls}>{site_header(rp, current=(filename if not rp else None))}<main id="main">{main}</main>{footer}<button class="icon-button back-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button><script src="{rp}portal-assets/app.js" defer></script>{extra_js}</body></html>"""
 
 # 1. index.html: the single official homepage. This text feeds the hero (eyebrow, heading, lede);
@@ -273,6 +278,14 @@ bayanath = ('<p class="eyebrow">Presentations</p><h1>Bayanath</h1><p class="lede
 
 
 # 1b. Photographic sections under the hero (index.html only). All copy is taken from existing portal content.
+ICON_MOSQUE = '<svg class="pf-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V11M20 21V11M4 11c0-5 8-8 8-8s8 3 8 8M9 21v-4a3 3 0 0 1 6 0v4M12 3V1.5M2.5 21h19"></path></svg>'
+
+def masjid_card():
+    media = fit_media('', 'portal-assets/masjid/main-hall-1.jpg', 'The main prayer hall of Jamia Masjid: red carpet, gilded mihrab and chandeliers')
+    return (f'<li class="pf-card pf-card-masjid">{media}<div class="pf-body"><p class="pf-tag">{ICON_MOSQUE}Place of worship</p><h3>Jamia Masjid</h3>'
+            '<p>The mosque at City Market on whose campus Jame-ul-Uloom functions: prayer times, the main and secondary halls, the pathway and water channel, libraries and study halls.</p>'
+            f'<a class="pf-go" href="Masjid.html">Explore Jamia Masjid <span aria-hidden="true">→</span></a></div></li>')
+
 def _inst(name):
     return next(inst_card(n, u, d) for n, u, d in INSTS if n == name)
 
@@ -304,7 +317,7 @@ SCHOOL_FEATURE = f"""<div class="pf-feature pf-reveal">
 </div>"""
 
 EMBLEM = f"""<aside class="pf-emblem pf-reveal" aria-label="Trust at a glance"><img src="{IMG_REL}logon.jpg" alt="Emblem of Jamia Masjid &amp; Muslim Charitable Fund Trust" width="188" height="188" loading="lazy" decoding="async">
-  <dl><div><dt>Trust established</dt><dd>1939*</dd></div><div><dt>Institutions</dt><dd>14</dd></div><div><dt>Campus</dt><dd>City Market</dd></div></dl><p class="rc-emblem-note">*Year as given on the Trust’s Institution page; other pages of this website give other years. See <a href="AboutUs.html">About Us</a>.</p></aside>"""
+  <dl><div><dt>Trust established</dt><dd>1939*</dd></div><div><dt>Institutions</dt><dd>14</dd></div><div><dt>Campus</dt><dd>City Market</dd></div></dl><p class="rc-emblem-note">*As given on the Trust’s Institution page. See <a href="AboutUs.html">About Us</a>.</p></aside>"""
 prayer_html = ''.join(f'<li><strong>{n}</strong>{t}</li>' for n, t in PRAYERS)
 announcement_html = ''.join(f'<li><a href="{u}">{escape(a)}</a></li>' for a, u in ANNOUNCEMENTS)
 
@@ -319,7 +332,7 @@ INDEX_SECTIONS = f"""
 </div></section>
 <section class="pf-section pf-tint">{bg_photo("houses.jpg","left")}<div class="container">
   <div class="pf-head pf-reveal"><p class="eyebrow">Our institutions</p><h2>Schools, colleges and training centres</h2><p>A selection from the Trust’s directory of 14 institutions.</p></div>
-  <ul class="pf-grid pf-stagger">{_inst('Boys Residential Higher & Primary School, Banikuppa')}{_inst('Pre University College for Girls')}{_inst('Degree College for Girls (B.Com)')}{_inst('Industrial Training Institute (ITI)')}{_inst('MMI-NCPUL Computer Centre')}{_inst('Shoba-e-Hifz')}</ul>
+  <ul class="pf-grid pf-stagger">{masjid_card()}{_inst('Boys Residential Higher & Primary School, Banikuppa')}{_inst('Pre University College for Girls')}{_inst('Industrial Training Institute (ITI)')}{_inst('MMI-NCPUL Computer Centre')}{_inst('Shoba-e-Hifz')}</ul>
   <p class="pf-more pf-reveal"><a class="button" href="Institutions.html">View all 14 institutions <span aria-hidden="true">→</span></a></p>
 </div></section>
 <section class="pf-section">{bg_photo("slide3.jpg","right")}<div class="container">
@@ -382,6 +395,7 @@ PAGES = [
     ('Tailoring.html', 'Tailoring School for Women', tailoring, 'Jame-ul-Uloom Tailoring School for Women at Jamia Masjid, Bangalore.'),
 ]
 PAGES += [(fn, t, b, d) for fn, (t, b, d) in {**content_main.ROOT, **content_more.ROOT_MORE}.items()]
+PAGES = [(fn, t, (b.replace('@@MASJID_TOP@@', masjid_page.topbar()).replace('@@MASJID_SECTIONS@@', masjid_page.sections()) if fn == 'Masjid.html' else b), d) for fn, t, b, d in PAGES]
 
 
 for fn, t, b, d in PAGES:
@@ -457,9 +471,9 @@ HB = '# Privacy: keep photographs of pupils and staff out of image search (gener
 (PUB / '_headers').write_text(hdr.rstrip('\n') + f'\n\n{HB}\n/portal-assets/images/*\n  X-Robots-Tag: noimageindex\n', encoding='utf-8')
 
 (ASSETS / 'portal.css').write_text(''.join((UI / f).read_text(encoding='utf-8') for f in ('base.css', 'extras.css', 'recovered.css')), encoding='utf-8')
-for _f in ('app.js', 'theme-init.js', 'bayanath.js', 'bayanath.css'):
+for _f in ('app.js', 'theme-init.js', 'bayanath.js', 'bayanath.css', 'masjid.js', 'masjid.css'):
     shutil.copyfile(UI / _f, ASSETS / _f)
 (ASSETS / 'speaker').mkdir(exist_ok=True)
 shutil.copyfile(speaker.PHOTO_DIR / speaker.load()['photo']['file'], ASSETS / 'speaker' / speaker.load()['photo']['file'])  # the owner-supplied photograph, byte for byte
-shutil.copyfile(speaker.PATTERN, ASSETS / 'speaker' / 'pattern.svg')
+(ASSETS / 'speaker' / 'pattern.svg').unlink(missing_ok=True)   # Phase 9.3: the star-pattern layer was replaced by the aurora
 print(f'Generated {len(PAGES)} root portal pages and {sib_count} sibling institutional pages; {len(REDIRECTS)} legacy redirects')

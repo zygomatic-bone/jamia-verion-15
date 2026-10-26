@@ -12,7 +12,6 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DATA = HERE / 'speaker-profile.json'
 PHOTO_DIR = HERE / 'photo'
-PATTERN = HERE / 'pattern.svg'
 ASSET_DIR = 'portal-assets/speaker/'
 
 ICONS = {
@@ -64,17 +63,23 @@ def render(rp=''):
     langs = [l for l in d.get('languages', []) if l.get('verified') and l.get('name')]
     lang_html = (f'<div class="sp-langs"><h3>Languages</h3><p>{", ".join(escape(l["name"]) for l in langs)}</p></div>') if langs else ''
     pills = ''.join(f'<li class="sp-pill" tabindex="0">{icon(a["icon"], "sp-ico sp-ico-sm")}<span>{escape(a["label"])}</span></li>' for a in d['areas'])
+    # The one designation confirmed from a public source is repeated as the title line under the name (the brief's order:
+    # photograph, name, verified title, biography, credentials and affiliations, areas, languages). Unconfirmed ones never are.
+    top = next((x for x in d['designations'] if x.get('publish', True) and x.get('verification') == 'verified'), None)
+    role = (f'<p class="sp-role">{escape(top["title"])}' + (f'<span>{escape(top["place"].rstrip("."))}</span>' if top.get('place') else '') + '</p>') if top else ''
     return (
         f'<aside class="sp-card" aria-labelledby="sp-name">'
         f'<figure class="sp-frame"><img src="{src}" alt="{escape(d["photo"]["alt"], quote=True)}" width="{w}" height="{h}" decoding="async"></figure>'
-        f'<div class="sp-main"><p class="sp-eyebrow">{escape(d["eyebrow"])}</p><h2 id="sp-name">{escape(d["name"])}</h2>{bio_html}'
-        f'<ol class="sp-desig" aria-label="Designations">{"".join(items)}</ol>{lang_html}</div>'
+        f'<div class="sp-main"><p class="sp-eyebrow">{escape(d["eyebrow"])}</p><h2 id="sp-name">{escape(d["name"])}</h2>{role}{bio_html}'
+        f'<ol class="sp-desig" aria-label="Designations">{"".join(items)}</ol></div>'
         f'<div class="sp-areas"><h3 id="sp-areas-title">{escape(d["areas_title"])}</h3>'
-        f'<ul class="sp-pills" aria-labelledby="sp-areas-title">{pills}</ul></div>'
+        f'<ul class="sp-pills" aria-labelledby="sp-areas-title">{pills}</ul>{lang_html}</div>'
         f'</aside>')
 
 
 def background():
-    """Decorative animated layers for the page stage (hidden from assistive technology, never intercept the pointer)."""
-    return ('<div class="bz-bg" aria-hidden="true"><span class="bz-orb bz-orb-a"></span><span class="bz-orb bz-orb-b"></span><span class="bz-orb bz-orb-c"></span>'
-            '<span class="bz-pattern"><span></span></span><span class="bz-shine"></span></div>')
+    """Live Aurora Glow (Phase 9.3): four soft aurora bands (blue, violet, teal, a restrained gold) over a near-black navy,
+    fixed to the screen behind the whole page. Plain CSS gradients moved with transform/opacity only; static under
+    prefers-reduced-motion. Hidden from assistive technology and never intercepts the pointer."""
+    return ('<div class="bz-bg" aria-hidden="true"><span class="bz-au bz-au-blue"></span><span class="bz-au bz-au-violet"></span>'
+            '<span class="bz-au bz-au-teal"></span><span class="bz-au bz-au-gold"></span><span class="bz-veil"></span></div>')

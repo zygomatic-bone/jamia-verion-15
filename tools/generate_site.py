@@ -90,7 +90,7 @@ DISPLAY_NAMES = {
  "innerdinninghall1.jpg": "Dining hall — inner view 2", "library.jpg": "School library",
  "litraryclub.jpg": "Literary Club", "logo1.png": "School logo", "logon.jpg": "School crest",
  "masjid.jpg": "Campus masjid", "masjid1.jpg": "Campus masjid — view 2", "masjid2.jpg": "Campus masjid — view 3",
- "message9.jpeg": "Principal’s message (scanned letter)", "physicslab.jpg": "Physics Lab",
+ "message9.jpeg": "Principal’s message", "physicslab.jpg": "Physics Lab",
  "schoolbuilding.jpg": "School building", "scienceclub.jpg": "Science Club",
  "slide1.jpg": "Campus photograph 1", "slide2.jpg": "Campus photograph 2", "slide3.jpg": "Campus photograph 3",
  "slide4.jpg": "Campus photograph 4", "slide5.jpg": "Campus photograph 5", "slide6.jpg": "Campus photograph 6",
@@ -365,11 +365,11 @@ LETTER=['It gives me immense pleasure to express that Jame-ul-uloom Boy’s Resi
 
 def people_section(heading,note,items):
  lis=''.join('<li><strong>'+escape(n)+'</strong>'+('<span>'+escape(r)+'</span>' if r else '')+'</li>' for n,r in items)
- return f'<section class="section"><div class="container narrow source-copy reveal"><h2>{escape(heading)}</h2><p class="source-note">{escape(note)}</p><ul class="people-list">{lis}</ul></div></section>'
+ return f'<section class="section"><div class="container narrow source-copy reveal"><h2>{escape(heading)}</h2>' + (f'<p class="source-note">{escape(note)}</p>' if note else '') + f'<ul class="people-list">{lis}</ul></div></section>'
 
 def extra_for(filename):
- if filename=='team.html': return people_section('Governing Body members','Names and designations as shown in the Governing Body image above.',GOVERNING)
- if filename=='trustees.html': return people_section('Trustees','Names as shown in the Trustees image above.',[(n,'') for n in TRUSTEES])
+ if filename=='team.html': return people_section('Governing Body members','',GOVERNING)
+ if filename=='trustees.html': return people_section('Trustees','',[(n,'') for n in TRUSTEES])
  if filename=='library.html':
   return '<section class="section"><div class="container narrow source-copy reveal"><h2>Computer education</h2><p>The school is conscious about the fact that computer education and information technology is the main stay of the 21st millennium, a powerful tool for not only communication but also access of information and computer knowledge is useful in all aspects of human endeavor, hence the school has introduced computer education right from 1st standard to 10th standard to give an edge to our student.</p></div></section>'
  if filename=='message.html':

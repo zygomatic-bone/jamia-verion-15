@@ -92,11 +92,18 @@ def quote(*paras, sign=None, role=None):
 
 
 def dated(text):
-    return f'<p class="rc-dated">{text}</p>'
+    """Editorial remarks about dating are not published on the public site."""
+    return ''
 
 
 def note(text):
-    return f'<p class="rc-note">{text}</p>'
+    """Maintainer notes are not published on the public site."""
+    return ''
+
+
+def info(text):
+    """A short, visitor-facing line (for example whom to contact)."""
+    return f'<p class="rc-info">{text}</p>'
 
 
 def sources(text):

@@ -1,7 +1,7 @@
 """Phase 9: replacements for existing Phase 8 root pages and the shared college pages."""
 from html import escape
 import recovery_assets as RA
-from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, sources, table, people, vision, doc_list, scan, logo, phone)
+from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, info, sources, table, people, vision, doc_list, scan, logo, phone)
 
 # ---- J.U Darul Quran Arabic College: the original English “About Us” page, typed from the scan and checked against it ----------------
 DQ_ENGLISH = '''<div class="rc-text"><blockquote>
@@ -22,7 +22,7 @@ DQ_ENGLISH = '''<div class="rc-text"><blockquote>
 <p>Donors are hereby informed that a hall measuring 25x30 will cost Rs: 7 Lakhs; this can be donated in the names of their relatives who have passed away so that the Allah will reward them. <em>Jazak-Allah</em></p>
 </blockquote></div>'''
 
-DQ_CAVEAT = dated('<strong>Dated appeal.</strong> This is the text of an undated printed page. The appeal, the donor note (“a hall measuring 25x30 will cost Rs: 7 Lakhs”) and the remark that construction “has already begun” describe the time it was written and are <strong>not</strong> a current request or statement of progress. This website does not invite donations and publishes no bank details; please contact the Trust office (<a href="Contact.html">Contact</a>) for anything of that kind. Years and land figures are quoted as given on that page and differ from other pages of this website.')
+DQ_CAVEAT = info('For donations and contributions, please contact the Trust office (<a href="Contact.html">Contact</a>).')
 
 services = f'''<p class="eyebrow">About Us</p><h1>Services</h1><p class="lede">The services of the Jamia Masjid &amp; Muslim Charitable Fund Trust, as described in its English and Urdu service documents.</p>
 <ul class="card-grid portal-cards">
@@ -34,24 +34,23 @@ services = f'''<p class="eyebrow">About Us</p><h1>Services</h1><p class="lede">T
 <div class="rc-prose">
 <h2 id="english">Services (English)</h2>
 
-{split(DQ_ENGLISH, single('', 'dq_en', big=False, caption='Services (English): scanned page'))}
+{split(DQ_ENGLISH, single('', 'dq_en', big=False, caption='Services (English)'))}
 {DQ_CAVEAT}
 <h2 id="urdu">Services (Urdu)</h2>
-{split('<p>The Urdu version of the page above, headed “J.U Darul Quran Arabic College, Bangalore”, shown as a scan. The activity calendar is on the <a href="Activities.html">Activities</a> page.</p>', single('', 'dq_ur', caption='Services (Urdu): scanned page'), flip=True)}
+{split('<p>The Urdu version of the page above, headed “J.U Darul Quran Arabic College, Bangalore”, shown as the printed page. The activity calendar is on the <a href="Activities.html">Activities</a> page.</p>', single('', 'dq_ur', caption='Services (Urdu)'), flip=True)}
 <p>See also the proposed building drawing on the <a href="ShobaeAlimiyathDel/Proposed.html">Shoba-e-Alimiyath</a> pages.</p>
 </div>'''
 
-recognitions_intro = '''<div class="prose"><p>This page gathers the Trust’s recognitions. Below are the scanned letters of appreciation. The Admissions Diary also describes an awards function held on 13 December 2012 at Town Hall for meritorious students of the Group of Institutions, with the Governor of Karnataka as Chief Guest; it is recorded in the <a href="AdmissionsDiary.html#school-awards">Admissions Diary</a>.</p></div>
+recognitions_intro = '''<div class="prose"><p>An awards function for the meritorious students of the Jame-ul-Uloom Group of Institutions was held on 13 December 2012 at Town Hall, with the Governor of Karnataka as Chief Guest (<a href="AdmissionsDiary.html#school-awards">School Awards</a>).</p></div>
 <p>See also the <a href="ResidentialSchoolBanikuppa/sports.html">Banikuppa Residential School awards and competitions</a> and <a href="ResidentialSchoolBanikuppa/gallery.html">campus photograph gallery</a>.</p>'''
 
-recognitions_intro += single('', 'award_trophy', caption='Trophy', detail='The engraving reads “Udyog Rattan Award”; the recipient’s line and the year are too small to read.')
+recognitions_intro += single('', 'award_trophy', caption='Trophy')
 
 def sciencelabs(photo_section_html):
     return f'''<p class="eyebrow">Facilities</p><h1>Science Laboratories</h1><p class="lede">Science laboratories of the Pre University College for Girls, and laboratory photographs from the Banikuppa campus.</p>
 <div class="rc-prose">
 <h2>PU College for Girls</h2>
 {p('The college is housed in a spacious building with well furnished and ventilated class rooms, well equipped laboratories and library with good collection of books. Magazines and News papers are also subscribed for the benefit of the students. The computer lab is provided with internet facility. A spacious auditorium is also under construction. We aim to provide canteen facility for our students. A nationalized bank (Canara Bank) is also located in the same building.')}
-{dated('The remarks about the auditorium and canteen date from when this text was written and may no longer apply.')}
 {gallery('', ['pu_lab1', 'pu_lab2'], cls='rc-wide')}
 </div>
 {photo_section_html}
@@ -80,10 +79,10 @@ tailoring = f'''<p class="eyebrow">Institutions</p><h1>Jame-ul-Uloom Tailoring S
 </div>'''
 
 admissions = '''<p class="eyebrow">Admissions</p><h1>Admissions</h1><p class="lede">Where to find admission information for each institution of Jame-ul-Uloom, Jamia Masjid, Bangalore.</p>
-<div class="prose"><p>Admission rules, documents and fees are published separately for each institution on the pages below, each with its own date. For current forms, eligibility and fees, contact the respective office listed in the contact directory.</p></div>
+<div class="prose"><p>Admission rules, documents and fees for each institution are on the pages below. For forms, eligibility and fees, please contact the respective office listed in the contact directory.</p></div>
 <ul class="card-grid portal-cards">
   <li class="card"><h3>Nursery, Primary &amp; High Schools</h3><p>The 2013–14 school diary: rules and admission, discipline, awards and calendars.</p><a class="go" href="AdmissionsDiary.html">Admissions Diary 2013–14 →</a></li>
-  <li class="card"><h3>Pre University College for Girls</h3><p>Combinations, fee structure (dated), eligibility and procedure.</p><a class="go" href="PUGirlsCollege/Admissions.html">PU College admissions →</a></li>
+  <li class="card"><h3>Pre University College for Girls</h3><p>Combinations, fee structure, eligibility and procedure.</p><a class="go" href="PUGirlsCollege/Admissions.html">PU College admissions →</a></li>
   <li class="card"><h3>Degree College (B.Com)</h3><p>Admission procedure and documents.</p><a class="go" href="DegreeGirlsCollege/Admissions.html">Degree College admissions →</a></li>
   <li class="card"><h3>BCA College</h3><p>Admission procedure.</p><a class="go" href="BCA/Admissions.html">BCA admissions →</a></li>
   <li class="card"><h3>MMI-NCPUL Computer Centre</h3><p>Course structure, fees and intake.</p><a class="go" href="NCPUL/Admissions.html">NCPUL admissions →</a></li>
@@ -93,7 +92,7 @@ admissions = '''<p class="eyebrow">Admissions</p><h1>Admissions</h1><p class="le
 
 def institutions_extra():
     return f'''<div class="rc-prose"><h2 id="welcome">Welcome to the Jame ul uloom Group of Institutions</h2>
-{quote('I am glad that Jame-ul-uloom English Nursery, Primary and High School, Bangalore is bringing out a school website.', sign='Mr. K. Rahman Khan', role='Greeting. His signed letter of 15 February 2011, about the school magazine, is on the Recognitions page.')}
+{quote('I am glad that Jame-ul-uloom English Nursery, Primary and High School, Bangalore is bringing out a school website.', sign='Mr. K. Rahman Khan', role='Greeting')}
 {p('Jame-ul-uloom is an Arabic name meaning “Center of Knowledge”. Jame-ul-uloom is housed in the campus of Jamia Mosque, one of the biggest mosques in the state, located in the heart of the Bangalore City. Apart from imparting education, the Institution aims at “character building”. This is achieved through moral education and religious instruction.',
    'Upliftment of the downtrodden in the Minority Community is the aim of Jame-ul-uloom. It also aims in preparing good and useful citizens, so that they can face the situations in this world of competition. To accomplish many such purposes, Jame-ul-uloom has in its fold institutions.')}
 <h2 id="trust">The Trust</h2>
