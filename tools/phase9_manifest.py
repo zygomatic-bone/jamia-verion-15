@@ -36,6 +36,8 @@ def classify(a):
     if ext == '.db': return ('Not published: system file', '', 'Windows thumbnail cache (Thumbs.db).', '')
     if ext in ('.psd', '.uga'): return ('Not published: design source', '', 'Editing/source file, not web content.', '')
     if '.htaccess' in rel or rel.startswith('.htaccess'): return ('Not published: hosting configuration', '', 'Server configuration is excluded by instruction; new redirects are generated from the page inventory.', '')
+    if re.match(r'masjid\d?\.jpe?g$', rel.rsplit('/', 1)[-1], re.I) and not rel.startswith('ResidentialSchoolBanikuppa/'):
+        return ('Replaced by the owner’s new photographs', 'Masjid.html', 'Phase 9.3: old Jamia Masjid picture of the original template. The website owner supplied 37 new photographs and 9 videos of the masjid and asked for them to replace the old pictures, so this file is no longer published (the original backup still holds it). The Banikuppa campus masjid pictures are a different building and are unchanged.', 'Old portal-assets/images/masjid/ folder removed; Masjid.html shows only the new files')
     if (a['w'], a['h']) == (857, 1224): return ('Withheld (see unresolved items)', '', WITHHELD['ShobaeAlimiyathDel/ShobaeAlimiyathimages/home.jpg'], 'Viewed')
     if rel in WITHHELD: return ('Withheld (see unresolved items)', '', WITHHELD[rel], 'Viewed')
     if rel in DUP_OF: return ('Lower-resolution duplicate', DUP_OF[rel], 'Same picture as a higher-resolution file that is published.', 'Viewed side by side')
@@ -94,9 +96,18 @@ for o in A['orphans']:
 _ph = PUB / 'portal-assets/speaker/mufti-maqsood-imran-rashadi.jpg'
 rows.append(['asset', '(owner-supplied attachment) 12f714ee-image.jpg', 'jpg', 'Bayanath (Phase 9.2)', _ph.stat().st_size, '650x399', hashlib.sha256(_ph.read_bytes()).hexdigest()[:12], '', 'Published, identical', 'portal-assets/speaker/mufti-maqsood-imran-rashadi.jpg',
              'Speaker photograph supplied by the website owner for the Bayanath Speaker Profile; copied byte for byte and shown whole (not cropped)', 'SHA-256 equal to the attachment; viewed at 1440, 820 and 390 px'])
-_pt = PUB / 'portal-assets/speaker/pattern.svg'
-rows.append(['asset', '(created in Phase 9.2)', 'svg', 'Bayanath (Phase 9.2)', _pt.stat().st_size, '120x120', hashlib.sha256(_pt.read_bytes()).hexdigest()[:12], '', 'New file', 'portal-assets/speaker/pattern.svg',
-             'Decorative geometric (eight-pointed star) tile for the animated Speaker Profile background; drawn as vector lines, no photograph', 'Viewed in the page'])
+# ---- Phase 9.3: Jamia Masjid photographs and videos supplied by the owner (D:\jamia ul uloom\photos jamia masjid)
+_MQ = Path(__file__).resolve().parent / 'masjid'
+_prov = json.loads((_MQ / 'photos-provenance.json').read_text(encoding='utf-8'))
+for fn, d in _prov.items():
+    _f = PUB / 'portal-assets/masjid' / fn
+    rows.append(['asset', f"(owner-supplied) {d['original']}", 'jpg', 'Jamia Masjid (Phase 9.3)', _f.stat().st_size, f"{d['size'][0]}x{d['size'][1]}", hashlib.sha256(_f.read_bytes()).hexdigest()[:12], '', 'Published, identical', f'portal-assets/masjid/{fn}',
+                 'Photograph supplied by the website owner for the Jamia Masjid page; copied byte for byte, shown whole (never cropped); section chosen by viewing the picture (see tools/masjid/MASJID-MEDIA-MAP.md)', 'SHA-256 equal to the supplied file; viewed'])
+for v, d in json.loads((_MQ / 'media-info.json').read_text(encoding='utf-8')).items():
+    for ext, what in (('mp4', 'Silent, compressed copy (H.264, %dx%d, %.1f s) of a video clip supplied by the website owner; plays muted and looped when on screen' % (d['w'], d['h'], d['seconds'])),
+                      ('jpg', 'Poster frame taken from the same video, shown before the video loads')):
+        _f = PUB / 'portal-assets/masjid' / f'{v}.{ext}'
+        rows.append(['asset', '(owner-supplied video, Phase 9.3)', ext, 'Jamia Masjid (Phase 9.3)', _f.stat().st_size, f"{d['w']}x{d['h']}", hashlib.sha256(_f.read_bytes()).hexdigest()[:12], '', 'New file', f'portal-assets/masjid/{v}.{ext}', what, 'Played in Chromium; viewed'])
 hdr = ['record', 'original_path', 'kind', 'institution_or_section', 'bytes', 'dimensions', 'sha256_first12', 'identical_copies_in_original', 'phase9_status', 'phase9_destination', 'action_and_reason', 'verification']
 with open(OUT, 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.writer(f); w.writerow(hdr); w.writerows(rows)

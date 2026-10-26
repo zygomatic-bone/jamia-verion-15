@@ -17,17 +17,17 @@ DOC = 'portal-assets/documents/'          # original PDFs
 # key: (source in backup, destination below R, alt text, caption)
 IMAGES = {
     # ---- Chairmen's messages (scanned letters, originally homeimages/Message2..8.jpeg) ------------------------------
-    'msg2': ('homeimages/Message2.jpeg', 'messages/message-2-secretary.jpeg', 'Scanned message from Mohammed Ateeq Ahmed, Secretary, on a blue snowflake background with his portrait', 'Message 2 · Secretary'),
-    'msg3': ('homeimages/Message3.jpeg', 'messages/message-3-president-kannada.jpeg', 'Scanned Kannada-language message headed “Shubha Sandesha”, signed by the President of the Jame-ul-Uloom Muslim Charitable Trust, with his portrait', 'Message 3 · President (Kannada)'),
-    'msg4': ('homeimages/Message4.jpeg', 'messages/message-4-convener.jpeg', 'Scanned message “From the Editors desk” by Syed Murtaza Hussain @ Gufran, Convener and Vice President, with his portrait', 'Message 4 · Convener & Vice President'),
-    'msg5': ('homeimages/Message5.jpeg', 'messages/message-5-joint-secretary-urdu.jpeg', 'Scanned Urdu-language message signed by Syed Noorul Ameen Anwar, Joint Secretary, with his portrait', 'Message 5 · Joint Secretary (Urdu)'),
-    'msg6': ('homeimages/Message6.jpeg', 'messages/message-6-treasurer.jpeg', 'Scanned message from Mohammed Athiulla Khan, Treasurer, on a parchment background with his portrait', 'Message 6 · Treasurer'),
-    'msg7': ('homeimages/Message7.jpeg', 'messages/message-7-superintendent.jpeg', 'Scanned message from Syed Rasool, Superintendent, on a blue background with his portrait', 'Message 7 · Superintendent'),
-    'msg8': ('homeimages/Message8.jpeg', 'messages/message-8-head-mistress.jpeg', 'Scanned message from Naveeda Naaz, Head Mistress', 'Message 8 · Head Mistress'),
+    'msg2': ('homeimages/Message2.jpeg', 'messages/message-2-secretary.jpeg', 'Message from Mohammed Ateeq Ahmed, Secretary, on a blue snowflake background with his portrait', 'Message 2 · Secretary'),
+    'msg3': ('homeimages/Message3.jpeg', 'messages/message-3-president-kannada.jpeg', 'Kannada-language message headed “Shubha Sandesha”, signed by the President of the Jame-ul-Uloom Muslim Charitable Trust, with his portrait', 'Message 3 · President (Kannada)'),
+    'msg4': ('homeimages/Message4.jpeg', 'messages/message-4-convener.jpeg', 'Message “From the Editors desk” by Syed Murtaza Hussain @ Gufran, Convener and Vice President, with his portrait', 'Message 4 · Convener & Vice President'),
+    'msg5': ('homeimages/Message5.jpeg', 'messages/message-5-joint-secretary-urdu.jpeg', 'Urdu-language message signed by Syed Noorul Ameen Anwar, Joint Secretary, with his portrait', 'Message 5 · Joint Secretary (Urdu)'),
+    'msg6': ('homeimages/Message6.jpeg', 'messages/message-6-treasurer.jpeg', 'Message from Mohammed Athiulla Khan, Treasurer, on a parchment background with his portrait', 'Message 6 · Treasurer'),
+    'msg7': ('homeimages/Message7.jpeg', 'messages/message-7-superintendent.jpeg', 'Message from Syed Rasool, Superintendent, on a blue background with his portrait', 'Message 7 · Superintendent'),
+    'msg8': ('homeimages/Message8.jpeg', 'messages/message-8-head-mistress.jpeg', 'Message from Naveeda Naaz, Head Mistress', 'Message 8 · Head Mistress'),
 
     # ---- J.U Darul Quran Arabic College (image-only "About Us" pages and plan) ---------------------------------------
-    'dq_en': ('homeimages/AboutEng.jpg', 'darul-quran/about-english.jpg', 'Scanned English page headed “J.U Darul Quran Arabic College, Bangalore” with the history of Jame-ul-Uloom, the Arabic College and an appeal', 'About Us (English): scanned page'),
-    'dq_ur': ('homeimages/Shobaehifz.jpg', 'darul-quran/about-urdu.jpg', 'Scanned Urdu page headed “J.U Darul Quran Arabic College, Bangalore” carrying the Urdu version of the college history and appeal', 'About Us (Urdu): scanned page'),
+    'dq_en': ('homeimages/AboutEng.jpg', 'darul-quran/about-english.jpg', 'Printed English page headed “J.U Darul Quran Arabic College, Bangalore” with the history of Jame-ul-Uloom, the Arabic College and an appeal', 'About Us (English)'),
+    'dq_ur': ('homeimages/Shobaehifz.jpg', 'darul-quran/about-urdu.jpg', 'Printed Urdu page headed “J.U Darul Quran Arabic College, Bangalore” carrying the Urdu version of the college history and appeal', 'About Us (Urdu)'),
     'dq_plan': ('homeimages/Proposed.jpg', 'darul-quran/proposed-plan.jpg', 'Architect’s drawing “Proposed J.U Darul Quran & Arabic College, Bangalore”: front elevation and ground-floor plan', 'Proposed building: front elevation and ground-floor plan'),
 
     # ---- Portraits and group photographs of the main portal ----------------------------------------------------------
@@ -60,19 +60,12 @@ IMAGES = {
     'act_nur2': ('EngNurSchoolDEL/images/Activ2.jpg', 'events/activity-nursery-2.jpg', 'Young children performing a group song on a pink-curtained stage', 'Nursery programme'),
     'act_nur3': ('EngNurSchoolDEL/images/Activ3.jpg', 'events/activity-nursery-3.jpg', 'A child performing on stage in front of a gold-embroidered backdrop', 'Nursery programme'),
 
-    # ---- Library, masjid and classrooms shared by several original pages --------------------------------------------
+    # ---- Library and classrooms shared by several original pages (the old Jamia Masjid pictures were replaced in Phase 9.3 by the owner's new photographs in tools/masjid/) --------------------------------------------
     'lib1': ('homeimages/Lib1.jpg', 'library/library-1.jpg', 'Students in green-and-white uniform reading beside the library shelves', 'School library'),
     'lib2': ('homeimages/Lib2.jpg', 'library/library-2.jpg', 'Students in green-and-white uniform seated on the floor reading', 'School library'),
     'lib3': ('homeimages/Lib3.jpg', 'library/library-3.jpg', 'Students in green-and-white uniform seated around a large blue carpet reading', 'School library'),
-    'mas1': ('homeimages/Masjid.jpg', 'masjid/masjid-1.jpg', 'Interior of the Jamia Masjid prayer hall with a polished floor and pillars', 'Jamia Masjid, prayer hall'),
-    'mas2': ('homeimages/Masjid1.jpg', 'masjid/masjid-2.jpg', 'The chandeliered prayer hall of the Jamia Masjid with a purple carpet', 'Jamia Masjid, prayer hall'),
-    'mas3': ('homeimages/Masjid2.jpg', 'masjid/masjid-3.jpg', 'The prayer hall of the Jamia Masjid with a red carpet', 'Jamia Masjid, prayer hall'),
-    'mas4': ('BCA/images/Masjid.jpg', 'masjid/masjid-hall-1.jpg', 'A large hall with a polished black floor inlaid with white diamond shapes, red lower walls, high windows and an iron-framed roof', 'Hall'),
-    'mas5': ('BCA/images/Masjid1.jpg', 'masjid/masjid-hall-2.jpg', 'The same black-and-white floored hall with glass-fronted book cabinets along the wall under a sign reading Jame ul uloom School Annex Library', 'Hall with book cabinets under a “Jame ul uloom School Annex Library” sign'),
-    'mas6': ('BCA/images/Masjid2.jpg', 'masjid/masjid-prayer-row.jpg', 'A row of men in white prayer clothes and caps standing in prayer on mats along a green-lit corridor', 'Prayer in the corridor'),
     'gov_old': ('BCA/images/Team.jpg', 'people/governing-body-earlier.jpg', 'An earlier printed poster headed Governing Body: eight portrait photographs and a mosque picture, each with a printed name and designation', 'Governing Body: earlier poster'),
     'trustees_old': ('EngBoysHighSchool/images/Trustees.jpg', 'people/trustees-earlier.jpg', 'An earlier printed poster headed Trustees: nineteen portrait photographs in blue frames with a printed name under each', 'Trustees: earlier poster'),
-    'mas_corr': ('NCPUL/images/Masjid2.jpg', 'masjid/masjid-corridor.jpg', 'A long corridor of the masjid building with a green-lit floor and arches', 'Jamia Masjid, corridor'),
     'cls1': ('homeimages/Classroom.jpg', 'colleges/classroom-pu-1.jpg', 'A classroom with wooden desks, a green board and a projector', 'Classroom'),
     'cls2': ('homeimages/Classroom1.jpg', 'colleges/classroom-pu-2.jpg', 'A classroom with benches, a whiteboard and a green board', 'Classroom'),
     'cls3': ('homeimages/Classroom2.jpg', 'colleges/classroom-pu-3.jpg', 'A classroom with a large green board and desks', 'Classroom'),
@@ -103,7 +96,7 @@ IMAGES = {
 
     # ---- ITI ----------------------------------------------------------------------------------------------------------
     'iti_prin': ('ITI/ITIimages/principal.jpg', 'iti/principal.jpg', 'The Principal of the Industrial Training Institute seated at his desk writing', 'Principal, ITI'),
-    'iti_campus': ('ITI/ITIimages/iti1.jpg', 'iti/campus.jpg', 'The ITI campus: a building with arched windows beside a green lawn', 'ITI campus'),
+    'iti_campus': ('ITI/ITIimages/iti1.jpg', 'iti/campus.jpg', 'The Industrial Training Institute building: a two-storey building with arched windows beside a landscaped garden', 'ITI campus'),
     'iti_fit1': ('ITI/ITIimages/Fit1.jpg', 'iti/fitter-1.jpg', 'Trainees working on a bench in the Fitter workshop', 'Fitter workshop'),
     'iti_fit2': ('ITI/ITIimages/Fit2.jpg', 'iti/fitter-2.jpg', 'Trainees and an instructor gathered around a bench in the Fitter workshop', 'Fitter workshop'),
     'iti_fit3': ('ITI/ITIimages/Fit3.jpg', 'iti/fitter-3.jpg', 'Trainees filing metal at vices in the Fitter workshop', 'Fitter workshop'),
@@ -134,7 +127,7 @@ IMAGES = {
     'girls_comp': ('EngGirlsHighSchool/images/CompLab.jpg', 'colleges/computer-lab-2.jpg', 'Girls seated in rows at computers', 'English Girls High School computer laboratory'),
 
     # ---- Awards ----------------------------------------------------------------------------------------------------
-    'award_trophy': ('homeimages/6.jpg', 'recognitions/udyog-rattan-award-trophy.jpg', 'A glass trophy on a black base held in two hands, engraved “Udyog Rattan Award”; the recipient’s line is too small to read', 'Trophy engraved “Udyog Rattan Award” (recipient and year not legible)'),
+    'award_trophy': ('homeimages/6.jpg', 'recognitions/udyog-rattan-award-trophy.jpg', 'A glass trophy on a black base held in two hands, engraved “Udyog Rattan Award”', 'Udyog Rattan Award trophy'),
 
     # ---- Institution logo banners (originally Institutions/*Logo.jpg, 316x81) ---------------------------------------
     'logo_iti': ('Institutions/ITILogo.jpg', 'logos/iti.jpg', 'Jame ul uloom crest with the words Industrial Training Institute (ITI)', 'Industrial Training Institute (ITI)'),

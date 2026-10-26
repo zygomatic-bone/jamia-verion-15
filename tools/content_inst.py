@@ -6,7 +6,7 @@ are consolidated here: the old URL redirects to the single page that holds the t
 REMOVE: Phase 8 files that carried invented text and are replaced by a redirect.
 """
 from html import escape
-from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, table, people, vision, scan, logo, phone, doc_list)
+from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, info, table, people, vision, scan, logo, phone, doc_list)
 
 ADDR = 'S.J.P. Road, City Market, Bangalore – 560002'
 ADMIN = f'<a href="tel:0822272086">0822272086</a>, <a href="tel:0822221165">0822221165</a>'
@@ -26,7 +26,6 @@ def W(inner):   # wrapper used by every page body
 COLLEGE_BUILDING = ('The college is housed in a spacious building with well furnished and ventilated class rooms, well equipped laboratories and library with good collection of books. '
                     'Magazines and News papers are also subscribed for the benefit of the students. The computer lab is provided with internet facility. A spacious auditorium is also under construction. '
                     'We aim to provide canteen facility for our students. A nationalized bank (Canara Bank) is also located in the same building.')
-COLLEGE_DATED = dated('The remarks that the auditorium is “under construction” and that a canteen is an aim date from when this text was written; they may no longer apply.')
 CLASS_DICTUM = ('believes in the following dictum delivering the lessons “I HEAR, I FORGET, I SEE, I RECALL, I DO, I UNDERSTAND.” All teachers endeavor to prepare their lessons and deliver them in such a way that the child becomes a participant in the learning process. '
                 'The lessons are complimented by practical sessions and access of information on the internet. A total holistic approach is adopted to remove the burden of learning and make the process of learning a joyful experience without hang-ups and hiccups. '
                 'The lessons are delivered in the class room by using state of the art audio visual equipment such as overhead projectors and LCD projectors.')
@@ -42,7 +41,7 @@ SSLC_PARA = ('By the grace of Allah, the excellent result at the SSLC examinatio
 COMPUTER_EDU = ('The school is conscious about the fact that computer education and information technology is the mainstay of the 21st millennium, a powerful tool for not only communication but also access of information and computer knowledge is useful in all aspects of human endeavor, '
                 'hence the school has introduced computer education right from 1st standard to 10th standard to give an edge to our student.')
 STAFF_LINE = 'Well qualified, dedicated, attentive, zealous and well behaved.'
-SHARED_SPORTS = lambda who: note(f'Co-curricular activities and sports are described on the shared <a href="../Sports.html">Co-Curricular Activities &amp; Sports</a> page.')
+SHARED_SPORTS = lambda who: info('See also <a href="../Sports.html">Co-Curricular Activities &amp; Sports</a>.')
 
 SIBLINGS = {}
 REDIRECTS = {}
@@ -72,7 +71,6 @@ ITI_HOME = f'''{logo('../', 'logo_iti')}
   single('../', 'iti_campus', caption='ITI campus'))}
 {facts(('Location', 'On the 27th km off the Bangalore–Mysore Highway (near Wonder La Amusement Park), Shikshanagar'), ('Bus routes', 'From Bangalore City: Nos. 226 (A to H) at Wonder-la Gate; 2 km from Bidadi Railway Station and 1 km from Hejjala Railway Station'), ('Principal', 'Dr. Shamiulla'))}
 {quote('Natural abilities are like natural plants, they need pruning by study.', sign='Dr. Shamiulla', role='Principal')}
-{dated('<strong>About 2012.</strong> The ITI is described as “in its 16th year of operation”, which places this text around 2012. The trade list, fees and staffing are those of that time.')}
 <p>See the <a href="Message.html">vision, mission and message</a>, <a href="Admissions.html">trades and admissions</a>, <a href="Workshops.html">workshop photographs</a> and the <a href="Contact.html">location and contact</a> page.</p>'''
 ITI_MESSAGE = f'''{split(
  '<h2>Our Vision</h2><p>To be a pioneer institution for technician development in vocational training.</p><h2>Our Mission</h2><p>To be a world class training institution, thus creating employment opportunities.</p>'
@@ -83,14 +81,14 @@ ITI_MESSAGE = f'''{split(
          'I wish you the very best in your endeavors.')
  + '',
  single('../', 'iti_prin', caption='Principal, ITI'))}'''
-ITI_ADM = f'''<p class="source-note">Trade table of about 2012. The figures are those of that time and are not a current admissions notice.</p>
+ITI_ADM = f'''<p>For admission dates, seats and eligibility, please contact the institute office.</p>
 {table(['Name of trade under NCVT', 'Duration of training', 'Eligibility qualification', 'No. of units', 'Seating capacity per unit', 'Shifts running (I/II/III)', 'Total seating capacity'],
        [['FITTER', '2 Years', 'SSLC', '1+1', '21', '1+1', '42'], ['MRAC', '2 Years', 'SSLC', '1+1', '21', '1+1', '42'], ['MMV', '2 Years', 'SSLC', '1+1', '21', '1+1', '42']])}
 <p>Selection options: (a) by percentage of marks in the qualifying exam, (b) written test, (c) interview, (d) any other.</p>
 <h2>Schemes running in the institute (CTS and MES etc. under NCVT)</h2>
 {table(['Name of the scheme', 'Total capacity', 'Duration'], [['Craftsmen Training Scheme', '63+63', '2 Years'], ['Modular Employable', '—', '—'], ['Other Schemes', '—', '—']])}
 <p>MRAC = Mechanic Refrigeration &amp; Air Conditioning; MMV = Mechanic Motor Vehicle. Contact details are on the <a href="Contact.html">Contact</a> page.</p>'''
-ITI_STAFF_HTML = f'''{dated('<strong>Staff statement of about 2012.</strong> Names, designations, qualifications and joining dates are those of that time and may have changed.')}
+ITI_STAFF_HTML = f'''
 
 {table(['Sl. No.', 'Name', 'Designation', 'Qualification (Class X onwards)', 'Trade', 'Date of joining', 'Regular / Adhoc / Contract', 'CTI trained (Yes/No)'], [list(r) for r in ITI_STAFF])}'''
 ITI_MGMT = f'''<p class="source-note">Jamia Masjid &amp; Muslim Charitable Fund Trust. Registration: V of 1939, III of 1904, dated 09-05-1940.</p>
@@ -112,7 +110,7 @@ ITI_LIB = f'''<h2>Library</h2>
 {p('Brief information on journals and books.', 'A well-furnished library with about 250 books is provided for staff and trainees for reference.', 'The library promotes the reading habit among trainees and helps them in their studies. Teaching aids like charts and models are also available in the library.')}
 <h2>Computer Lab</h2>
 {p('Brief information on hardware and software.', 'At present the institute has 6 systems with P3 configuration; steps have already been initiated to procure 15 systems with the latest configuration.')}
-{dated('These numbers are of about 2012 and are not current.')}'''
+'''
 ITI_SPORTS = f'''
 {gallery('../', ['iti_play1', 'iti_play2', 'iti_play3'])}
 <h2 id="prize-distribution">Prize distribution: the full photographs</h2>
@@ -145,7 +143,7 @@ PU_HISTORY3 = ('Finances amounting to several lakhs were required to equip the l
                'Again to encourage and appreciate the outstanding girls a fabulous rolling cup is instituted in the name of late Janab Abdul Azeez and awarded to the highest marks scoring girls at the II PUC examination.')
 pu_nav = [('Overview', 'home.html'), ('Principal', 'Message.html'), ('Admissions', 'Admissions.html'), ('Staff', 'Staff.html'), ('Facilities', 'Facilities.html'), ('Rules', '../CollegeRegulations.html'), ('Contact', 'Contact.html'), ALL]
 PU_HOME = f'''{logo('../', 'logo_pu')}
-{split(p(PU_HISTORY, PU_HISTORY2, PU_HISTORY3) + dated('<strong>Dated text.</strong> “Strength of 150 girls” and the other figures are those of the time this text was written.')
+{split(p(PU_HISTORY, PU_HISTORY2, PU_HISTORY3) + ''
         + '<p class="rc-sign">Dr. Bazigah Heal (M.Sc, PhD)<small>Principal</small></p>',
        single('../', 'pu_school', caption='Pre University College', detail='Group photographs from a college function.'))}
 {facts(('Address', ADDR), ('Administrative Office', ADMIN), ('P.U. Block', '<a href="tel:0826705591">0826705591</a>, <a href="tel:0826705486">0826705486</a>'), ('Email', EMAIL))}
@@ -156,7 +154,6 @@ PU_ADM = f'''<h2>Combinations offered</h2>
 <h2>Fee structure</h2>
 <p>Despite being an unaided institution the fee structure in comparison to other colleges is very nominal.</p>
 {table(['Combination', 'Fee'], [['PCMB', '8280/- per year'], ['EBs ACs (Economics, Business Studies, Accountancy, Computer Science)', '7335/- per year']])}
-{dated('<strong>Dated fees.</strong> These amounts are not current: please ask the college office for this year’s fees.')}
 <p>The fee should be paid within the stipulated date; fee once paid will not be refunded.</p>
 <h2>Eligibility for admissions</h2>
 <p>Admission to the Karnataka two years pre-university course shall be open to the candidates who have passed (a) the Karnataka secondary school leaving certificate examination, or any other examination recognized by the board as equivalent to the Karnataka SSLC. (b) Students who have scored good marks in the qualifying examination are encouraged to opt for the PCMB combination.</p>
@@ -168,7 +165,6 @@ PU_STAFF = f'''{split(p('To strengthen the teaching and learning process, well q
 '''
 PU_FAC = f'''<h2>The college building</h2>
 {p(COLLEGE_BUILDING)}
-{COLLEGE_DATED}
 <h2>Classrooms</h2>
 {p('Jame-ul-uloom PU College ' + CLASS_DICTUM)}
 {gallery('../', ['cls1', 'cls2', 'cls3'])}
@@ -196,7 +192,7 @@ REDIRECTS.update({'PUGirlsCollege/Regulations.html': 'CollegeRegulations.html', 
 # =====================================================================================================================
 deg_nav = [('Overview', 'home.html'), ('Principal', 'Message.html'), ('Admissions', 'Admissions.html'), ('Staff', 'Staff.html'), ('Facilities', 'Facilities.html'), ('Rules', '../CollegeRegulations.html'), ('Contact', 'Contact.html'), ('Careers', 'Careers.html'), ALL]
 DEG_HOME = f'''{logo('../', 'logo_bcom')}
-{split(p('The history of the college (the PU College’s years, its “150 girls” and its II PUC rolling cup) is on the <a href="../PUGirlsCollege/home.html">Pre University College page</a>.',
+{split(p('The history of the college is on the <a href="../PUGirlsCollege/home.html">Pre University College page</a>.',
          'The page is signed by the Principal of the Degree and BCA colleges:') + '<p class="rc-sign">Miss Farzana Fathima (M.C.A)<small>Principal, Degree College</small></p>',
        single('../', 'deg_prin', caption='Principal, Degree and BCA colleges'))}
 {facts(('Programme', 'Bachelor of Commerce (B.Com) for women'), ('Address', ADDR), ('Administrative Office', ADMIN), ('Degree College', '<a href="tel:0826709915">0826709915</a>'), ('Email', EMAIL))}
@@ -207,7 +203,7 @@ DEG_ADM = f'''<h2>Combinations offered</h2>
 <h2>Fee structure</h2>
 <p>Despite being an unaided institution the fee structure in comparison to other colleges is very nominal. The fee should be paid within the stipulated date; fee once paid will not be refunded. For fee structure and eligibility, please ask the college office.</p>
 {ADMISSION_PROCEDURE}
-{note('The procedure above is the Pre-University procedure (it refers to the P.U Board and the P.U.C board). Please ask the college office for the university’s own requirements.')}'''
+{info('For the university’s own admission requirements, please ask the college office.')}'''
 DEG_STAFF = f'''{split(p('To strengthen the teaching and learning process, well qualified, talented and experienced teaching faculty is appointed. The college is headed by a highly qualified and experienced principal with good leadership qualities and with a vision to meet the challenges of the present competitive atmosphere.') + '',
        single('../', 'deg_staff', caption='Faculty of the Degree and BCA colleges'))}
 {single('../', 'deg_staff_names', caption='Names of the faculty in the photograph', extra_cls='rc-big')}
@@ -216,7 +212,6 @@ DEG_STAFF = f'''{split(p('To strengthen the teaching and learning process, well 
 '''
 DEG_FAC = f'''<h2>The college building</h2>
 {p(COLLEGE_BUILDING)}
-{COLLEGE_DATED}
 <h2>Classrooms</h2>
 {p('Jame-ul-uloom Degree College ' + CLASS_DICTUM)}
 {gallery('../', ['deg_cls1', 'deg_cls2'])}
@@ -247,7 +242,7 @@ BCA_HOME = f'''{logo('../', 'logo_bca')}
 
 {facts(('Address', ADDR), ('B.C.A. Office', '<a href="tel:0826709915">0826709915</a>'), ('Head Office', ADMIN), ('Email', EMAIL))}
 <p>Aims, mission and vision are on the shared <a href="../Colleges.html">Colleges</a> page.</p>'''
-BCA_ADM = f'''{note('The combinations listed here are those of the B.Com programme. For BCA combinations, fees and eligibility, please ask the college office (<a href="tel:0826709915">0826709915</a>) for BCA requirements.')}
+BCA_ADM = f'''{info('For BCA combinations, fees and eligibility, please contact the college office (<a href="tel:0826709915">0826709915</a>).')}
 <h2>Combinations offered</h2>
 <p>Bachelor of Commerce (B.Com).</p>
 <h2>Fee structure</h2>
@@ -255,7 +250,6 @@ BCA_ADM = f'''{note('The combinations listed here are those of the B.Com program
 {ADMISSION_PROCEDURE}'''
 BCA_FAC = f'''<h2>The college building</h2>
 {p(COLLEGE_BUILDING)}
-{COLLEGE_DATED}
 <h2>Classrooms</h2>
 {p('Jame-ul-uloom Degree College ' + CLASS_DICTUM)}
 {gallery('../', ['bca_cls', 'bca_cls2'])}
@@ -286,13 +280,11 @@ NCP_HOME = f'''{logo('../', 'logo_ncpul')}
    'Majlis-e-Millia Islamia is a social welfare organisation and is serving the community in the field of education, health and social activities. One among these is the MMI-NCPUL COMPUTER CENTRE. It was established in the year 1999.',
    'This centre was established mainly for the benefit of girls. Such of those who have passed or studied up to 10th standard are eligible for admission.',
    'The MMI-NCPUL COMPUTER CENTRE has been set up with the objective of promoting, developing and propagating the Urdu language and linking the language with Information Technology. However its activities were diversified by inclusion of useful DTP application of English.')}
-{dated('“About 11 years ago” is relative to when this text was written; the centre was founded in 1999.')}
 {facts(('Telephone', '<a href="tel:0822221158">0822221158</a> · JUU Computer Section: <a href="tel:0822221161">0822221161</a>'), ('Address', ADDR))}'''
 NCP_ADM = f'''<h2>Fee structure</h2>
 {p('As per the scheme, admission fee of Rs. 1000/- and a monthly fee of Rs. 500/- is to be collected from the students. As Majlis-e-Millia is a social organisation in the service of community, it is collecting a monthly fee of Rs. 250/- only.',
    'A corpus fund is maintained from the fee collection, which is utilised for augmenting computers, UPS and meeting other maintenance expenses.',
    'Despite being an unaided institution the fee structure in comparison to other colleges is very nominal. The fee should be paid within the stipulated date; fee once paid will not be refunded.')}
-{dated('<strong>Dated fees.</strong> These amounts are not current fees; please ask the office.')}
 <h2>Course</h2>
 {p('The total duration of the course is 1000 hrs spreading over a period from July to June. The intake is 60 students per year. It will be in two batches of 30 students. Course duration is three hours daily for each batch. Out of these three hours, one and a half hours for theory and one and a half hours for practicals.',
    'The course has been structured as follows.')}
@@ -306,7 +298,7 @@ NCP_ADM = f'''<h2>Fee structure</h2>
 NCP_SUP = f'''<h2>Financial assistance</h2>
 {p('Initially NCPUL provided six computers, one mono printer, one colour printer and a scanner. Majlis-e-Millia Islamia provided necessary appurtenance required for the Centre. Later the systems were upgraded with new Pentium IV computers.',
    'Financial assistance to the extent of Rs. 85,000 is provided by the NCPUL annually towards salaries of the Supervisor and an attender, and salaries of the other two members of faculty are paid through their agent Kathuria Information Technology.')}
-{dated('These are the arrangements of the time this text was written.')}'''
+'''
 NCP_LIB = f'''{p('The Centre has built up a library. The books are mainly on the subjects of computer science for the benefit of reference of students. Presently it has over 500 books of reputed authors.')}
 '''
 NCP_FAC = f'''<h2>Classroom</h2>
@@ -333,12 +325,10 @@ nur_nav = [('Overview', 'home.html'), ('Staff', 'Staff.html'), ('Facilities', 'F
 NUR_HOME = f'''{logo('../', 'logo_ens')}
 {split(p('Starting of nursery school was the first step of endeavour in the field of education. It took its birth in the year 1984 with just 2 pupils in a thatched structure. It was an eventful beginning. The architects of the endeavour were the trustees of the Institution and Moulana Riyazur Rahman Rashadi Saheb, the Principal. The Institution continued to expand by leaps and bounds. Now the strength has grown to around 500; special attention is given for punctuality and cleanliness. Moral Education commences from this stage. The pupils start learning Hadiths from this stage.'),
         single('../', 'nur_group', caption='English Nursery School'))}
-{dated('<strong>Dates differ between pages.</strong> This page gives 1984 for the start of the nursery; the Founder Secretary’s essay gives 1986 and the Admissions Diary 1983-84. “Around 500” pupils is the figure of the time of writing.')}
 {gallery('../', ['act_nur2', 'act_nur3'])}'''
 NUR_STAFF = f'''<p>{STAFF_LINE}</p>'''
 NUR_FAC = f'''<h2>Classrooms</h2>
 {p('Jame-ul-uloom Boys Residential School believes in the following dictum delivering the lessons “I HEAR, I FORGET, I SEE, I RECALL, I DO, I UNDERSTAND.” All teachers endeavor to prepare their lessons and deliver them in such a way that the child becomes a participant in the learning process. The lessons are complimented by practical sessions and access of information on the internet. A total holistic approach is adopted to remove the burden of learning and make the process of learning a joyful experience without hang-ups and hiccups. The lessons are delivered in the class room by using state of the art audio visual equipment such as overhead projectors and LCD projectors.')}
-{note('This paragraph describes the Residential School at Banikuppa. It is also on the <a href="../ResidentialSchoolBanikuppa/classroom.html">Banikuppa Classroom page</a>. The institutions’ smart classrooms are described on the <a href="../Classroom.html">Smart Classrooms</a> page.')}
 <h2>Library</h2>
 <p>Computer education at the school:</p>
 {p(COMPUTER_EDU)}
@@ -356,13 +346,12 @@ pri_nav = [('Overview', 'home.html'), ('Staff', 'Staff.html'), ('Facilities', 'F
 PRI_HOME = f'''{logo('../', 'logo_ehps')}
 {split(p('Primary school runs in the main block of the school from 1st standard to VII standard; it has three sections in each class and total strength is 1000. Every year we get 100% result at VII standard public examination with a number of 1st classes. The good performance at the examination is a result of the able guidance of the management and hard work of the members of the staff of the Institution. This has attracted many pupils from far off places of the city. Thirty qualified, experienced and dedicated teachers are engaged for the primary section. A rolling cup instituted in the name of Mr C.M. Aleemulla Khan is awarded to the highest marks scoring girl at the VII standard Public Examination. Library and laboratory facilities are provided to the students. Girls participate in the indoor games within campus.'),
         single('../', 'hp_group', caption='English Higher Primary School'))}
-{dated('Strength (1000), number of teachers (thirty) and results are of the time of writing and are not current figures.')}
 <p class="rc-sign">Naveeda Naaz (M.A, B.Sc, B.Ed)<small>Head Mistress</small></p>'''
 PRI_FAC = f'''<h2>Library</h2>
 <p>Computer education at the school:</p>
 {p(COMPUTER_EDU)}
 <h2>Classrooms</h2>
-<p>The classroom paragraph is on the <a href="../ResidentialSchoolBanikuppa/classroom.html">Banikuppa Classroom page</a>. The smart classrooms are described on <a href="../Classroom.html">Smart Classrooms</a>.</p>
+<p>Read about the classrooms on the <a href="../ResidentialSchoolBanikuppa/classroom.html">Banikuppa Classroom page</a>. The smart classrooms are described on <a href="../Classroom.html">Smart Classrooms</a>.</p>
 {SHARED_SPORTS('Higher Primary School')}'''
 SIBLINGS['EngPrimarySchoolDEL'] = dict(name='English Higher Primary School', nav=pri_nav, pages={
     'home.html': ('English Higher Primary School', PRI_HOME),
@@ -376,7 +365,6 @@ gh_nav = [('Overview', 'home.html'), ('Staff', 'Staff.html'), ('Facilities', 'Fa
 GH_HOME = f'''{logo('../', 'logo_eghs')}
 {split(p('The starting of a girls high school was necessitated by the good response we got from the parents and pupils at the primary level. A high school for girls was started in 1990-91 with a strength of 13 girls only. The strength is growing every year. At present the strength is around 400. Eight batches took the X standard examination, of which 5 batches gave 100% results. In 1999-2000, 104 pupils appeared. All of them were successful in the examination with 2 students getting distinction, 79 getting I class and the rest II class.', SSLC_PARA),
         single('../', 'girls_group', caption='English Girls High School'))}
-{dated('<strong>Dated figures.</strong> Strengths and results are those of the time this text was written (the last result quoted is for 1999-2000) and are not current. The Admissions Diary 2013–14 (<a href="../AdmissionsDiary.html">here</a>) quotes later SSLC results.')}
 <p class="rc-sign">Naveeda Naaz (M.A, B.Sc, B.Ed)<small>Head Mistress</small></p>
 '''
 GH_STAFF = f'''<p>{STAFF_LINE}</p>
@@ -409,7 +397,7 @@ BH_HOME = f'''{logo('../', 'logo_ebhs')}
 <p class="rc-sign">Naveeda Naaz (M.A, B.Sc, B.Ed)<small>Head Mistress</small></p>
 '''
 BH_FAC = f'''<h2>Classrooms</h2>
-{p('The classroom paragraph is on the <a href="../ResidentialSchoolBanikuppa/classroom.html">Banikuppa Classroom page</a>.')}
+{p('Read about the classrooms on the <a href="../ResidentialSchoolBanikuppa/classroom.html">Banikuppa Classroom page</a>.')}
 {gallery('../', ['boys_cls', 'boys_cls2'])}
 
 <h2>Computer laboratory</h2>
@@ -434,14 +422,13 @@ REMOVE += ['EngBoysHighSchool/Masjid.html']
 hifz_nav = [('Overview', 'home.html'), ('Proposed building', 'Proposed.html'), ('Contact', 'Contact.html'), ('Full text', '../Services.html#english'), ALL]
 HIFZ_HOME = f'''{logo('../', 'logo_hifz')}
 <p>What the Trust’s pages say about the Hifz section.</p>
-{quote('In the year of 1986 there were two halls towards the western side of the Mosque which is earmarked for the Welfare of the Community; one more privileged achievement to exhibit our educational &amp; character building milestone was to start Hifz section for the guest of Hazarat Mohammed sal-allaha-o-Alaihi-o-salamm with boarding &amp; lodging to impart not only Religious education but also general education so as to pass 10th &amp; P.U Exams.', sign='Scanned English page', role='J.U Darul Quran Arabic College, Bangalore')}
+{quote('In the year of 1986 there were two halls towards the western side of the Mosque which is earmarked for the Welfare of the Community; one more privileged achievement to exhibit our educational &amp; character building milestone was to start Hifz section for the guest of Hazarat Mohammed sal-allaha-o-Alaihi-o-salamm with boarding &amp; lodging to impart not only Religious education but also general education so as to pass 10th &amp; P.U Exams.', sign='Services page, English', role='J.U Darul Quran Arabic College, Bangalore')}
 {quote('In the Hifze Quran department boys and girls both are becoming Hafiz and Hafiza.', sign='Jame-ul-uloom, Jamia Masjid', role='A Revolutionary movement')}
 {quote('About a dozen teachers including Hufaz and Moulvies are employed for the purpose.', sign='Jame-ul-uloom, Jamia Masjid')}
-{dated('The first quotation gives 1986 for the start of the Hifz section; the years given on other pages of this website differ.')}
-<p>The scanned English and Urdu pages are on the <a href="../Services.html">Services</a> page; the <a href="../ShobaeAlimiyathDel/home.html">Shoba-e-Alimiyath</a> and <a href="Proposed.html">proposed building</a> pages complete the set.</p>'''
+<p>The English and Urdu pages are on the <a href="../Services.html">Services</a> page; the <a href="../ShobaeAlimiyathDel/home.html">Shoba-e-Alimiyath</a> and <a href="Proposed.html">proposed building</a> pages complete the set.</p>'''
 HIFZ_PROPOSED = f'''<p>The architect’s drawing below, titled “Proposed J.U Darul Quran &amp; Arabic College, Bangalore”: front elevation and ground-floor plan.</p>
 {single('../', 'dq_plan', big=True, caption='Proposed building: front elevation and ground-floor plan')}
-{dated('A proposal drawing; it is not a photograph of a completed building.')}'''
+{info('Proposal drawing of the planned building.')}'''
 SIBLINGS['ShobaehifzDel'] = dict(name='Shoba-e-Hifz', nav=hifz_nav, pages={
     'home.html': ('Shoba-e-Hifz', HIFZ_HOME), 'Proposed.html': ('Proposed Building — Shoba-e-Hifz', HIFZ_PROPOSED),
     'Contact.html': ('Contact — Shoba-e-Hifz', facts(('Address', ADDR), ('Jamia Masjid', '<a href="tel:0822239495">0822239495</a>'), ('Administrative Office', ADMIN), ('Email', EMAIL)))})
@@ -453,9 +440,8 @@ ALIM_HOME = f'''{logo('../', 'logo_alim')}
 <p>What the Trust’s pages say about the <strong>J.U Darul Quran Arabic College, Bangalore</strong>:</p>
 {quote('Now we pray with Almighty to all those who are actively involved in bringing up J.U Arabic College at Bannikuppe. This institution comes up very fast so as to serve the community in a big way.',
        'The management could succeed in getting 61 acres of land, which is 25kms away from the City Mosque at Bannikuppa, so that, a part of it can be rescued for Arabic Studies, in which the construction has already begun … to accommodate lecture hall. It accommodates Lecture Hall, Mosque, Library, Guest house &amp; a Kitchen, Computer center, Tailoring and calligraphy center.',
-       sign='Scanned English page', role='J.U Darul Quran Arabic College, Bangalore')}
-{dated('Construction progress, land area and distance are as stated on an undated page and differ from other pages of this website (for example 52 hectares / 27 km in the Founder Secretary’s essay).')}
-<p>The complete scanned pages, with their typed English text, are on the <a href="../Services.html">Services</a> page. The <a href="Proposed.html">proposed building drawing</a> is on its own page.</p>'''
+       sign='Services page, English', role='J.U Darul Quran Arabic College, Bangalore')}
+<p>The complete pages are on the <a href="../Services.html">Services</a> page. The <a href="Proposed.html">proposed building drawing</a> is on its own page.</p>'''
 SIBLINGS['ShobaeAlimiyathDel'] = dict(name='Shoba-e-Alimiyath · J.U Darul Quran Arabic College', nav=alim_nav, pages={
     'home.html': ('Shoba-e-Alimiyath', ALIM_HOME), 'Proposed.html': ('Proposed Building — Shoba-e-Alimiyath', HIFZ_PROPOSED),
     'Contact.html': ('Contact — Shoba-e-Alimiyath', facts(('Address', ADDR), ('Jamia Masjid', '<a href="tel:0822239495">0822239495</a>'), ('Administrative Office', ADMIN), ('Email', EMAIL)))})

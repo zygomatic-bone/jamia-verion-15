@@ -28,3 +28,10 @@
 - No MP3 audio is published (removed at the owner's request). Bayanath is YouTube videos plus the Speaker Profile; do not add an audio archive back.
 - Public wording: do not publish internal notes about where content came from or how it was recovered, scanned-document disclaimers, or audit and unresolved-item notices. Keep dated caveats that help a reader (for example that a figure comes from an undated printed page). Those notes belong in the reports, not on the pages.
 - Image folder: `public/portal-assets/images/` (renamed from `recovered/`; old name must not reappear).
+
+## Phase 9.4 additions
+- Masjid page: edit `tools/masjid/masjid_page.py` (sections, alt text, order), never `Masjid.html`. Photographs are the owner's files, copied unchanged; do not crop, recompress or rename them without updating `photos-provenance.json` and `MASJID-MEDIA-MAP.md`. The assignment of the Advanced Library, Niswan Female Study Hall and Large Library sections was inferred from the pictures; correct it there if the owner says otherwise.
+- Videos use `preload="none"`, `muted`, `loop`, `playsinline` and `data-autoplay`; `portal-ui/masjid.js` plays them only while visible. Keep them silent and keep the reduced-motion and data-saving exits.
+- Only the first picture on the Masjid page loads eagerly; everything else is lazy. Do not make more eager without measuring on a throttled phone profile (`perf93.py`).
+- Bayanath aurora: CSS gradients moved with transform and opacity only (`.bz-au*` in `bayanath.css`). Only the speaker card uses `backdrop-filter`; ten blurring video cards over moving bands cost frame rate. The shared `.ambient` orbs are hidden on this page. No green.
+- The homepage has no B.Com card (do not add one back); the ITI card uses `iti/campus.jpg`, the ITI building.

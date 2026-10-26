@@ -69,7 +69,7 @@ for rel, p in pub.items():
     if rel.endswith(('.html', '.css', '.js', '.xml', '.webmanifest')):
         txt = p.read_text(errors='ignore')
         base = Path(rel).parent
-        for m in re.finditer(r'''(?:src|href|content|srcset|url)\s*[=(]\s*["']?([^"')\s>]+\.(?:jpe?g|png|gif|webp|svg|pdf|mp3|ico))''', txt, re.I):
+        for m in re.finditer(r'''(?:src|href|content|srcset|poster|url)\s*[=(]\s*["']?([^"')\s>]+\.(?:jpe?g|png|gif|webp|svg|pdf|mp3|ico))''', txt, re.I):
             u = m.group(1).split('?')[0].split('#')[0]
             if u.startswith(('http', '//', 'data:')): continue
             q = os.path.normpath((PUB / base / u) if not u.startswith('/') else (PUB / u.lstrip('/')))

@@ -1115,6 +1115,11 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 @media (prefers-reduced-motion: reduce) {
   :root[data-theme="dark"] .page-home .button, :root[data-theme="dark"] .page-home .site-header { transition: none; }
 }
+
+/* Homepage Jamia Masjid card and hero button icon */
+.pf-ico { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; margin-right: .4rem; }
+.button .pf-ico { margin-right: .5rem; width: 1.15rem; height: 1.15rem; }
+.pf-card-masjid .pf-tag { color: var(--gold); }
 /* ==== Phase 9: recovered original content (prefix rc-). Uses only the existing design tokens; light and dark follow the theme. ==== */
 
 /* Photograph galleries: every picture is shown whole at its own proportions (never cropped), caption below. */
@@ -1138,7 +1143,6 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 .rc-logo img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
 
 /* Scanned letters and image-only pages */
-.rc-scan-note { margin: .8rem 0 0; color: var(--muted); font-size: .84rem; border-left: 2px solid var(--gold); padding-left: .9rem; }
 .rc-letters { list-style: none; margin: 1.6rem 0; padding: 0; display: grid; gap: clamp(1.4rem, 3vw, 2.2rem); }
 .rc-letter { display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: clamp(1.1rem, 3vw, 2.2rem); align-items: start; padding: clamp(1rem, 2.5vw, 1.6rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--glass); box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-edge); }
 .rc-letter h2 { margin: 0 0 .2rem; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
@@ -1156,8 +1160,7 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 .rc-sign { margin: .4rem 0 0; font-family: var(--display); font-size: 1.05rem; line-height: 1.35; }
 .rc-sign small { display: block; color: var(--muted); font-family: var(--body); font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .rc-illegible { color: var(--muted); font-style: italic; }
-.rc-dated, .rc-note { margin: 1.2rem 0; padding: .85rem 1.1rem; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius-sm); background: var(--glass); color: var(--muted); font-size: .9rem; line-height: 1.5; }
-.rc-dated strong, .rc-note strong { color: var(--ink); }
+.rc-info { margin: 1rem 0; color: var(--muted); font-size: .92rem; line-height: 1.55; }
 
 /* Documents (PDF) */
 .rc-docs { list-style: none; margin: 1.4rem 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
