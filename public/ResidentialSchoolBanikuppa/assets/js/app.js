@@ -4,9 +4,6 @@
 
   const root = document.documentElement;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const getFocusable = (node) => [...node.querySelectorAll(
-    'a[href], button:not([disabled]), summary, input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-  )].filter((el) => !el.hidden && el.offsetParent !== null);
 
   // Theme selection is initialized in the document head to avoid a color flash.
   const themeButton = document.querySelector("[data-theme-toggle]");
@@ -48,24 +45,56 @@
   });
 
   // Reveal and stagger effects remain fully visible when IntersectionObserver is unavailable.
-  const revealItems = [...document.querySelectorAll(".reveal, .stagger")];
+  const revealItems = [...document.querySelectorAll(".reveal, .stagger, .pf-reveal, .pf-stagger")];
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealItems.forEach((el) => el.classList.add("is-visible"));
   } else {
-    const observer = new IntersectionObserver((entries, self) => {
+    const showOnEnter = (entries, self) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-visible");
         self.unobserve(entry.target);
       });
-    }, { threshold: .12, rootMargin: "0px 0px -5%" });
-    revealItems.forEach((el) => observer.observe(el));
+    };
+    // Normal items are revealed once 12% of them is on screen. A very tall item (for example the Institutions
+    // card grid, about 6,700px tall in one column on a phone) can NEVER show 12% of itself at once, so it would stay
+    // invisible forever and the page looked blank. Tall items are revealed as soon as any part is on screen instead.
+    const fractionObserver = new IntersectionObserver(showOnEnter, { threshold: .12, rootMargin: "0px 0px -5%" });
+    const anyPartObserver = new IntersectionObserver(showOnEnter, { threshold: 0, rootMargin: "0px 0px -5%" });
+    revealItems.forEach((el) => {
+      const tooTallForFraction = el.offsetHeight * .12 > innerHeight * .9;
+      (tooTallForFraction ? anyPartObserver : fractionObserver).observe(el);
+    });
+    // Safety net: if anything is still hidden shortly after load while it is clearly on screen, show it.
+    setTimeout(() => {
+      revealItems.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (!el.classList.contains("is-visible") && rect.top < innerHeight && rect.bottom > 0) el.classList.add("is-visible");
+      });
+    }, 2500);
   }
 
   // Cards drop their stagger delays once the entrance finishes so hover feels immediate.
-  document.querySelectorAll(".stagger").forEach((group) => {
+  document.querySelectorAll(".stagger, .pf-stagger").forEach((group) => {
     group.addEventListener("transitionend", () => group.classList.add("is-settled"), { once: true });
   });
+
+  // Recognitions gallery: per-card entrance on scroll (touch screens show the details and the link without a first tap).
+  const rgItems = [...document.querySelectorAll(".rg-item")];
+  if (rgItems.length) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      rgItems.forEach((el) => el.classList.add("is-in"));
+    } else {
+      const rgObserver = new IntersectionObserver((entries, self) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in");
+          self.unobserve(entry.target);
+        });
+      }, { threshold: .06, rootMargin: "0px 0px -4%" });
+      rgItems.forEach((el) => rgObserver.observe(el));
+    }
+  }
 
   // Decorative layers for the glass look: drifting colour orbs and a scroll progress bar.
   const ambient = document.createElement("div");
@@ -79,12 +108,14 @@
   document.body.append(progress);
 
   const header = document.querySelector(".site-header");
+  const backTop = document.querySelector(".back-top");
   let scrollTicking = false;
   const syncScroll = () => {
     scrollTicking = false;
     const max = document.documentElement.scrollHeight - innerHeight;
     progress.style.setProperty("--progress", max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
     header?.classList.toggle("is-scrolled", scrollY > 12);
+    backTop?.classList.toggle("is-visible", scrollY > 700);
   };
   addEventListener("scroll", () => {
     if (!scrollTicking) { scrollTicking = true; requestAnimationFrame(syncScroll); }
@@ -92,26 +123,41 @@
   addEventListener("resize", syncScroll, { passive: true });
   syncScroll();
 
-  // Pointer-following spotlight and gentle tilt on glass cards (fine pointers only).
+  // Pointer-following spotlight and gentle tilt on glass cards (fine pointers only). One delegated listener; the card under the
+  // pointer is updated once per frame, and only the card under the pointer is ever measured.
   if (!reduceMotion && matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    document.querySelectorAll(".card, .contact-item, .contact-cta").forEach((el) => {
-      const tilt = el.classList.contains("card");
-      el.addEventListener("pointermove", (event) => {
-        const rect = el.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-        el.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
-        el.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
-        if (tilt) {
-          el.style.setProperty("--rx", `${((0.5 - y) * 6).toFixed(2)}deg`);
-          el.style.setProperty("--ry", `${((x - 0.5) * 6).toFixed(2)}deg`);
-        }
-      });
-      el.addEventListener("pointerleave", () => {
-        el.style.removeProperty("--rx");
-        el.style.removeProperty("--ry");
-      });
-    });
+    const cardSelector = ".card, .contact-item, .contact-cta";
+    let activeCard = null;
+    let lastEvent = null;
+    let frame = 0;
+    const paint = () => {
+      frame = 0;
+      if (!activeCard || !lastEvent) return;
+      const rect = activeCard.getBoundingClientRect();
+      const x = (lastEvent.clientX - rect.left) / rect.width;
+      const y = (lastEvent.clientY - rect.top) / rect.height;
+      activeCard.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
+      activeCard.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+      if (activeCard.classList.contains("card")) {
+        activeCard.style.setProperty("--rx", `${((0.5 - y) * 6).toFixed(2)}deg`);
+        activeCard.style.setProperty("--ry", `${((x - 0.5) * 6).toFixed(2)}deg`);
+      }
+    };
+    const release = (card) => {
+      card.style.removeProperty("--rx");
+      card.style.removeProperty("--ry");
+    };
+    document.addEventListener("pointermove", (event) => {
+      const card = event.target.closest?.(cardSelector) || null;
+      if (card !== activeCard) {
+        if (activeCard) release(activeCard);
+        activeCard = card;
+      }
+      if (!card) return;
+      lastEvent = event;
+      if (!frame) frame = requestAnimationFrame(paint);
+    }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", () => { if (activeCard) release(activeCard); activeCard = null; }, { passive: true });
   }
 
   // Homepage hero: crossfading slideshow of gallery photographs (sharp photo + blurred backdrop stay in step).
@@ -124,8 +170,10 @@
     const heroTrigger = heroImage.closest("[data-lightbox]");
     let index = Math.max(0, images.indexOf(heroImage.getAttribute("src")));
     let layer = 0;
+    let heroOnScreen = true;
+    if ("IntersectionObserver" in window) new IntersectionObserver((entries) => { heroOnScreen = entries[entries.length - 1].isIntersecting; }).observe(hero);
     if (!reduceMotion && images.length > 1 && fg.length === 2 && bg.length === 2) setInterval(() => {
-      if (document.hidden) return;
+      if (document.hidden || !heroOnScreen) return;
       index = (index + 1) % images.length;
       const next = 1 - layer;
       const preload = new Image();
@@ -199,11 +247,7 @@
     if (event.key === "ArrowRight") moveLightbox(1);
   });
 
-  // Back-to-top control.
-  const backTop = document.querySelector(".back-top");
-  const syncBackTop = () => backTop?.classList.toggle("is-visible", scrollY > 700);
-  addEventListener("scroll", syncBackTop, { passive: true });
-  syncBackTop();
+  // Back-to-top control (its visibility follows the shared scroll handler above).
   backTop?.addEventListener("click", () => scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }));
 
   // Current year is decorative; historical page dates remain untouched.

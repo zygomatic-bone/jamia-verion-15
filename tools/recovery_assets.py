@@ -1,4 +1,4 @@
-"""Phase 9: photographs, scans and documents recovered from the original server backup.
+"""Photographs, scans and documents recovered from the original server backup.
 
 Every entry maps one authentic file in the original `public_html/` to its place in the deployed site.
 
@@ -8,8 +8,14 @@ Every entry maps one authentic file in the original `public_html/` to its place 
   browsers and phones render with wrong colours, are converted to RGB.
 * Destination names are lower-case (the host is case sensitive). Identical pictures that the old site copied into
   every institution folder are stored ONCE and shared by key.
-* `tools/import_recovered_assets.py` performs the copy; `tools/recovery_manifest.py` writes the manifest CSV.
+* `tools/import_recovered_assets.py` performs the copy.
+* WITHHELD lists original files that must never be published, and why.
 """
+
+WITHHELD = {
+    'NCPUL/images/CERT1.jpeg': 'a diploma certificate issued to a named private student; permanently excluded by decision of the website owner',
+    'ShobaeAlimiyathDel/ShobaeAlimiyathimages/home.jpg': 'an appeal flyer that prints a bank account number and IFSC code; the picture stays unpublished. On the owner\u2019s instruction its bank details are published as text on About Us (tools/support/support-details.json); the English text of the plan is published from the About image instead',
+}
 
 R = 'portal-assets/images/'            # folder (inside public/) that holds every recovered image
 DOC = 'portal-assets/documents/'          # original PDFs
@@ -60,7 +66,7 @@ IMAGES = {
     'act_nur2': ('EngNurSchoolDEL/images/Activ2.jpg', 'events/activity-nursery-2.jpg', 'Young children performing a group song on a pink-curtained stage', 'Nursery programme'),
     'act_nur3': ('EngNurSchoolDEL/images/Activ3.jpg', 'events/activity-nursery-3.jpg', 'A child performing on stage in front of a gold-embroidered backdrop', 'Nursery programme'),
 
-    # ---- Library and classrooms shared by several original pages (the old Jamia Masjid pictures were replaced in Phase 9.3 by the owner's new photographs in tools/masjid/) --------------------------------------------
+    # ---- Library and classrooms shared by several original pages (the old Jamia Masjid pictures were replaced by the owner's newer photographs in tools/masjid/) --------------------------------------------
     'lib1': ('homeimages/Lib1.jpg', 'library/library-1.jpg', 'Students in green-and-white uniform reading beside the library shelves', 'School library'),
     'lib2': ('homeimages/Lib2.jpg', 'library/library-2.jpg', 'Students in green-and-white uniform seated on the floor reading', 'School library'),
     'lib3': ('homeimages/Lib3.jpg', 'library/library-3.jpg', 'Students in green-and-white uniform seated around a large blue carpet reading', 'School library'),
@@ -106,7 +112,7 @@ IMAGES = {
     'iti_play1': ('ITI/ITIimages/itiPlaygroud.jpg', 'iti/playground-1.jpg', 'The open playground of the ITI campus', 'ITI playground'),
     'iti_play2': ('ITI/ITIimages/itiPlaygroud1.jpg', 'iti/playground-2.jpg', 'An elderly gentleman in white greeting boys in navy blazers on a sports ground, with onlookers behind', 'Prize distribution'),
     'iti_play3': ('ITI/ITIimages/itiPlaygroud2.jpg', 'iti/playground-3.jpg', 'Men in white caps handing over trophies to a boy at an outdoor prize distribution', 'Prize distribution'),
-    # ---- Phase 9.2: photographs published after review of the unreferenced originals ---------------------------------
+    # ---- photographs published after review of the unreferenced originals ---------------------------------
     'iti_dsc1': ('ITI/ITIimages/DSC02796.JPG', 'iti/prize-distribution-full-1.jpg', 'Boys in navy blazers and white trousers standing in a line on open ground while an elderly man in white shakes hands with one of them; palm trees behind', 'Prize distribution: full photograph'),
     'iti_dsc2': ('ITI/ITIimages/DSC03089.JPG', 'iti/prize-distribution-full-2.jpg', 'A boy in a white shirt and red wristband holds a gold trophy beside a table of trophies while a crowd of children and men watches', 'Prize distribution: full photograph'),
     'iti_dsc3': ('ITI/ITIimages/DSC03090.JPG', 'iti/prize-distribution-full-3.jpg', 'An elderly man in white presents an award to a boy in a white shirt beside a table of trophies, with a crowd of onlookers', 'Prize distribution: full photograph'),
@@ -153,7 +159,7 @@ DOCUMENTS = {
 }
 
 
-# Existing Phase 8 photographs that are byte-identical to original files: used again instead of storing a second copy.
+# Residential School photographs that are byte-identical to original files: used again instead of storing a second copy.
 P8 = 'ResidentialSchoolBanikuppa/assets/images/'
 EXISTING = {
     # key: (path inside public/, alt text, caption)

@@ -1,0 +1,12 @@
+{
+  "note": "The one place where the institution's public bank details are kept. The About Us page shows them ONLY while \"verified\" is true and every field below is filled and well formed (tools/support/support_card.py checks). To change the account, edit this file and run python3 tools/build.py. Put nothing here that the institution has not itself published. Set \"verified\" to false to withdraw the details at once.",
+  "verified": true,
+  "source": "Printed on the Trust's own appeal flyer for the J.U. Darul Quran & Arabic College (Shoba E Hifz), Shiksha Nagar, Bannikuppa, Ramnagar. The flyer is in the original website backup (ShobaeAlimiyathDel/ShobaeAlimiyathimages/home.jpg). Figures checked against an enlarged copy of that flyer.",
+  "account_name": "The Jamia Masjid & Muslim Charitable Fund Trust \u2013 Shoba E Hifz",
+  "bank": "Canara Bank",
+  "branch": "N R Road, Bangalore",
+  "account_type": "Savings Bank (S.B.)",
+  "account_number": "0410101023585",
+  "ifsc": "CNRB0000410",
+  "source_label": "the Trust’s own appeal for the J.U. Darul Quran & Arabic College (Shoba E Hifz)"
+}

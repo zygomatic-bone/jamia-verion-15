@@ -11,6 +11,18 @@
   const ID = /^[A-Za-z0-9_-]{11}$/;
   const channelUrl = root.dataset.channel;
 
+  // The feed's titles often start with an emoji and end with a run of hashtags (the last one sometimes cut short by YouTube). The card shows the
+  // title without them; the link, its tooltip and the screen-reader label keep the full original title, and the video itself is untouched.
+  const LEAD = (() => {
+    try { return new RegExp("^[\\p{Extended_Pictographic}\\uFE0F\\u200D\\s]+", "u"); }
+    catch (e) { return /^[\s\uD800-\uDFFF\u2600-\u27BF\uFE0F\u200D]+/; }
+  })();
+  const TAGS = /(?:\s*#[^\s#]*)+\s*(?:\.{3}|\u2026)?$/;
+  const clean = (t) => {
+    const c = String(t).replace(/\s+/g, " ").trim().replace(TAGS, "").replace(LEAD, "").trim();
+    return c || String(t).trim();
+  };
+
   const fmt = (iso) => {
     if (!iso) return "";
     const d = new Date(iso);
@@ -61,9 +73,9 @@
     const li = el("li", "by-card");
     const a = el("a", "by-thumb");
     a.href = watch; a.target = "_blank"; a.rel = "noopener";
-    a.setAttribute("aria-label", "Play: " + v.title);
+    a.setAttribute("aria-label", "Play: " + clean(v.title));
     const img = new Image();
-    img.alt = "Thumbnail for " + v.title;
+    img.alt = "Thumbnail for " + clean(v.title);
     img.loading = "lazy"; img.decoding = "async"; img.width = 480; img.height = 360;
     img.referrerPolicy = "no-referrer";
     const sources = thumbnailUrls(v);
@@ -83,7 +95,8 @@
     });
     const body = el("div", "by-body");
     const h = el("h3");
-    const titleLink = el("a", "by-title", v.title);
+    const titleLink = el("a", "by-title", clean(v.title));
+    if (clean(v.title) !== v.title) titleLink.title = v.title;
     titleLink.href = watch; titleLink.target = "_blank"; titleLink.rel = "noopener";
     h.append(titleLink);
     const yt = el("a", "by-yt", "Watch on YouTube ↗");

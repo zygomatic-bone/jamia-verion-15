@@ -2,7 +2,7 @@
 
 These tests run the real updater as a subprocess against a LOCAL fake YouTube (feed, oEmbed, channel page, Data API
 and watch page). They prove the updater's logic. They do NOT prove that a real YouTube upload is picked up: that can
-only be seen in a real workflow run (see JAMIA_PHASE9_2_TEST_REPORT.md).
+only be seen in a real workflow run (see the workflow run log in the Actions tab).
 
 Run:  python3 -I -m unittest discover -s tools/tests -v
 """
@@ -17,6 +17,19 @@ CHANNEL_ID = 'UClF-O3ig9ZKMvbeKB4t9mjQ'
 CONFIG = {'channel_handle': 'MuftiMaqsoodImran', 'channel_id': CHANNEL_ID, 'playlist_id': '',
           'title_keywords': ['bayan', 'bayanat', 'bayanath'], 'exclude_keywords': [], 'max_videos': 10}
 SECRET = 'AIzaSy-SECRET-KEY-MUST-NEVER-APPEAR'
+
+# The child processes get a CLEAN environment (so a developer's own YOUTUBE_API_KEY, proxy or PYTHON* settings can never leak into a
+# test), but not an EMPTY one. On Windows a child Python started without SYSTEMROOT dies before running a line of code with
+# "Fatal Python error: _Py_HashRandomization_Init: failed to get random numbers to initialize Python" (it also cannot open sockets or
+# find a temp folder), so the few variables the operating system itself needs are passed through. None of them is a secret.
+_OS_VARIABLES = ('PATH', 'SYSTEMROOT', 'WINDIR', 'SYSTEMDRIVE', 'COMSPEC', 'PATHEXT', 'TEMP', 'TMP', 'TMPDIR', 'HOME', 'USERPROFILE',
+                 'LANG', 'LC_ALL', 'LD_LIBRARY_PATH')
+
+
+def child_env(**extra):
+    env = {k: os.environ[k] for k in _OS_VARIABLES if k in os.environ}
+    env.update(extra)
+    return env
 
 
 def vid(n):
@@ -41,6 +54,9 @@ class Fake(BaseHTTPRequestHandler):
     def do_GET(self):
         u = urlparse(self.path); q = parse_qs(u.query); st = Fake.state
         Fake.seen.append((u.path, {k: v[0] for k, v in q.items()}, self.headers.get('X-Goog-Api-Key')))
+        if u.path == '/redirect-feed':
+            self.send_response(302); self.send_header('Location', 'http://example.invalid/feed'); self.send_header('Content-Length', '0'); self.end_headers()
+            return
         if u.path == '/feed':
             if st.get('feed_status', 200) != 200:
                 return self.send(st['feed_status'], 'nope')
@@ -101,14 +117,23 @@ class Base(unittest.TestCase):
         vids = [{'id': e['id'], 'title': e['title'], 'published': e['published'], 'thumbnail': f'https://i2.ytimg.com/vi/{e["id"]}/hqdefault.jpg'} for e in entries]
         self.cache.write_text(json.dumps({'channel': {}, 'updated': '2026-01-01T00:00:00Z', 'videos': vids}, ensure_ascii=False, indent=2) + '\n')
 
-    def run_updater(self, key=None):
-        env = {'PATH': os.environ['PATH'], 'BAYANATH_CONFIG': str(self.cfg), 'BAYANATH_CACHE': str(self.cache), 'GITHUB_OUTPUT': str(self.out),
-               'YT_FEED_BASE': self.base + '/feed', 'YT_OEMBED_BASE': self.base + '/oembed', 'YT_CHANNEL_PAGE_BASE': self.base,
-               'YT_API_BASE': self.base + '/api', 'YT_WATCH_BASE': self.base + '/watch'}
+    def run_updater(self, key=None, extra=None):
+        env = child_env(BAYANATH_CONFIG=str(self.cfg), BAYANATH_CACHE=str(self.cache), GITHUB_OUTPUT=str(self.out),
+                        YT_FEED_BASE=self.base + '/feed', YT_OEMBED_BASE=self.base + '/oembed', YT_CHANNEL_PAGE_BASE=self.base,
+                        YT_API_BASE=self.base + '/api', YT_WATCH_BASE=self.base + '/watch')
         if key:
             env['YOUTUBE_API_KEY'] = key
+        env.update(extra or {})
         p = subprocess.run([sys.executable, '-I', str(SCRIPT)], env=env, capture_output=True, text=True, timeout=120)
         return p
+
+    def assertRefused(self, p, msg=None):
+        """The updater really ran and refused: a non-zero exit code alone is also what a child that crashed on start-up returns."""
+        self.assertNotEqual(p.returncode, 0, msg)
+        self.assertNotIn('Fatal Python error', p.stderr, msg)
+        self.assertNotIn('Traceback', p.stderr, msg)
+        self.assertIn('ERROR:', p.stderr, msg)
+        self.assertIn('The cached list was left untouched.', p.stderr, msg)
 
     def data(self):
         return json.loads(self.cache.read_text(encoding='utf-8'))
@@ -118,14 +143,78 @@ class Base(unittest.TestCase):
 
 
 class Schedule(unittest.TestCase):
-    def test_friday_2100_ist_cron_and_manual_trigger(self):
+    def test_saturday_2100_ist_cron_and_manual_trigger(self):
         text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
-        self.assertEqual(re.findall(r"^\s*- cron: '([^']+)'", text, re.M), ['30 15 * * 5'])  # 15:30 UTC Friday == 21:00 IST Friday
+        self.assertEqual(re.findall(r"^\s*- cron: '([^']+)'", text, re.M), ['30 15 * * 6'])  # 15:30 UTC Saturday == 21:00 IST Saturday
         self.assertIn('workflow_dispatch:', text)
-        self.assertRegex(text, r'permissions:\s*\n\s+contents: write')
+        self.assertRegex(text, r'permissions:\s*\n\s+contents: write[^\n]*\n\s+actions: write')
         self.assertIn('steps.update.outputs.changed', text)
         self.assertIn('${{ secrets.YOUTUBE_API_KEY }}', text)
         self.assertNotIn('AIza', text)  # no key committed
+
+    def test_every_action_is_pinned_to_a_full_commit(self):
+        text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
+        uses = re.findall(r'^\s*- uses: (\S+)', text, re.M)
+        self.assertEqual(len(uses), 2)
+        for u in uses:
+            self.assertRegex(u, r'^actions/(checkout|setup-python)@[0-9a-f]{40}$', u)
+
+    def test_the_new_list_is_published_by_starting_the_pages_deployment(self):
+        """A push made with GITHUB_TOKEN does not start other workflows, so without this step the JSON would be committed but never deployed."""
+        text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
+        self.assertIn('gh workflow run deploy-pages.yml --ref "${GITHUB_REF_NAME}"', text)
+        self.assertIn("if: steps.commit.outputs.pushed == 'true'", text)   # only after a real commit and push
+        self.assertIn('GH_TOKEN: ${{ github.token }}', text)
+        self.assertLess(text.index('git push origin'), text.index('gh workflow run deploy-pages.yml'))
+        step = text[text.index('Publish the new list'):]
+        self.assertIn('continue-on-error: true', step)   # the data is already committed: a refused dispatch must not hide that
+
+    def test_a_short_outage_is_retried_and_a_lasting_one_fails_the_job(self):
+        """Runs the real update step from the workflow in bash with a stand-in for the updater (and for sleep) to prove the retry behaviour."""
+        import shutil, subprocess, tempfile
+        bash = shutil.which('bash')
+        if not bash:
+            self.skipTest('bash is not installed')
+        text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
+        block = re.search(r'id: update\n(?:.*\n)*?\s+run: \|\n((?:          .*\n|\n)+)', text).group(1)
+        script = '\n'.join(line[10:] for line in block.splitlines())
+        for fails_first, want_code, want_runs in ((0, 0, 1), (2, 0, 3), (3, 1, 3)):
+            with tempfile.TemporaryDirectory() as d:
+                d = Path(d)
+                (d / 'tools').mkdir()
+                (d / 'tools' / 'update_bayanath.py').write_text('x', encoding='utf-8')
+                (d / 'bin').mkdir()
+                fake = d / 'bin' / 'python3'
+                fake.write_text('#!/bin/sh\necho run >> "%s/runs"\nn=$(wc -l < "%s/runs")\n[ "$n" -gt %d ]\n' % (d, d, fails_first), encoding='utf-8')
+                nap = d / 'bin' / 'sleep'
+                nap.write_text('#!/bin/sh\necho "$1" >> "%s/naps"\n' % d, encoding='utf-8')
+                fake.chmod(0o755), nap.chmod(0o755)
+                p = subprocess.run([bash, '-c', script], cwd=d, capture_output=True, text=True, env=child_env(PATH=f'{d}/bin:/usr/bin:/bin'), timeout=60)
+                self.assertEqual(p.returncode, want_code, p.stdout + p.stderr)
+                self.assertEqual(len((d / 'runs').read_text().split()), want_runs)
+                if fails_first == 2:
+                    self.assertEqual((d / 'naps').read_text().split(), ['120', '240'])   # 2 and 4 minutes
+                if fails_first == 3:
+                    self.assertIn('::error::', p.stdout)
+
+    def test_the_workflow_does_not_depend_on_anything_but_python(self):
+        text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
+        self.assertIn('python3 tools/update_bayanath.py', text)
+        self.assertNotRegex(text, r'(?i)\bph' + r'p\b|\bssh\b|\bftp\b|rsync|cpa' + r'nel')   # nothing but Python and the repository
+
+    def test_every_file_agrees_on_saturday_and_none_keeps_an_older_weekday(self):
+        """One weekly slot, Saturday 21:00 Asia/Kolkata = GitHub cron `30 15 * * 6` (UTC). An earlier draft used Friday (5); no copy
+        of it may survive in the workflow, the docs or the tests."""
+        stale = [re.compile(p) for p in (r'30 15 \*' + r' \* 5', r"'weekday'" + r" => 5", r'Friday' + r' 21:00', r'Friday' + r' at 21:00',
+                                         r'FRI' + r'_2105', r'next Friday' + r' slot', r'Friday' + r' 21:00')]
+        files = [ROOT / 'README.md', ROOT / 'AGENTS.md', ROOT / '.github' / 'workflows' / 'update-bayanath.yml',
+                 ROOT / 'tools' / 'update_bayanath.py'] + sorted((ROOT / 'tools' / 'tests').glob('test_*.py'))
+        for f in files:
+            text = f.read_text(encoding='utf-8')
+            for rx in stale:
+                self.assertIsNone(rx.search(text), f'{f.name}: stale Friday schedule ({rx.pattern})')
+        self.assertIn('Saturday 21:00', (ROOT / 'README.md').read_text(encoding='utf-8'))
+        self.assertIn('`30 15 * * 6`', (ROOT / 'README.md').read_text(encoding='utf-8') + (ROOT / 'AGENTS.md').read_text(encoding='utf-8'))
 
     def test_workflow_is_valid_yaml_when_pyyaml_present(self):
         try:
@@ -133,7 +222,7 @@ class Schedule(unittest.TestCase):
         except ImportError:
             self.skipTest('PyYAML not installed')
         doc = yaml.safe_load((ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8'))
-        self.assertEqual(doc[True]['schedule'][0]['cron'], '30 15 * * 5')  # YAML parses the key `on` as boolean True
+        self.assertEqual(doc[True]['schedule'][0]['cron'], '30 15 * * 6')  # YAML parses the key `on` as boolean True
         self.assertIn('workflow_dispatch', doc[True])
 
 
@@ -151,7 +240,7 @@ class Updater(Base):
         self.assertNotIn(unrelated['id'], ids)
         self.assertEqual(len(ids), 10)
         self.assertNotIn(old[-1]['id'], ids)  # the oldest fell out of the displayed ten
-        self.assertIn('changed=true', self.out.read_text())
+        self.assertIn('changed=true', self.out.read_text(encoding='utf-8'))
         self.assertTrue(any(f'channel_id' in q and q['channel_id'] == CHANNEL_ID for path, q, _ in Fake.seen if path == '/feed'))
 
     def test_duplicates_and_ordering(self):
@@ -183,7 +272,7 @@ class Updater(Base):
         self.assertEqual(p.returncode, 0)
         self.assertEqual(before, self.cache.read_bytes())
         self.assertEqual(mtime, self.cache.stat().st_mtime_ns)
-        self.assertIn('changed=false', self.out.read_text())
+        self.assertIn('changed=false', self.out.read_text(encoding='utf-8'))
         self.assertIn('No change', p.stdout)
 
     def test_source_failure_keeps_valid_data(self):
@@ -192,7 +281,7 @@ class Updater(Base):
         before = self.cache.read_bytes()
         Fake.state['feed_status'] = 500
         p = self.run_updater()
-        self.assertNotEqual(p.returncode, 0)
+        self.assertRefused(p)
         self.assertEqual(before, self.cache.read_bytes())
 
     def test_invalid_responses_cannot_overwrite_the_feed(self):
@@ -202,14 +291,14 @@ class Updater(Base):
                     '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:yt="http://www.youtube.com/xml/schemas/2015"><entry><yt:videoId>bad id!</yt:videoId><title>Bayan</title><published>x</published></entry></feed>'):
             Fake.state['feed_raw'] = raw
             p = self.run_updater()
-            self.assertNotEqual(p.returncode, 0, raw)
+            self.assertRefused(p, raw)
             self.assertEqual(before, self.cache.read_bytes(), raw)
 
     def test_only_unrelated_videos_is_a_failure_not_an_empty_list(self):
         self.seed([entry(1, 1)])
         before = self.cache.read_bytes()
         Fake.state['feed'] = [entry(2, 5, title='Cricket highlights')]
-        self.assertNotEqual(self.run_updater().returncode, 0)
+        self.assertRefused(self.run_updater())
         self.assertEqual(before, self.cache.read_bytes())
 
     def test_wrong_channel_is_refused(self):
@@ -217,7 +306,7 @@ class Updater(Base):
         before = self.cache.read_bytes()
         Fake.state['page_channel'] = 'UCzzzzzzzzzzzzzzzzzzzzzz'
         Fake.state['feed'] = [entry(2, 5)]
-        self.assertNotEqual(self.run_updater().returncode, 0)
+        self.assertRefused(self.run_updater())
         self.assertEqual(before, self.cache.read_bytes())
 
     def test_deleted_private_video_is_dropped_and_oembed_outage_keeps_old_entries(self):
@@ -268,7 +357,7 @@ class Api(Base):
         Fake.state['api'] = api
         p = self.run_updater(key=SECRET)
         self.assertEqual(p.returncode, 0, p.stderr)
-        self.assertNotIn(SECRET, p.stdout + p.stderr + self.cache.read_text())
+        self.assertNotIn(SECRET, p.stdout + p.stderr + self.cache.read_text(encoding='utf-8'))
         pl = [q for path, q, k in Fake.seen if path == '/api/playlistItems']
         self.assertEqual(pl[0]['playlistId'], 'UU' + CHANNEL_ID[2:])
         self.assertTrue(all(k == SECRET for path, q, k in Fake.seen if path.startswith('/api/')))
@@ -291,6 +380,26 @@ class Api(Base):
         Fake.state['api'] = [entry(1, 3), up]
         self.assertEqual(self.run_updater(key=SECRET).returncode, 0)
         self.assertEqual(self.ids(), [vid(1)])
+
+
+class Safety(Base):
+    def test_a_redirect_off_the_trusted_hosts_is_refused_and_the_list_kept(self):
+        self.seed([entry(1, 3)])
+        before = self.cache.read_text(encoding='utf-8')
+        p = self.run_updater(key=SECRET, extra={'YT_FEED_BASE': self.base + '/redirect-feed'})
+        self.assertRefused(p)
+        self.assertIn('refusing a redirect', p.stderr)
+        self.assertEqual(self.cache.read_text(encoding='utf-8'), before)
+        self.assertNotIn(SECRET, p.stdout + p.stderr)
+
+    def test_only_https_youtube_hosts_or_the_local_test_server_may_be_fetched(self):
+        self.seed([entry(1, 3)])
+        before = self.cache.read_text(encoding='utf-8')
+        for bad in ('file:///etc/passwd', 'ftp://example.com/feed', 'https://example.com/feed', 'http://www.youtube.com/feeds/videos.xml'):
+            p = self.run_updater(extra={'YT_FEED_BASE': bad})
+            self.assertRefused(p, bad)
+            self.assertIn('refusing to fetch', p.stderr, bad)
+            self.assertEqual(self.cache.read_text(encoding='utf-8'), before, bad)
 
 
 if __name__ == '__main__':

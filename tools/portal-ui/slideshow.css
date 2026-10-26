@@ -1,0 +1,66 @@
+/* Bayanath page: the Photo Slideshow, directly under the whole video grid and as wide as the content column.
+   Whole photographs (object-fit: contain, never cropped) on a navy frame, with a soft still copy of the same photograph as the backdrop
+   on screens 46rem and wider. A short cross-fade is the only motion; there is no zoom or drift. Scoped to .ph so nothing else is affected.
+   Without JavaScript (slideshow.js adds .is-js) the photographs are a swipeable row and every one is visible. */
+.ph { margin-top: clamp(1.4rem, 3vw, 2.2rem); color: var(--bz-text); }
+.ph * { box-sizing: border-box; }
+.ph-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 .8rem; padding-top: clamp(1rem, 2vw, 1.4rem); border-top: 1px solid var(--bz-edge-soft); }
+.ph-head h2 { display: flex; align-items: center; gap: .9rem; margin: 0; color: var(--bz-ink); font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.2; }
+.ph-head h2::before { content: ""; flex: none; width: 2.8rem; height: .3rem; border-radius: 999px; background: linear-gradient(90deg, var(--bz-gold), var(--bz-gold-soft)); }
+.ph-arrows { display: flex; gap: .5rem; }
+.ph-arrows[hidden], .ph-bar[hidden], .ph-side[hidden] { display: none; }
+.ph-arrow, .ph-side, .ph-pp { display: grid; place-items: center; padding: 0; border-radius: 50%; cursor: pointer; color: var(--bz-ink); background: rgba(9, 16, 42, .72); border: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 0 8px 20px rgba(1, 4, 16, .4), inset 0 1px 0 rgba(255, 255, 255, .2); transition: transform .25s ease, background-color .25s ease, border-color .25s ease; -webkit-tap-highlight-color: transparent; }
+.ph-arrow { width: 2.75rem; height: 2.75rem; }
+.ph-arrow:hover, .ph-side:hover, .ph-pp:hover { background: rgba(var(--bz-violet), .55); border-color: var(--bz-gold); transform: scale(1.06); }
+.ph-arrow:active, .ph-side:active, .ph-pp:active { transform: scale(.94); }
+.ph-arrow:focus-visible, .ph-pp:focus-visible, .ph-dot:focus-visible { outline: 3px solid var(--bz-gold); outline-offset: 2px; }
+.ph .sc-ico { width: 1.15rem; height: 1.15rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.ph-show { position: relative; border-radius: 1.3rem; outline: none; border: 1px solid rgba(var(--bz-goldrgb), .55); overflow: hidden; background: linear-gradient(150deg, var(--bz-navy-2), var(--bz-navy-1));
+  box-shadow: 0 28px 60px rgba(1, 4, 16, .5), 0 0 0 1px rgba(255, 255, 255, .04), inset 0 1px 0 rgba(255, 255, 255, .15); }
+.ph-show:focus-visible { box-shadow: 0 0 0 3px rgba(var(--bz-goldrgb), .8), 0 28px 60px rgba(1, 4, 16, .5); }
+/* without JavaScript: a swipeable row of whole photographs */
+.ph-stage { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.ph-slide { position: relative; flex: 0 0 100%; margin: 0; aspect-ratio: 16 / 9; overflow: hidden; scroll-snap-align: center; }
+.ph-bg { position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; opacity: .5; }
+.ph-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }   /* the whole photograph, never cropped */
+.ph-miss { display: none; position: absolute; inset: 0; place-items: center; padding: 1rem; text-align: center; color: var(--bz-muted); font-size: .95rem; }
+.ph-slide.is-broken .ph-img, .ph-slide.is-broken .ph-bg { display: none; }
+.ph-slide.is-broken .ph-miss { display: grid; }
+@media (max-width: 46rem) { .ph-bg { display: none; } }   /* phones: the plain navy frame instead of a blurred copy */
+@media (min-width: 46rem) { .ph-bg { filter: blur(22px) saturate(1.15); } }
+
+.ph-show.is-js .ph-stage { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 9; touch-action: pan-y; }
+.ph-show.is-js .ph-slide { position: absolute; inset: 0; aspect-ratio: auto; opacity: 0; visibility: hidden; transition: opacity var(--ph-fade, .7s) ease, visibility 0s linear var(--ph-fade, .7s); }
+.ph-show.is-js .ph-slide.is-active { opacity: 1; visibility: visible; z-index: 2; transition: opacity var(--ph-fade, .7s) ease, visibility 0s; }
+.ph-show.is-js .ph-slide.is-leaving { opacity: 1; visibility: visible; z-index: 1; transition: none; }   /* the old photograph stays put under the new one while it fades in */
+
+.ph-side { position: absolute; top: 50%; z-index: 4; width: 2.9rem; height: 2.9rem; margin-top: -1.45rem; opacity: 0; }
+.ph-side-prev { left: .8rem; }
+.ph-side-next { right: .8rem; }
+.ph-show:hover .ph-side, .ph-show:focus-within .ph-side { opacity: 1; }
+@media (hover: none) { .ph-side { opacity: .9; } }   /* touch screens have no hover: the arrows stay visible */
+.ph-live { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.ph-bar { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; align-items: center; gap: .5rem; margin-top: .8rem; }
+.ph-bar::before { content: ""; }   /* keeps the dots centred while the pause button sits at the right edge */
+.ph-dots { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; min-width: 0; }
+.ph-dot { position: relative; display: grid; place-items: center; width: 1.7rem; height: 2.5rem; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ph-dot[hidden] { display: none; }
+.ph-dot i { display: block; width: .6rem; height: .6rem; border-radius: 999px; background: rgba(255, 255, 255, .3); transition: width .3s ease, background-color .3s ease; }
+.ph-dot:hover i { background: rgba(255, 255, 255, .6); }
+.ph-dot.is-active i { width: 1.7rem; background: var(--bz-gold); }
+.ph-pp { grid-column: 3; width: 2.75rem; height: 2.75rem; }
+.ph-pp .sc-ico { width: 1.05rem; height: 1.05rem; }
+.ph-pp .ph-pp-play { display: none; }
+.ph-pp.is-paused .ph-pp-play { display: block; }
+.ph-pp.is-paused .ph-pp-pause { display: none; }
+.ph-pp .ph-pp-play .sc-ico { fill: currentColor; }
+
+@media (max-width: 46rem) { .ph-show.is-js .ph-stage, .ph-slide { aspect-ratio: 4 / 3; } .ph-show.is-js .ph-slide { aspect-ratio: auto; } .ph-head h2::before { width: 2rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .ph-show.is-js .ph-slide, .ph-show.is-js .ph-slide.is-active { transition: none; }
+  .ph-arrow, .ph-side, .ph-pp, .ph-dot i { transition: none; }
+}
+@media print { .ph-arrows, .ph-bar, .ph-side { display: none; } .ph-stage { display: block; } .ph-slide { aspect-ratio: auto; } }

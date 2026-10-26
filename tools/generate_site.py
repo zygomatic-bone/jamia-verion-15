@@ -196,7 +196,7 @@ def lightbox():
 
 def layout(filename,title,desc,body,og='slide2.jpg',base=False):
  base_tag=f'<base href="{BASE_PATH}">' if base else ''
- return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">{base_tag}<title>{escape(title)} | {SCHOOL}</title><meta name="description" content="{escape(desc,quote=True)}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title,quote=True)} | {SCHOOL}"><meta property="og:description" content="{escape(desc,quote=True)}"><meta property="og:image" content="{escape(og_url(og),quote=True)}"><meta name="theme-color" content="#123c2e">{theme_boot()}<link rel="stylesheet" href="assets/css/styles.css"></head><body>{header(filename)}<main id="main">{body}</main>{footer()}{lightbox()}<script src="assets/js/app.js" defer></script></body></html>'''
+ return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">{base_tag}<title>{escape(title)} | {SCHOOL}</title><meta name="description" content="{escape(desc,quote=True)}"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title,quote=True)} | {SCHOOL}"><meta property="og:description" content="{escape(desc,quote=True)}"><meta property="og:image" content="{escape(og_url(og),quote=True)}"><meta name="theme-color" content="#123c2e">{theme_boot()}<link rel="stylesheet" href="assets/css/styles.css"><link rel="stylesheet" href="assets/css/motion.css"></head><body>{header(filename)}<main id="main">{body}</main>{footer()}{lightbox()}<script src="assets/js/app.js" defer></script><script src="assets/js/motion.js" defer></script></body></html>'''
 
 def img_button(src,alt,title=None):
  m=img_meta(src)
@@ -408,23 +408,23 @@ for filename,(title,desc,srcfile) in PAGE_META.items():
  if filename=='annual.html' and not shown:
   body+='<section class="section"><div class="container photo-grid">'+''.join(img_button(f'audi{i}.jpg',f'Auditorium photograph {i}') for i in range(1,5))+'</div></section>'
  pagehtml=layout(filename,title,desc,body, next((im[0] for im in shown), 'slide2.jpg'))
- (OUT/filename).write_text(pagehtml,encoding='utf-8')
+ (OUT/filename).write_text(pagehtml,encoding='utf-8',newline='\n')
  source_pages.append({'page':filename,'source':srcfile,'title':title,'extracted_images':[i[0] for i in shown],'text_elements':sum(1 for e in elements if e[0]=='text')})
 
-(OUT/'index.html').write_text(layout('index.html','Home','Jame Ul Uloom Residential School, Banikuppa',make_home()),encoding='utf-8')
+(OUT/'index.html').write_text(layout('index.html','Home','Jame Ul Uloom Residential School, Banikuppa',make_home()),encoding='utf-8',newline='\n')
 _home_elems=extract_content('home.html')[0]+[('img',real_img('SchoolBuilding.jpg'),DISPLAY_NAMES['schoolbuilding.jpg'])]
-(OUT/'home.html').write_text(layout('home.html','School Overview',PAGE_META['home.html'][1],page_body('School Overview','About',PAGE_META['home.html'][1],_home_elems,'home.html')[0],og='schoolbuilding.jpg'),encoding='utf-8')
+(OUT/'home.html').write_text(layout('home.html','School Overview',PAGE_META['home.html'][1],page_body('School Overview','About',PAGE_META['home.html'][1],_home_elems,'home.html')[0],og='schoolbuilding.jpg'),encoding='utf-8',newline='\n')
 
 # Cohesive category landing pages, linked to the original pages.
 aboutlinks=[('School overview','The institutional overview and campus introduction.','home.html','SchoolBuilding.jpg'),('Governing Body','The governing body of the institution.','team.html','Governing.jpeg'),('Trustees','The trustees of the institution.','trustees.html','Trustees.jpg'),('Staff','The school staff.','staff.html','Staff.jpg'),('Principal’s Message','The Principal’s message.','message.html','Message9.jpeg')]
-(OUT/'about.html').write_text(layout('about.html','About the School','Institutional overview and school leadership pages.',generated_overview('About the school','About','Explore the school overview and the people and trust pages.',aboutlinks)),encoding='utf-8')
+(OUT/'about.html').write_text(layout('about.html','About the School','Institutional overview and school leadership pages.',generated_overview('About the school','About','Explore the school overview and the people and trust pages.',aboutlinks)),encoding='utf-8',newline='\n')
 academics=[('Classrooms','The school’s classroom teaching approach.','classroom.html','Classroom.jpg'),('Science Laboratories','Chemistry, Physics and Biology laboratories.','laboratories.html','ChemistryLab.jpg'),('Computer Laboratory','Computer education.','computerlab.html','ComputerLab.jpg'),('Library','The school library.','library.html','Library.jpg')]
-(OUT/'academics.html').write_text(layout('academics.html','Learning & Academics','Learning spaces and educational facilities.',generated_overview('Learning & academics','Learning','Explore the school’s learning spaces.',academics)),encoding='utf-8')
+(OUT/'academics.html').write_text(layout('academics.html','Learning & Academics','Learning spaces and educational facilities.',generated_overview('Learning & academics','Learning','Explore the school’s learning spaces.',academics)),encoding='utf-8',newline='\n')
 activities=[('Annual Day & Auditorium','Auditorium photographs from the Annual page.','annual.html','audi4.jpg'),('Sports','Sports and co-curricular activities.','sports.html','SportsEvent.jpg'),('Clubs','Student clubs.','clubs.html','ScienceClub.jpg')]
-(OUT/'activities.html').write_text(layout('activities.html','Activities','Sports, clubs, and annual school events.',generated_overview('Activities & student life','Activities','Explore annual events, sports and student clubs.',activities)),encoding='utf-8')
+(OUT/'activities.html').write_text(layout('activities.html','Activities','Sports, clubs, and annual school events.',generated_overview('Activities & student life','Activities','Explore annual events, sports and student clubs.',activities)),encoding='utf-8',newline='\n')
 facilities=[('Classrooms','Teaching and learning spaces.','classroom.html','Classroom.jpg'),('Science Laboratories','Science practicals and laboratories.','laboratories.html','BiologyLab.jpg'),('Computer Lab','Computer education.','computerlab.html','ComputerLab.jpg'),('Library','Library facilities.','library.html','Library.jpg'),('Hostel & Dining','Residential facilities and dining.','hostel.html','Hostel.jpg'),('Campus Masjid','The campus masjid.','masjid.html','Masjid.jpg'),('Medical Facility','Medical support on campus.','medicalfacility.html','Dr.Fayaz.jpg')]
-(OUT/'facilities.html').write_text(layout('facilities.html','Campus & Facilities','Campus and school facilities.',generated_overview('Campus & facilities','Campus','Explore the school’s facilities.',facilities)),encoding='utf-8')
-(OUT/'gallery.html').write_text(layout('gallery.html','Gallery','Photographs from Jame Ul Uloom Residential School, Banikuppa.',make_gallery()),encoding='utf-8')
+(OUT/'facilities.html').write_text(layout('facilities.html','Campus & Facilities','Campus and school facilities.',generated_overview('Campus & facilities','Campus','Explore the school’s facilities.',facilities)),encoding='utf-8',newline='\n')
+(OUT/'gallery.html').write_text(layout('gallery.html','Gallery','Photographs from Jame Ul Uloom Residential School, Banikuppa.',make_gallery()),encoding='utf-8',newline='\n')
 
 # ---- Privacy & photo-use notice ------------------------------------------------------------
 def make_privacy():
@@ -440,36 +440,22 @@ def make_privacy():
  body+='<h2>Contact</h2><p>Jame Ul Uloom Residential School, S.J.P Road, City Market, Bangalore – 560002.</p><p><a class="text-link" href="mailto:jamiaululoom@gmail.com?subject=Photograph%20review%20request">jamiaululoom@gmail.com</a> · <a class="text-link" href="tel:0822221151">0822221151</a> · <a class="text-link" href="tel:0822239495">0822239495</a></p></div></section>'
  return body
 
-(OUT/'privacy.html').write_text(layout('privacy.html','Privacy & Photo Use','How this website uses photographs of pupils and staff, and how to request review or removal of a photograph.',make_privacy()),encoding='utf-8')
+(OUT/'privacy.html').write_text(layout('privacy.html','Privacy & Photo Use','How this website uses photographs of pupils and staff, and how to request review or removal of a photograph.',make_privacy()),encoding='utf-8',newline='\n')
 
 # ---- 404 page (served by the host for unknown URLs; <base href="/"> keeps assets working from any path) ----
 _nf='<section class="page-hero"><div class="container reveal"><p class="eyebrow">404</p><h1>Page not found</h1><p class="lede">The page you were looking for does not exist or has moved.</p><div class="button-row"><a class="button button-primary" href="index.html">Go to the home page</a><a class="button button-secondary" href="gallery.html">View the gallery</a></div></div></section>'
-(OUT/'404.html').write_text(layout('404.html','Page not found','The page you were looking for does not exist.',_nf,base=True),encoding='utf-8')
+(OUT/'404.html').write_text(layout('404.html','Page not found','The page you were looking for does not exist.',_nf,base=True),encoding='utf-8',newline='\n')
 
-# ---- Reports (kept in tools/, never published) ---------------------------------------------
 all_images=sorted([p for p in IMG.iterdir() if p.is_file() and p.suffix.lower() in {'.jpg','.jpeg','.png','.gif','.webp'}],key=lambda p:p.name.lower())
 source_html=sorted(SRC.glob('*.html'))
-report={
- 'project':SCHOOL,
- 'generated_at':'2026-10-17',
- 'source_html_pages_archived':len(source_html),
- 'source_pages_rendered':len(PAGE_META),
- 'additional_landing_pages_generated':['about.html','academics.html','activities.html','facilities.html','gallery.html','privacy.html','404.html'],
- 'image_files_in_assets':len(all_images),
- 'source_pages':source_pages,
- 'asset_inventory':[{'filename':p.name,'bytes':p.stat().st_size,'extension':p.suffix.lower()} for p in all_images],
- 'notes':['All original HTML pages remain available in tools/source-html/.','Images referenced in archived page content were mapped when their filenames existed in public/assets/images/ (matched case-insensitively; emitted with the exact on-disk case).','The archive alone does not prove completeness against the live site; compare against the live site before claiming every remote asset has been recovered.','Legacy social icons and some tiny decorative assets remain in assets/images/ but are excluded from the photo gallery.']
-}
-(TOOLS/'migration-report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
-(TOOLS/'MIGRATION-REPORT.md').write_text('# Website migration report\n\n- Archived source HTML pages: **%d**\n- Original image files in assets: **%d**\n- Generated source-based pages: **%d**\n- Additional landing pages: **5** (about, academics, activities, facilities, gallery) plus privacy.html and 404.html\n\n## Important limitations\n\n- The source archive contains 18 original HTML pages. This build generates all 18 as modern pages, plus the landing/gallery/privacy/404 pages.\n- Image references found in the central content areas were mapped where the corresponding file exists in `public/assets/images/`.\n- This report reflects the supplied ZIP, not a live-server crawl. It cannot certify that every image or page on the live website has been captured.\n- Original source pages are retained under `tools/source-html/` for traceability.\n\n## Generated pages\n\n' % (len(source_html),len(all_images),len(PAGE_META)-2) + ''.join(f'- `{f}` — {t}\n' for f,(t,_,_) in PAGE_META.items()) + '- `about.html` — About landing page\n- `academics.html` — Learning landing page\n- `activities.html` — Activities landing page\n- `facilities.html` — Facilities landing page\n- `gallery.html` — Photo gallery\n- `privacy.html` — Privacy & photo-use notice\n- `404.html` — Not-found page\n',encoding='utf-8')
 
 # ---- sitemap.xml (absolute URLs, as the sitemap protocol requires) and robots.txt ----------
 urls=sorted(p.name for p in OUT.glob('*.html') if p.name!='404.html')
 if SITE_URL:
-    (OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{escape(SITE_URL+"/"+("" if u=="index.html" else u))}</loc></url>\n' for u in urls)+'</urlset>\n',encoding='utf-8')
-    (OUT/'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n',encoding='utf-8')
+    (OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{escape(SITE_URL+"/"+("" if u=="index.html" else u))}</loc></url>\n' for u in urls)+'</urlset>\n',encoding='utf-8',newline='\n')
+    (OUT/'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n',encoding='utf-8',newline='\n')
 else:
-    (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n',encoding='utf-8')
+    (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n',encoding='utf-8',newline='\n')
 # ---- legacy case-sensitive URLs -> current lowercase files (Apache .htaccess block + Cloudflare/Netlify _redirects) ----
 legacy_pages={}; legacy_imgs={}
 for f in SRC.glob('*.html'):
@@ -481,9 +467,9 @@ for f in SRC.glob('*.html'):
   if mm and real_img(mm.group(1)) and real_img(mm.group(1))!=mm.group(1): legacy_imgs[mm.group(1)]=real_img(mm.group(1))
 lp=TOOLS/'legacy-image-names.txt'      # original image names recorded in the audit (CSS background images are not visible in the HTML)
 if lp.exists():
- for n in lp.read_text().split():
+ for n in lp.read_text(encoding='utf-8').split():
   if real_img(n) and real_img(n)!=n: legacy_imgs[n]=real_img(n)
-# Phase 9: two original pages that only repeated the school overview text (no content of their own) now point at the matching pages.
+# Two original pages that only repeated the school overview text (no content of their own) now point at the matching pages.
 legacy_pages.update({'DiningHall.html': 'facilities.html', 'co-curricular.html': 'activities.html'})
 legacy_pages={k:v for k,v in sorted(legacy_pages.items())}; legacy_imgs={k:v for k,v in sorted(legacy_imgs.items())}
 BEGIN,END='# BEGIN legacy-redirects (generated)','# END legacy-redirects'
@@ -494,7 +480,7 @@ rules+=['</IfModule>',END]
 ht=(OUT/'.htaccess').read_text(encoding='utf-8')
 if BEGIN in ht: ht=ht[:ht.index(BEGIN)]+'\n'.join(rules)+ht[ht.index(END)+len(END):]
 else: ht=ht.rstrip('\n')+'\n\n'+'\n'.join(rules)+'\n'
-(OUT/'.htaccess').write_text(ht,encoding='utf-8')
+(OUT/'.htaccess').write_text(ht,encoding='utf-8',newline='\n')
 # The old portal/home page was removed. Force (!) the redirect so it applies even if a stale file is ever deployed.
 # These rules match only the ROOT paths; /ResidentialSchoolBanikuppa/home.html (the school overview) is a different, valid page.
 red=['# Removed portal/home page -> the single official homepage (generated by tools/generate_site.py)',
@@ -505,7 +491,7 @@ red=['# Removed portal/home page -> the single official homepage (generated by t
      '# Mixed-case URLs of the Banikuppa school site (generated by tools/generate_site.py)']
 red+=[f'{BASE_PATH}{k} {BASE_PATH}{v} 301' for k,v in legacy_pages.items()]
 red+=[f'{BASE_PATH}images/{k} {BASE_PATH}assets/images/{v} 301' for k,v in legacy_imgs.items()]
-(PUB/'_redirects').write_text('\n'.join(red)+'\n',encoding='utf-8')
+(PUB/'_redirects').write_text('\n'.join(red)+'\n',encoding='utf-8',newline='\n')
 print('legacy redirects:',len(legacy_pages),'pages,',len(legacy_imgs),'images')
 unused=[a for a,_ in FIXES if a not in FIX_HITS]
 if unused: print('WARNING unused text fixes:',unused)

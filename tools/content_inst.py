@@ -1,9 +1,9 @@
-"""Phase 9: restored institution sections (sibling folders of the main portal).
+"""Restored institution sections (sibling folders of the main portal).
 
 SIBLINGS: folder -> {name, logo (image key or None), nav [(label, file)], pages {file: (title, html)}}
 REDIRECTS: legacy path (from the site root) -> current path. Pages whose original text was copied unchanged from another institution
 are consolidated here: the old URL redirects to the single page that holds the text.
-REMOVE: Phase 8 files that carried invented text and are replaced by a redirect.
+REMOVE: files of an earlier build that carried invented text; each is deleted and replaced by a redirect.
 """
 from html import escape
 from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, info, table, people, vision, scan, logo, phone, doc_list)

@@ -33,12 +33,17 @@ SCHOOL = 'ResidentialSchoolBanikuppa/'
 
 from imgutil import image_size  # PNG / JPEG / GIF header reader
 import recovery_assets as RA
-import content_main, content_more, content_inst   # Phase 9: restored original content (see tools/content_*.py)
+import content_main, content_more, content_inst   # restored original content (see tools/content_*.py)
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'speaker'))
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'masjid'))
-import masjid_page   # Phase 9.3: Jamia Masjid photo and video sections (tools/masjid/)
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'connect'))
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'support'))
+import masjid_page   # Jamia Masjid photo and video sections (tools/masjid/)
 masjid_page.copy_assets(ASSETS)   # homepage card and Masjid page use these files; copied before pages are written
-import speaker   # Phase 9.2: Speaker Profile on Bayanath.html (tools/speaker/)
+import speaker   # Speaker Profile on Bayanath.html (tools/speaker/)
+import support_card   # 'Support Our Mission' card at the end of About Us (tools/support/); bank details only from support-details.json and only when verified
+import speaker_card   # channel card, Linktree card and Photo Slideshow (tools/speaker/speaker_card.py)
+import connect_pages   # Contact, Feedback, Admissions and Careers (tools/connect/); forms post to the forms service (forms-config.json)
 
 def fit_media(rp, fn, alt, cls='pf-media', loading='lazy'):
     """Whole photograph (never cropped) over a blurred copy of itself, same pattern as the school site's cards."""
@@ -51,14 +56,14 @@ def fit_media(rp, fn, alt, cls='pf-media', loading='lazy'):
 ICON_SCHOOL = '<svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2.5M12 2.5h3"></path></svg>'
 ICON_INSTITUTIONS = '<svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M4 10l8-6 8 6M6 10v8M10 10v8M14 10v8M18 10v8"></path></svg>'
 
-# Photograph for each institution card: an authentic photograph of that institution (Phase 9), shown whole.
+# Photograph for each institution card: an authentic photograph of that institution, shown whole.
 def _P(key):
     """Card photograph tuple (file, alt, caption) for a recovered image key."""
     _, dest, alt, cap = RA.IMAGES[key]
     return (RA.R + dest, alt, None)
 
 INST_META = {
-    # Every card shows an authentic photograph of that institution from the original site (Phase 9); no "illustrative" substitutes remain.
+    # Every card shows an authentic photograph of that institution from the original site; no "illustrative" substitutes remain.
     'Industrial Training Institute (ITI)': ('Vocational training', 'ITI', _P('iti_campus')),
     'Pre University College for Girls': ('Pre-University', 'PU', _P('pu_school')),
     'Degree College for Girls (B.Com)': ('Degree college', 'B.Com', _P('deg_cls1')),
@@ -136,6 +141,9 @@ def bg_photo(fn, side='right'):
     """Decorative, translucent background photograph (aria-hidden, blurred, masked). Never a content image."""
     return f'<div class="pf-bgphoto pf-bg-{side}" aria-hidden="true"><img src="{IMG_REL}{fn}" alt="" loading="lazy" decoding="async"></div>'
 
+CONNECT_PAGES = ('Contact.html', 'Feedback.html', 'Careers.html', 'Admissions.html')   # navy pages with forms (tools/connect/, connect.css, forms.js)
+
+
 def page(filename, title, body, desc, root_prefix=''):
     rp = root_prefix
     m = SPLIT.match(body)
@@ -166,20 +174,30 @@ def page(filename, title, body, desc, root_prefix=''):
         crumbs = f'<p class="crumbs"><a href="{rp}index.html">Home</a> / {eyebrow}</p>' if eyebrow else ''
         lede_html = f'<p class="lede">{lede}</p>' if lede else ''
         hero_cls, content_cls = COMPACT.get(filename, ('', '')) if not rp else ('', '')
-        main = (f'<section class="page-hero {hero_cls}"><div class="container">{crumbs}<h1>{h1}</h1>{lede_html}</div></section>'
-                f'<section class="section portal-content {content_cls}"><div class="container">{content}</div></section>')
+        if filename == 'Bayanath.html' and not rp:   # the heading and subtitle live in the right-hand column; the hero band keeps only the breadcrumb
+            content = content.replace('@@BZ_H1@@', f'<h1>{h1}</h1>').replace('@@BZ_LEDE@@', lede or '')
+            main = (f'<section class="page-hero page-hero-slim"><div class="container">{crumbs}</div></section>'
+                    f'<section class="section portal-content"><div class="container">{content}</div></section>')
+        else:
+            main = (f'<section class="page-hero {hero_cls}"><div class="container">{crumbs}<h1>{h1}</h1>{lede_html}</div></section>'
+                    f'<section class="section portal-content {content_cls}"><div class="container">{content}</div></section>')
     footer = (f'<footer class="site-footer"><div class="container"><div class="footer-grid">'
               f'<div class="footer-brand">{wordmark(rp, "brand-text")}<p>Jamia Masjid &amp; Muslim Charitable Fund Trust, S.J.P. Road, City Market, Bangalore – 560002.</p></div>'
               f'<div><h2>Explore</h2><a href="{rp}index.html">Home</a><a href="{rp}Institutions.html">Institutions</a><a href="{rp}Services.html">Services</a><a href="{rp}Activities.html">Activity Calendar</a><a href="{rp}Masjid.html">Jamia Masjid &amp; prayer times</a></div>'
               f'<div><h2>Community</h2><a href="{rp}AboutUs.html">About Us</a><a href="{rp}Message.html">Chairmen’s Messages</a><a href="{rp}Team.html">Governing Body</a><a href="{rp}Recognitions.html">Recognitions</a><a href="{rp}Bayanath.html">Bayanath</a><a href="{rp}Admissions.html">Admissions</a><a href="{rp}Careers.html">Careers</a></div>'
-              f'<div><h2>Contact</h2><a href="{rp}Contact.html">Contact directory</a><a href="mailto:jamiaululoom@gmail.com">jamiaululoom@gmail.com</a><a href="{rp}ResidentialSchoolBanikuppa/index.html">Banikuppa school</a></div>'
+              f'<div><h2>Contact</h2><a href="{rp}Contact.html">Contact directory</a><a href="{rp}Feedback.html">Feedback</a><a href="mailto:jamiaululoom@gmail.com">jamiaululoom@gmail.com</a><a href="{rp}ResidentialSchoolBanikuppa/index.html">Banikuppa school</a></div>'
               f'</div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Jamia Masjid &amp; Muslim Charitable Fund Trust</span><span>Jame-ul-Uloom, Bangalore</span></div></div></footer>')
-    extra_js = (f'<script src="{rp}portal-assets/bayanath.js" defer></script>' if filename == 'Bayanath.html' and not rp else
-                f'<script src="{rp}portal-assets/masjid.js" defer></script>' if filename == 'Masjid.html' and not rp else '')
-    extra_css = (f'<link rel="stylesheet" href="{rp}portal-assets/bayanath.css">' if filename == 'Bayanath.html' and not rp else
-                 f'<link rel="stylesheet" href="{rp}portal-assets/masjid.css">' if filename == 'Masjid.html' and not rp else '')  # Bayanath layout, speaker card and video-card styles load on this page only
-    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else (' class="page-bayanath"' if (filename == 'Bayanath.html' and not rp) else ' class="page-masjid"' if (filename == 'Masjid.html' and not rp) else '')  # lets the homepage-only dark theme in extras.css find the homepage
-    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{escape(title)} | {NAME}</title><meta name="description" content="{escape(desc, quote=True)}"><meta name="theme-color" content="#123c2e"><script src="{rp}portal-assets/theme-init.js"></script><link rel="stylesheet" href="{rp}portal-assets/portal.css">{extra_css}</head><body{body_cls}>{site_header(rp, current=(filename if not rp else None))}<main id="main">{main}</main>{footer}<button class="icon-button back-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button><script src="{rp}portal-assets/app.js" defer></script>{extra_js}</body></html>"""
+    connect = filename in CONNECT_PAGES and not rp
+    extra_js = (f'<script src="{rp}portal-assets/bayanath.js" defer></script><script src="{rp}portal-assets/slideshow.js" defer></script><script src="{rp}portal-assets/aurora.js" defer></script>' if filename == 'Bayanath.html' and not rp else
+                f'<script src="{rp}portal-assets/masjid.js" defer></script>' if filename == 'Masjid.html' and not rp else
+                f'<script src="{rp}portal-assets/support.js" defer></script>' if filename == 'AboutUs.html' and not rp else
+                f'<script src="{rp}portal-assets/forms.js" defer></script>' if connect else '')
+    extra_css = (f'<link rel="stylesheet" href="{rp}portal-assets/bayanath.css"><link rel="stylesheet" href="{rp}portal-assets/slideshow.css">' if filename == 'Bayanath.html' and not rp else
+                 f'<link rel="stylesheet" href="{rp}portal-assets/masjid.css">' if filename == 'Masjid.html' and not rp else
+                 f'<link rel="stylesheet" href="{rp}portal-assets/support.css">' if filename == 'AboutUs.html' and not rp else
+                 f'<link rel="stylesheet" href="{rp}portal-assets/connect.css">' if connect else '')  # Bayanath layout, speaker card and video-card styles load on this page only
+    body_cls = ' class="page-home"' if (filename == 'index.html' and not rp) else (' class="page-bayanath"' if (filename == 'Bayanath.html' and not rp) else ' class="page-masjid"' if (filename == 'Masjid.html' and not rp) else ' class="page-connect"' if connect else '')  # lets the homepage-only dark theme in extras.css find the homepage
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{escape(title)} | {NAME}</title><meta name="description" content="{escape(desc, quote=True)}"><meta name="theme-color" content="#123c2e"><script src="{rp}portal-assets/theme-init.js"></script><link rel="stylesheet" href="{rp}portal-assets/portal.css">{extra_css}</head><body{body_cls}>{site_header(rp, current=(filename if not rp else None))}<main id="main">{main}</main>{footer}<button class="icon-button back-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button><script src="{rp}portal-assets/app.js" defer></script><script src="{rp}portal-assets/motion.js" defer></script>{extra_js}</body></html>"""
 
 # 1. index.html: the single official homepage. This text feeds the hero (eyebrow, heading, lede);
 #    the hero buttons and photographs are built in page(), and the sections below the hero are INDEX_SECTIONS.
@@ -210,7 +228,7 @@ INSTS = [
     ('Shoba-e-Hifz', 'ShobaehifzDel/home.html', 'The Hifz section: Hafiz and Hafiza classes for boys and girls.'),
     ('Shoba-e-Alimiyath', 'ShobaeAlimiyathDel/home.html', 'J.U Darul Quran Arabic College: Arabic studies at the Bannikuppa campus (proposed building).'),
 ]
-institutions = f'''<p class="eyebrow">Jame-ul-Uloom Group of Institutions</p><h1>Institutions</h1><p class="lede">The 14 educational institutions operated by the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p><ul class="pf-grid pf-grid-long pf-stagger">{''.join(inst_card(n, u, d) for n, u, d in INSTS)}</ul>'''+content_more.institutions_extra()
+institutions = f'''<p class="eyebrow">Jame-ul-Uloom Group of Institutions</p><h1>Institutions</h1><p class="lede">The <span class="mo-count" data-count="{len(INSTS)}">{len(INSTS)}</span> educational institutions operated by the Jamia Masjid &amp; Muslim Charitable Fund Trust.</p><ul class="pf-grid pf-grid-long pf-stagger">{''.join(inst_card(n, u, d) for n, u, d in INSTS)}</ul>'''+content_more.institutions_extra()
 COMPACT = {'Institutions.html': ('page-hero-compact', 'portal-content-tight')}
 
 # 4. Activities.html
@@ -248,14 +266,10 @@ sciencelabs = content_more.sciencelabs(photo_section('ScienceLabs.html'))
 transport = content_more.transport(photo_section('Transport.html'))
 
 # 6. Contact.html, Careers.html, Admissions.html, Tailoring.html, InsShobaeAlimiyath.html
-PHONES = [('Administrative Office', ['0822221165', '0822272086']), ('Secretary Saheb (cellar)', ['0822221725']), ('Boys Block', ['0822221726']), ('Jamia Masjid', ['0822239495']), ('Head Mistress', ['0822221156']), ('Maqsood Imran Saheb', ['0822221151']), ('P.U College', ['0826705591', '0826705486']), ('B.C.A', ['0826709915']), ('JUU Computer Section', ['0822221161']), ('M.M.I NCPUL', ['0822221158'])]
-contact = f'''<p class="eyebrow">Contact us</p><h1>Contact Directory</h1><p class="lede">Jamia Masjid &amp; Muslim Charitable Fund Trust, S.J.P. Road, City Market, Bangalore – 560002.</p><h2>Departments &amp; Direct Lines</h2><ul class="card-grid portal-cards">{''.join('<li class="card"><h3>'+escape(d)+'</h3>'+''.join(f'<p><a href="tel:{n}">{n}</a></p>' for n in ns)+'</li>' for d, ns in PHONES)}</ul><h2>Email</h2><p><a href="mailto:jamiaululoom@gmail.com">jamiaululoom@gmail.com</a></p><h2>Boys Residential School, Banikuppa</h2><p>See the <a href="ResidentialSchoolBanikuppa/contact.html">Banikuppa school contact page</a>.</p>'''
-
-careers = '''<p class="eyebrow">Contact us</p><h1>Careers</h1><p class="lede">Welcome to Jame-ul-Uloom Careers — S.J.P. Road, City Market, Bangalore – 560002.</p>
-<dl class="facts"><dt>Address</dt><dd>S.J.P. Road, City Market, Bangalore – 560002</dd><dt>Telephone</dt><dd><a href="tel:0822221151">0822221151</a>, <a href="tel:0822239495">0822239495</a></dd><dt>Email</dt><dd><a href="mailto:jamiaululoom@gmail.com?subject=Career%20Enquiry">jamiaululoom@gmail.com</a></dd></dl>
-<p>For teaching and administrative positions at the Banikuppa residential campus, see <a href="ResidentialSchoolBanikuppa/careers.html">Banikuppa Residential School Careers</a>.</p>'''
-
-admissions = content_more.admissions
+contact = connect_pages.contact()
+feedback = connect_pages.feedback()
+careers = connect_pages.careers()
+admissions = connect_pages.admissions()
 
 tailoring = content_more.tailoring
 
@@ -263,18 +277,24 @@ tailoring = content_more.tailoring
 #    portal-assets/bayanath.js from public/data/bayanath-videos.json, which tools/update_bayanath.py keeps fresh
 #    (scheduled by .github/workflows/update-bayanath.yml).
 YT_CHANNEL = 'https://www.youtube.com/@MuftiMaqsoodImran'
+YT_ALL_VIDEOS = YT_CHANNEL + '/videos'
+# Layout: a narrow left column (speaker profile, then the Linktree card) and a wide right column: the heading with the View All Videos
+# button, the two-column video grid, the full-width Photo Slideshow directly under the whole grid, and the channel card last. The page's one <h1> and its subtitle
+# are placed in the right column (page() moves them there for this page and leaves only the breadcrumb in the hero band).
 bayanath = ('<p class="eyebrow">Presentations</p><h1>Bayanath</h1><p class="lede">Latest Bayanath videos from the official YouTube channel, with the speaker\u2019s profile.</p>'
             + speaker.background()
-            + '<div class="bz-grid">'
-            + '<div class="bz-side">' + speaker.render() + '</div>'
-            + '<div class="bz-main"><div class="bz-head"><p class="eyebrow">Latest videos</p><h2>Latest Bayanath videos</h2><p>The newest ten, with the most recent first.</p></div>'
+            + '<div class="bz-grid" data-no-motion>'
+            + '<div class="bz-side">' + speaker.render() + speaker_card.social() + '</div>'
+            + '<div class="bz-main"><header class="bz-head"><div class="bz-head-text"><span class="bz-rule" aria-hidden="true"></span>@@BZ_H1@@<p class="bz-sub">@@BZ_LEDE@@</p></div>'
+            + f'<a class="bz-all" href="{YT_ALL_VIDEOS}" target="_blank" rel="noopener noreferrer"><span>View All Videos</span>{speaker_card.glyph("next", "bz-all-ico")}<span class="sr-only"> (opens YouTube in a new tab)</span></a></header>'
             + f'<div data-bayanath data-src="data/bayanath-videos.json" data-channel="{YT_CHANNEL}">'
             '<p class="by-status" role="status">Loading the latest Bayanath videos…</p>'
             '<ul class="by-grid" aria-busy="true" aria-label="Latest Bayanath videos"></ul>'
             '<p class="by-meta"></p>'
-            f'<p class="by-meta"><a href="{YT_CHANNEL}" target="_blank" rel="noopener">Watch all videos on the official YouTube channel ↗</a></p>'
             f'<noscript><p class="by-status">Please enable JavaScript to see the video list, or <a href="{YT_CHANNEL}" target="_blank" rel="noopener">open the official YouTube channel</a>.</p></noscript></div>'
-            '</div></div>')
+            + speaker_card.slideshow()
+            + speaker_card.channel()
+            + '</div></div>')
 
 
 # 1b. Photographic sections under the hero (index.html only). All copy is taken from existing portal content.
@@ -377,7 +397,7 @@ if _rec.exists():
     if _items:
         recognitions += ('<section class="rg-panel" aria-labelledby="rg-title"><div class="rg-head"><p class="rg-eyebrow">Gallery</p>'
                          '<h2 id="rg-title">Letters of Appreciation</h2>'
-                         '<p>Messages of goodwill and appreciation received from public figures and educationists, most dated early February 2011. Hover, focus or tap a card for details.</p></div>'
+                         '<p>Messages of goodwill and appreciation received from public figures and educationists, most dated early February 2011. On a computer, hover over or focus a card for its date and a link to the full-size letter; on a touch screen they are always shown.</p></div>'
                          '<ul class="rg-grid">' + ''.join(_items) + '</ul></section>')
 
 PAGES = [
@@ -389,17 +409,18 @@ PAGES = [
     ('ScienceLabs.html', 'Science Laboratories', sciencelabs, 'Science laboratories at Jame-ul-Uloom PU College for Girls and High Schools.'),
     ('Transport.html', 'Transport & Facilities', transport, 'Transport and campus facilities across the Jame-ul-Uloom Group of Institutions.'),
     ('Bayanath.html', 'Bayanath', bayanath, 'Latest Bayanath videos from the official YouTube channel, and the speaker profile.'),
-    ('Contact.html', 'Contact', contact, 'Central departmental telephone directory and address for Jame-ul-Uloom.'),
-    ('Careers.html', 'Careers', careers, 'Career enquiries at Jame-ul-Uloom, Jamia Masjid, Bangalore.'),
-    ('Admissions.html', 'Admissions', admissions, 'Admissions information across the 14 institutions of Jame-ul-Uloom.'),
+    ('Contact.html', 'Contact', contact, 'Address, telephone directory and email for Jame ul uloom, Jamia Masjid, Bangalore, with ways to ask, apply and share feedback.'),
+    ('Feedback.html', 'Feedback', feedback, 'Share your feedback with Jame ul uloom: students, parents, alumni, visitors and the community are all welcome.'),
+    ('Careers.html', 'Careers', careers, 'Careers at Jame ul uloom, Jamia Masjid, Bangalore: areas where you could contribute and an expression-of-interest form.'),
+    ('Admissions.html', 'Admissions', admissions, 'How admission works at each Jame ul uloom institution, the documents to bring, and a simple enquiry form.'),
     ('Tailoring.html', 'Tailoring School for Women', tailoring, 'Jame-ul-Uloom Tailoring School for Women at Jamia Masjid, Bangalore.'),
 ]
-PAGES += [(fn, t, b, d) for fn, (t, b, d) in {**content_main.ROOT, **content_more.ROOT_MORE}.items()]
+PAGES += [(fn, t, b + (support_card.render(connect_pages.EMAIL) if fn == 'AboutUs.html' else ''), d) for fn, (t, b, d) in {**content_main.ROOT, **content_more.ROOT_MORE}.items()]   # About Us keeps its whole body; the support card is added after it
 PAGES = [(fn, t, (b.replace('@@MASJID_TOP@@', masjid_page.topbar()).replace('@@MASJID_SECTIONS@@', masjid_page.sections()) if fn == 'Masjid.html' else b), d) for fn, t, b, d in PAGES]
 
 
 for fn, t, b, d in PAGES:
-    (PUB / fn).write_text(page(fn, t, b, d), encoding='utf-8')
+    (PUB / fn).write_text(page(fn, t, b, d), encoding='utf-8', newline='\n')
 
 # The old portal page (public/home.html) was removed on purpose. index.html is the only homepage.
 # Delete any leftover copy from an older build, and refuse to continue if a page named home.html is ever added to PAGES.
@@ -432,13 +453,13 @@ for folder, meta in SIBLINGS.items():
     subnav = '<div class="subnav">' + ''.join(f'<a href="{escape(u, quote=True)}">{escape(lbl)}</a>' for lbl, u in meta['nav']) + '</div>'
     for fn, (pg_title, pg_html) in meta['pages'].items():
         body = f'<p class="eyebrow">{escape(meta["name"])}</p><h1>{escape(pg_title)}</h1>{subnav}<div class="prose rc-prose rc-wideprose">{add_heading_ids(pg_html)}</div>'
-        (sub_dir / fn).write_text(page(fn, pg_title, body, f'{pg_title} — {NAME}', root_prefix='../'), encoding='utf-8')
+        (sub_dir / fn).write_text(page(fn, pg_title, body, f'{pg_title} — {NAME}', root_prefix='../'), encoding='utf-8', newline='\n')
         sib_count += 1
-# Files left by an earlier build that are no longer part of a section (Phase 8 pages with invented text, or pages now merged) are removed
+# Files left by an earlier build that are no longer part of a section (pages that carried invented text, or pages now merged) are removed
 for folder, meta in SIBLINGS.items():
     for f in (PUB / folder).glob('*.html'):
         if f.name not in meta['pages']: f.unlink()
-# Phase 8 files that carried invented text are replaced by redirects (and must not linger from an earlier build)
+# Files that carried invented text are replaced by redirects (and must not linger from an earlier build)
 for rel in content_inst.REMOVE:
     (PUB / rel).unlink(missing_ok=True)
 
@@ -449,31 +470,68 @@ for old, new in REDIRECTS.items():
     target = new.split('#')[0]
     assert (PUB / target).exists(), f'redirect {old} -> {new}: target page missing'
     assert not ((PUB / old).exists()), f'redirect source {old} still exists as a file'
-RB, RE = '# BEGIN phase9-redirects (generated by tools/generate_portal.py)', '# END phase9-redirects'
+RB, RE = '# BEGIN legacy-redirects (generated by tools/generate_portal.py)', '# END legacy-redirects'
 lines = [RB] + [f'/{o} /{n} 301' for o, n in sorted(REDIRECTS.items())] + [RE]
 red = (PUB / '_redirects').read_text(encoding='utf-8')
 if RB in red: red = red[:red.index(RB)] + red[red.index(RE) + len(RE) + 1:]
-(PUB / '_redirects').write_text(red.rstrip('\n') + '\n\n' + '\n'.join(lines) + '\n', encoding='utf-8')
-ht = ['# Root routing for jameululoom.org (generated by tools/generate_portal.py). Security headers and the Residential School rules live in',
-      '# ResidentialSchoolBanikuppa/.htaccess; this file only carries the legacy-URL redirects of the earlier site address.',
+(PUB / '_redirects').write_text(red.rstrip('\n') + '\n\n' + '\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
+# Security headers for every page. Only Bayanath needs YouTube (thumbnails and the click-to-play player); nothing else is allowed.
+# The Residential School keeps an extra, stricter policy of its own (no YouTube at all). A host that applies both rules enforces both,
+# so the stricter one wins; every other header is sent once, by the site-wide rule, so no value is ever doubled.
+# The forms service (serverless/forms-worker/) lives on another origin: it is allowed for fetch() and form posts, and only once its
+# address is set in tools/connect/forms-config.json. Nothing else is added to the policy.
+_EP = (' ' + connect_pages.ENDPOINT_ORIGIN) if connect_pages.ENDPOINT_ORIGIN else ''
+CSP = ("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://i.ytimg.com https://i1.ytimg.com https://i2.ytimg.com "
+       "https://i3.ytimg.com https://i4.ytimg.com https://img.youtube.com; font-src 'self'; connect-src 'self'" + _EP + "; media-src 'self'; object-src 'none'; "
+       "frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'" + _EP + "; frame-ancestors 'none'; upgrade-insecure-requests")
+CSP_RS = ("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; "
+          "object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests")
+SECURITY = [
+    ('X-Content-Type-Options', 'nosniff'),
+    ('X-Frame-Options', 'DENY'),
+    ('Referrer-Policy', 'strict-origin-when-cross-origin'),
+    # autoplay, fullscreen and the motion sensors stay at their defaults: the Masjid videos and the YouTube player need them
+    ('Permissions-Policy', 'camera=(), geolocation=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()'),
+    ('Cross-Origin-Opener-Policy', 'same-origin'),
+    ('Strict-Transport-Security', 'max-age=31536000'),
+]
+ht = ['# Root routing and security headers for jameululoom.org (generated by tools/generate_portal.py). The Residential School folder adds its own',
+      '# stricter rules in ResidentialSchoolBanikuppa/.htaccess; the legacy-URL redirects of the earlier site address follow below.',
       'Options -Indexes', '',
-      '<IfModule mod_headers.c>', '  # Ask search engines not to list photographs of pupils and staff in image search (same policy as the Residential School)',
-      '  <FilesMatch "\\.(jpe?g|png|gif|webp)$">', '    Header set X-Robots-Tag "noimageindex"', '  </FilesMatch>', '</IfModule>', '',
-      '<IfModule mod_rewrite.c>', 'RewriteEngine On', 'RewriteBase /', 'RewriteRule ^home(\\.html)?/?$ / [R=301,L]']
+      '<IfModule mod_headers.c>', f'  Header always set Content-Security-Policy "{CSP}"']
+ht += [f'  Header always set {k} "{v}"' for k, v in SECURITY]
+ht += ['  # Ask search engines not to list photographs of pupils and staff in image search (same policy as the Residential School)',
+       '  <FilesMatch "\\.(jpe?g|png|gif|webp)$">', '    Header set X-Robots-Tag "noimageindex"', '  </FilesMatch>', '</IfModule>', '',
+       '# Never serve dotfiles, backups, logs, source maps or build leftovers if one is ever uploaded by mistake',
+       '<IfModule mod_authz_core.c>', '  <FilesMatch "(^\\.|\\.(bak|old|orig|swp|sql|log|ini|env|map|py|sh|md)$|~$)">', '    Require all denied', '  </FilesMatch>', '</IfModule>', '',
+       '<IfModule mod_rewrite.c>', 'RewriteEngine On', 'RewriteBase /', 'RewriteRule ^home(\\.html)?/?$ / [R=301,L]']
 for o, n in sorted(REDIRECTS.items()):
     dest = n.split('#')
     ht.append(f'RewriteRule ^{re.escape(o).replace("&", "&")}$ /{dest[0]}' + (f'#{dest[1]}' if len(dest) > 1 else '') + ' [R=301,L,NE]')
 ht += ['</IfModule>', '']
-(PUB / '.htaccess').write_text('\n'.join(ht), encoding='utf-8')
+(PUB / '.htaccess').write_text('\n'.join(ht), encoding='utf-8', newline='\n')
 
-hdr = re.split(r'\n\s*# Privacy', (PUB / '_headers').read_text(encoding='utf-8'))[0]   # drop any earlier generated block, then write it again
-HB = '# Privacy: keep photographs of pupils and staff out of image search (generated by tools/generate_portal.py)'
-(PUB / '_headers').write_text(hdr.rstrip('\n') + f'\n\n{HB}\n/portal-assets/images/*\n  X-Robots-Tag: noimageindex\n', encoding='utf-8')
+hdr = ['# Security headers for hosts that read a _headers file from the publish root (Netlify, Cloudflare Pages). Generated by tools/generate_portal.py;',
+       '# the same values are written to .htaccess for Apache.', '/*', f'  Content-Security-Policy: {CSP}']
+hdr += [f'  {k}: {v}' for k, v in SECURITY]
+hdr += ['', '# Residential School: additional, stricter policy (no YouTube); keep in sync with ResidentialSchoolBanikuppa/.htaccess',
+        '/ResidentialSchoolBanikuppa/*', f'  Content-Security-Policy: {CSP_RS}',
+        '', '# Privacy: keep photographs of pupils and staff out of image search', '/portal-assets/images/*', '  X-Robots-Tag: noimageindex', '']
+(PUB / '_headers').write_text('\n'.join(hdr), encoding='utf-8', newline='\n')
 
-(ASSETS / 'portal.css').write_text(''.join((UI / f).read_text(encoding='utf-8') for f in ('base.css', 'extras.css', 'recovered.css')), encoding='utf-8')
-for _f in ('app.js', 'theme-init.js', 'bayanath.js', 'bayanath.css', 'masjid.js', 'masjid.css'):
+(ASSETS / 'portal.css').write_text(''.join((UI / f).read_text(encoding='utf-8') for f in ('base.css', 'extras.css', 'recovered.css', 'motion.css')), encoding='utf-8', newline='\n')
+for _f in ('app.js', 'theme-init.js', 'motion.js', 'bayanath.js', 'aurora.js', 'bayanath.css', 'masjid.js', 'masjid.css', 'connect.css', 'forms.js', 'slideshow.css', 'slideshow.js', 'support.css', 'support.js'):
     shutil.copyfile(UI / _f, ASSETS / _f)
+# The Residential School pages share the same scripts and motion layer (one copy of the code to maintain)
+RS_ASSETS = PUB / 'ResidentialSchoolBanikuppa' / 'assets'
+for _src, _dst in (('app.js', 'js/app.js'), ('theme-init.js', 'js/theme-init.js'), ('motion.js', 'js/motion.js'), ('motion.css', 'css/motion.css')):
+    shutil.copyfile(UI / _src, RS_ASSETS / _dst)
 (ASSETS / 'speaker').mkdir(exist_ok=True)
 shutil.copyfile(speaker.PHOTO_DIR / speaker.load()['photo']['file'], ASSETS / 'speaker' / speaker.load()['photo']['file'])  # the owner-supplied photograph, byte for byte
-(ASSETS / 'speaker' / 'pattern.svg').unlink(missing_ok=True)   # Phase 9.3: the star-pattern layer was replaced by the aurora
+(ASSETS / 'speaker' / 'slides').mkdir(exist_ok=True)
+for _f in sorted(set(speaker_card.slide_files()) | {speaker_card.load()['social_card']['portrait']}):   # the slideshow photographs and the Linktree card portrait, byte for byte
+    shutil.copyfile(speaker_card.SLIDE_DIR / _f, ASSETS / 'speaker' / 'slides' / _f)
+for _old in ('speakercard.css', 'speakercard.js'):   # replaced by slideshow.css / slideshow.js
+    (ASSETS / _old).unlink(missing_ok=True)
+(ASSETS / 'speaker' / 'pattern.svg').unlink(missing_ok=True)   # the old star-pattern layer was replaced by the aurora
 print(f'Generated {len(PAGES)} root portal pages and {sib_count} sibling institutional pages; {len(REDIRECTS)} legacy redirects')

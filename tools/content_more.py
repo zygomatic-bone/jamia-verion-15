@@ -1,4 +1,4 @@
-"""Phase 9: replacements for existing Phase 8 root pages and the shared college pages."""
+"""Replacement text for the Services, Recognitions and similar root pages and for the shared college pages."""
 from html import escape
 import recovery_assets as RA
 from rc_helpers import (fig, gallery, single, split, p, quote, dated, note, info, sources, table, people, vision, doc_list, scan, logo, phone)

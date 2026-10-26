@@ -1,4 +1,4 @@
-"""HTML helpers for the Phase 9 recovered content (images, scans, documents, audio, tables, notes).
+"""HTML helpers for the recovered content (images, scans, documents, audio, tables, notes).
 
 Everything returns an HTML string. `rp` is the path from the page to the site root ('' for root pages, '../' for pages one
 folder down), exactly as in generate_portal.py. Images are always shown whole (never cropped) at their own proportions.
@@ -14,7 +14,7 @@ PUB = Path(__file__).resolve().parent.parent / 'public'
 
 
 def _src(rp, key):
-    """(public-relative path, alt, caption) for a recovered image key, or for an existing Phase 8 photograph."""
+    """(public-relative path, alt, caption) for a recovered image key, or for a photograph of the Residential School."""
     if key in RA.IMAGES:
         _, dest, alt, cap = RA.IMAGES[key]
         return RA.R + dest, alt, cap
