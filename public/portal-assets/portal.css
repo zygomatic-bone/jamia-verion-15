@@ -992,10 +992,8 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 .hero.portal-hero .button-row .button { min-height: 3.2rem; padding: .8rem 1.3rem; border-radius: .45rem; font-size: .84rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease, filter .25s ease; }
 .hero.portal-hero .button-row .button::before { display: none; }
 .hero.portal-hero .button-row .hx-btn-gold { border: 1px solid #e9c46e; background: linear-gradient(180deg, #f3d489 0%, #d9ac4d 100%); color: var(--hx-navy); }
-.hero.portal-hero .button-row .hx-btn-ghost { border: 1px solid rgba(255, 255, 255, .85); background: rgba(6, 20, 62, .35); color: #fff; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .hero.portal-hero .button-row .button:hover, .hero.portal-hero .button-row .button:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(3, 12, 44, .5); }
 .hero.portal-hero .button-row .hx-btn-gold:hover, .hero.portal-hero .button-row .hx-btn-gold:focus-visible { filter: brightness(1.07); }
-.hero.portal-hero .button-row .hx-btn-ghost:hover, .hero.portal-hero .button-row .hx-btn-ghost:focus-visible { background: rgba(255, 255, 255, .16); }
 .hero.portal-hero .button-row .button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .portal-hero .button .btn-icon { stroke: currentColor; }
 
@@ -1103,9 +1101,7 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 :root[data-theme="dark"] .page-home .button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 :root[data-theme="dark"] .page-home .pf-feature-copy .button-secondary, :root[data-theme="dark"] .page-home .button-secondary { color: #fff; border-color: rgba(255, 255, 255, .55); }
 :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-gold { border: 1px solid rgba(230, 192, 106, .7); background: rgba(255, 255, 255, .03); color: var(--gold); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-:root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost { border: 1px solid rgba(255, 255, 255, .6); background: rgba(255, 255, 255, .03); color: #fff; }
 :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-gold:hover, :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-gold:focus-visible { background: rgba(230, 192, 106, .14); border-color: var(--gold); filter: none; box-shadow: none; }
-:root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost:hover, :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost:focus-visible { background: rgba(255, 255, 255, .1); border-color: #fff; box-shadow: none; }
 :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 /* hero: same Modern Overlay photograph and navy gradient, plus a soft shade along the top edge so the clear header stays readable */
@@ -1774,8 +1770,7 @@ label{
 @media (max-width: 46rem){
     .site-header,
     .page-home .site-header.is-scrolled,
-    .hero .hero-bottom,
-    .hero.portal-hero .button-row .hx-btn-ghost{
+    .hero .hero-bottom{
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
     }
@@ -1889,160 +1884,85 @@ html.mo-away .bz-au > i{
     }
 }
 
-/* ---- Header menu: smooth hover and keyboard-focus response ----
-   Background fill, corner radius and the underline ease in and out together (180 ms, ease-out). Nothing changes size or position.
-   Hover is limited to devices that can hover, so a tap on a touch screen never leaves an item stuck in its hover look;
-   keyboard focus gets the same fill and underline. Text keeps full opacity: the fill is what fades. */
-.desktop-nav > a,
-.nav-group > summary{
-    transition: color .18s ease-out, background-color .18s ease-out, box-shadow .18s ease-out, border-radius .18s ease-out;
+/* ---- Home hero: "Watch Bayanath" - full-width frosted-glass button (the only animated button) ----
+   Width: on tablets and PCs the button row becomes a three-column grid sized to its own buttons and this button spans all three columns,
+   so it runs from the left edge of "Jamia Masjid" to the right edge of "Residential School" on its own line. No fixed width is involved.
+   Phones keep the one-column stack, where every button is already the full width. The height stays the shared 3.2rem of the hero buttons.
+   Look: light = frosted white, navy text and icon, champagne-gold edge; dark = translucent navy, white text, gold icon and edge.
+   Motion: a narrow reflection crosses the button, fades and pauses (::before, one background-position animation); a gold glow breathes
+   (::after, opacity only). Both sit behind the text. Hover and tap feedback is 180 ms ease-out. prefers-reduced-motion switches it all off.
+   This replaces the earlier .hx-btn-ghost rules (white outline, light and dark variants and the phone blur reset), which this block
+   overrides in every state. */
+@media (min-width: 40.0625rem) {
+  .page-home .hero.portal-hero .button-row { display: grid; grid-template-columns: repeat(3, max-content); justify-content: start; }
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost { grid-column: 1 / -1; }
 }
-.desktop-nav > a::before,
-.nav-group > summary::before{
-    transition: transform .18s ease-out;
+.page-home .hero.portal-hero .button-row .hx-btn-ghost {
+  position: relative; overflow: visible; isolation: isolate; transform: none;
+  transition: transform .18s ease-out, box-shadow .18s ease-out, background-color .18s ease-out, border-color .18s ease-out;
 }
-.drop-menu a{
-    transition: color .18s ease-out, background-color .18s ease-out, border-radius .18s ease-out, transform .18s ease-out;
-}
-.desktop-nav > a:not([aria-current="page"]),
-.nav-group > summary{
-    border-radius: .9rem;
-}
-@media (hover: hover){
-    .desktop-nav > a:hover,
-    .nav-group > summary:hover{
-        border-radius: 2rem;
-    }
-    .drop-menu a:hover{
-        border-radius: .9rem;
-    }
-}
-.desktop-nav > a:focus-visible,
-.nav-group > summary:focus-visible{
-    color: var(--ink);
-    background-color: var(--glass-strong);
-    box-shadow: inset 0 0 0 1px var(--glass-edge);
-    border-radius: 2rem;
-}
-.nav-group > summary:focus-visible::before{
-    transform: scaleX(1);
-}
-.drop-menu a:focus-visible{
-    color: var(--ink);
-    background-color: color-mix(in srgb, var(--paper-2) 70%, transparent);
-    border-radius: .9rem;
-    transform: translateX(3px);
-}
-:root[data-theme="dark"] .page-home .site-header .desktop-nav > a:focus-visible,
-:root[data-theme="dark"] .page-home .site-header .nav-group > summary:focus-visible{
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    box-shadow: none;
-}
-@media (hover: none){
-    :root[data-theme] body .site-header .desktop-nav > a:hover:not([aria-current="page"]):not(:focus-visible),
-    :root[data-theme] body .site-header .nav-group:not([open]) > summary:hover:not(:focus-visible){
-        color: var(--muted);
-        background-color: transparent;
-        box-shadow: none;
-    }
-    :root[data-theme="dark"] body.page-home .site-header .desktop-nav > a:hover:not([aria-current="page"]):not(:focus-visible),
-    :root[data-theme="dark"] body.page-home .site-header .nav-group:not([open]) > summary:hover:not(:focus-visible){
-        color: rgba(255, 255, 255, .92);
-    }
-    .desktop-nav > a:hover:not([aria-current="page"]):not(:focus-visible)::before,
-    .nav-group:not([open]) > summary:hover:not(:focus-visible)::before{
-        transform: scaleX(0);
-    }
-    .drop-menu a:hover:not(:focus-visible):not([aria-current="page"]){
-        color: var(--muted);
-        background-color: transparent;
-        transform: none;
-    }
-}
-@media (prefers-reduced-motion: reduce){
-    .desktop-nav > a,
-    .nav-group > summary,
-    .desktop-nav > a::before,
-    .nav-group > summary::before,
-    .drop-menu a{
-        transition: none;
-    }
-}
-
-/* ---- Home hero: "Watch Bayanath" as a wider, frosted-glass button ----
-   Only the width changes (the height stays at the shared 3.2rem of the other hero buttons); it still sits on its own line under the three
-   buttons, left-aligned. Light theme: frosted white with navy text and a champagne-gold edge. Dark theme: navy glass with white text and
-   a gold edge. A narrow reflection crosses the button, fades, pauses and repeats; the glow breathes slowly. Both layers sit behind the
-   text. Hover and tap feedback is small; motion stops under prefers-reduced-motion. Phones keep the full-width stack (no blur there). */
-.page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] {
-  position: relative; overflow: visible; isolation: isolate;
-  width: min(100%, 26rem);
-  transition: transform .2s ease-out, box-shadow .2s ease-out, background-color .2s ease-out, border-color .2s ease-out;
-}
-.page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]::before {
+.page-home .hero.portal-hero .button-row .hx-btn-ghost::before {
   display: block; content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(105deg, transparent 38%, var(--ju-sheen) 50%, transparent 62%) 150% 0 / 250% 100% no-repeat;
+  background: linear-gradient(105deg, transparent 44%, var(--ju-flank) 47%, var(--ju-core) 50%, var(--ju-flank) 53%, transparent 56%) 110% 0 / 220% 100% no-repeat;
   transform: none; transition: none;
-  animation: ju-glass-sweep 7s ease-in-out infinite;
+  animation: ju-glass-sweep 4.6s ease-in-out infinite;
 }
-.page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]::after {
+.page-home .hero.portal-hero .button-row .hx-btn-ghost::after {
   content: ""; position: absolute; inset: -1px; z-index: -2; border-radius: inherit; pointer-events: none;
-  box-shadow: 0 0 22px 3px var(--ju-glow);
-  animation: ju-glass-glow 4.8s ease-in-out infinite;
+  box-shadow: 0 0 26px 4px var(--ju-glow);
+  animation: ju-glass-glow 4s ease-in-out infinite;
 }
 @keyframes ju-glass-sweep {
-  0%, 62% { background-position: 150% 0; opacity: 0; }
-  66% { opacity: 1; }
-  92% { opacity: 1; }
-  100% { background-position: -50% 0; opacity: 0; }
+  0%, 40% { background-position: 110% 0; opacity: 0; }
+  46%, 74% { opacity: 1; }
+  80%, 100% { background-position: -10% 0; opacity: 0; }
 }
 @keyframes ju-glass-glow {
-  0%, 100% { opacity: .35; }
-  50% { opacity: .95; }
+  0%, 100% { opacity: .3; }
+  50% { opacity: 1; }
 }
-
-:root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] {
-  --ju-sheen: rgba(255, 244, 214, .95); --ju-glow: rgba(214, 170, 82, .5);
-  color: #071a4d; border: 1px solid rgba(214, 177, 99, .9);
+:root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row .hx-btn-ghost {
+  --ju-core: rgba(255, 252, 240, .98); --ju-flank: rgba(226, 180, 88, .5); --ju-glow: rgba(214, 170, 82, .62);
+  color: #071a4d; border: 1px solid rgba(214, 177, 99, .95);
   background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 252, 244, .87));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .95), 0 6px 20px rgba(214, 170, 82, .22);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -10px 18px rgba(214, 170, 82, .12), 0 6px 20px rgba(214, 170, 82, .24);
   -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
 }
-:root[data-theme="dark"] .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] {
-  --ju-sheen: rgba(255, 233, 186, .42); --ju-glow: rgba(230, 192, 106, .4);
-  color: #fff; border: 1px solid rgba(230, 192, 106, .6);
+:root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost {
+  --ju-core: rgba(255, 238, 196, .5); --ju-flank: rgba(230, 192, 106, .3); --ju-glow: rgba(230, 192, 106, .5);
+  color: #fff; border: 1px solid rgba(230, 192, 106, .65);
   background: linear-gradient(180deg, rgba(16, 44, 112, .66), rgba(7, 26, 77, .58));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 0 1px rgba(230, 192, 106, .1), 0 6px 20px rgba(3, 12, 44, .35);
   -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%);
 }
-:root[data-theme="dark"] .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] .btn-icon { stroke: var(--hx-gold); }
-.page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:focus-visible { transform: translateY(-1px); }
-:root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:focus-visible {
-  border-color: #d6b163; box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(214, 170, 82, .36);
+.page-home .hero.portal-hero .button-row .hx-btn-ghost .btn-icon { stroke: currentColor; }
+:root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost .btn-icon { stroke: var(--hx-gold); }
+.page-home .hero.portal-hero .button-row .hx-btn-ghost:focus-visible { transform: translateY(-1px); }
+:root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row .hx-btn-ghost:focus-visible {
+  border-color: #d6b163; box-shadow: inset 0 1px 0 #fff, inset 0 -10px 18px rgba(214, 170, 82, .12), 0 10px 26px rgba(214, 170, 82, .38);
 }
-:root[data-theme="dark"] .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:focus-visible {
+:root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost:focus-visible {
   border-color: var(--hx-gold); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .26), 0 0 0 1px rgba(230, 192, 106, .25), 0 10px 26px rgba(3, 12, 44, .45);
 }
 @media (hover: hover) {
-  .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:hover { transform: translateY(-1px); }
-  :root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:hover {
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost:hover { transform: translateY(-1px); }
+  :root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row .hx-btn-ghost:hover {
     background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 252, 244, .93));
-    border-color: #d6b163; box-shadow: inset 0 1px 0 #fff, 0 10px 26px rgba(214, 170, 82, .36);
+    border-color: #d6b163; box-shadow: inset 0 1px 0 #fff, inset 0 -10px 18px rgba(214, 170, 82, .12), 0 10px 26px rgba(214, 170, 82, .38);
   }
-  :root[data-theme="dark"] .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:hover {
+  :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost:hover {
     background: linear-gradient(180deg, rgba(22, 56, 134, .74), rgba(9, 32, 92, .66));
     border-color: var(--hx-gold); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .26), 0 0 0 1px rgba(230, 192, 106, .25), 0 10px 26px rgba(3, 12, 44, .45);
   }
 }
-.page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:active { transform: scale(.985); }
+.page-home .hero.portal-hero .button-row .hx-btn-ghost:active { transform: scale(.985); }
 @media (max-width: 46rem) {
-  :root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] { background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 252, 244, .92)); -webkit-backdrop-filter: none; backdrop-filter: none; }
-  :root[data-theme="dark"] .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] { background: linear-gradient(180deg, rgba(16, 44, 112, .78), rgba(7, 26, 77, .72)); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  :root:not([data-theme="dark"]) .page-home .hero.portal-hero .button-row .hx-btn-ghost { background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 252, 244, .92)); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  :root[data-theme="dark"] .page-home .hero.portal-hero .button-row .hx-btn-ghost { background: linear-gradient(180deg, rgba(16, 44, 112, .78), rgba(7, 26, 77, .72)); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href] { transition: none; }
-  .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]::before { animation: none; opacity: 0; }
-  .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]::after { animation: none; opacity: .5; }
-  .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:hover, .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:focus-visible, .page-home .hero.portal-hero .button-row a.hx-btn-ghost[href]:active { transform: none; }
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost { transition: none; }
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost::before { animation: none; opacity: 0; }
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost::after { animation: none; opacity: .55; }
+  .page-home .hero.portal-hero .button-row .hx-btn-ghost:hover, .page-home .hero.portal-hero .button-row .hx-btn-ghost:focus-visible, .page-home .hero.portal-hero .button-row .hx-btn-ghost:active { transform: none; }
 }
