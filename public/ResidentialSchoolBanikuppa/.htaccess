@@ -1,0 +1,70 @@
+# Apache hosts only. Same headers as _headers.
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  <FilesMatch "\.(jpe?g|png|gif|webp)$">
+    Header set X-Robots-Tag "noimageindex"
+  </FilesMatch>
+</IfModule>
+ErrorDocument 404 /ResidentialSchoolBanikuppa/404.html
+Options -Indexes
+
+# Legacy URLs of the earlier site
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /ResidentialSchoolBanikuppa/
+RewriteRule ^Annual\.html$ annual.html [R=301,L]
+RewriteRule ^Careers\.html$ careers.html [R=301,L]
+RewriteRule ^Classroom\.html$ classroom.html [R=301,L]
+RewriteRule ^Clubs\.html$ clubs.html [R=301,L]
+RewriteRule ^ComputerLab\.html$ computerlab.html [R=301,L]
+RewriteRule ^Contact\.html$ contact.html [R=301,L]
+RewriteRule ^DiningHall\.html$ facilities.html [R=301,L]
+RewriteRule ^Hostel\.html$ hostel.html [R=301,L]
+RewriteRule ^Laboratories\.html$ laboratories.html [R=301,L]
+RewriteRule ^Library\.html$ library.html [R=301,L]
+RewriteRule ^Masjid\.html$ masjid.html [R=301,L]
+RewriteRule ^MedicalFacility\.html$ medicalfacility.html [R=301,L]
+RewriteRule ^Message\.html$ message.html [R=301,L]
+RewriteRule ^Sports\.html$ sports.html [R=301,L]
+RewriteRule ^Staff\.html$ staff.html [R=301,L]
+RewriteRule ^Team\.html$ team.html [R=301,L]
+RewriteRule ^Trustees\.html$ trustees.html [R=301,L]
+RewriteRule ^co\-curricular\.html$ activities.html [R=301,L]
+RewriteRule ^images/Activities\.jpg$ assets/images/activities.jpg [R=301,L]
+RewriteRule ^images/ArtsClub\.jpg$ assets/images/artsclub.jpg [R=301,L]
+RewriteRule ^images/BiologyLab\.jpg$ assets/images/biologylab.jpg [R=301,L]
+RewriteRule ^images/ChemistryLab\.jpg$ assets/images/chemistrylab.jpg [R=301,L]
+RewriteRule ^images/Classroom\.jpg$ assets/images/classroom.jpg [R=301,L]
+RewriteRule ^images/ComputerLab\.jpg$ assets/images/computerlab.jpg [R=301,L]
+RewriteRule ^images/DinningHall\.jpg$ assets/images/dinninghall.jpg [R=301,L]
+RewriteRule ^images/Dr\.Fayaz\.jpg$ assets/images/dr.fayaz.jpg [R=301,L]
+RewriteRule ^images/Facilities\.jpg$ assets/images/facilities.jpg [R=301,L]
+RewriteRule ^images/Governing\.jpeg$ assets/images/governing.jpeg [R=301,L]
+RewriteRule ^images/Hostel\.jpg$ assets/images/hostel.jpg [R=301,L]
+RewriteRule ^images/Houses\.jpg$ assets/images/houses.jpg [R=301,L]
+RewriteRule ^images/InnerDinningHall\.jpg$ assets/images/innerdinninghall.jpg [R=301,L]
+RewriteRule ^images/InnerDinningHall1\.jpg$ assets/images/innerdinninghall1.jpg [R=301,L]
+RewriteRule ^images/Library\.jpg$ assets/images/library.jpg [R=301,L]
+RewriteRule ^images/LitraryClub\.jpg$ assets/images/litraryclub.jpg [R=301,L]
+RewriteRule ^images/Masjid\.jpg$ assets/images/masjid.jpg [R=301,L]
+RewriteRule ^images/Masjid1\.jpg$ assets/images/masjid1.jpg [R=301,L]
+RewriteRule ^images/Masjid2\.jpg$ assets/images/masjid2.jpg [R=301,L]
+RewriteRule ^images/Message9\.jpeg$ assets/images/message9.jpeg [R=301,L]
+RewriteRule ^images/PhysicsLab\.jpg$ assets/images/physicslab.jpg [R=301,L]
+RewriteRule ^images/SchoolBuilding\.jpg$ assets/images/schoolbuilding.jpg [R=301,L]
+RewriteRule ^images/ScienceClub\.jpg$ assets/images/scienceclub.jpg [R=301,L]
+RewriteRule ^images/SportsClub\.jpg$ assets/images/sportsclub.jpg [R=301,L]
+RewriteRule ^images/SportsEvent\.jpg$ assets/images/sportsevent.jpg [R=301,L]
+RewriteRule ^images/SportsEvent1\.jpg$ assets/images/sportsevent1.jpg [R=301,L]
+RewriteRule ^images/Staff\.jpg$ assets/images/staff.jpg [R=301,L]
+RewriteRule ^images/Trustees\.jpg$ assets/images/trustees.jpg [R=301,L]
+RewriteRule ^images/logo1\.PNG$ assets/images/logo1.png [R=301,L]
+RewriteRule ^images/logoN\.jpg$ assets/images/logon.jpg [R=301,L]
+RewriteRule ^images/menubackImg\.PNG$ assets/images/menubackimg.png [R=301,L]
+</IfModule>

@@ -1,0 +1,130 @@
+# Root routing and security headers for jameululoom.org. The Residential School folder adds its own
+# stricter rules in ResidentialSchoolBanikuppa/.htaccess; the legacy-URL redirects of the earlier site address follow below.
+Options -Indexes
+
+# The official portrait on the scholar profile page is the one image that may appear in image search; matched by its full path
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/portal-assets/speaker/mufti-maqsood-imran-rashadi\.jpg$" scholar_portrait
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://i.ytimg.com https://i1.ytimg.com https://i2.ytimg.com https://i3.ytimg.com https://i4.ytimg.com https://img.youtube.com; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), geolocation=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Ask search engines not to list photographs of pupils and staff in image search (same policy as the Residential School).
+  # Every image gets the header except the portrait marked above.
+  <FilesMatch "\.(jpe?g|png|gif|webp)$">
+    Header set X-Robots-Tag "noimageindex" env=!scholar_portrait
+  </FilesMatch>
+</IfModule>
+
+# Never serve dotfiles, backups, logs, source maps or build leftovers if one is ever uploaded by mistake
+<IfModule mod_authz_core.c>
+  <FilesMatch "(^\.|\.(bak|old|orig|swp|sql|log|ini|env|map|py|sh|md)$|~$)">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^home(\.html)?/?$ / [R=301,L]
+RewriteRule ^BCA/Classroom\.html$ /BCA/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^BCA/ComputerLab\.html$ /BCA/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^BCA/Library\.html$ /BCA/Facilities.html#library [R=301,L,NE]
+RewriteRule ^BCA/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^BCA/Regulations\.html$ /CollegeRegulations.html [R=301,L,NE]
+RewriteRule ^BCA/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^BCA/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^BCA/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^Caligraphy\.html$ /Calligraphy.html [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Classroom\.html$ /DegreeGirlsCollege/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/ComputerLab\.html$ /DegreeGirlsCollege/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Library\.html$ /DegreeGirlsCollege/Facilities.html#library [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Regulations\.html$ /CollegeRegulations.html [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^DegreeGirlsCollege/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Classroom\.html$ /EngBoysHighSchool/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/ComputerLab\.html$ /EngBoysHighSchool/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Laboratories\.html$ /EngBoysHighSchool/Facilities.html#science-laboratories [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Library\.html$ /EngBoysHighSchool/Facilities.html#library [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Message\.html$ /Message.html#head-mistress-2013 [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^EngBoysHighSchool/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Classroom\.html$ /EngGirlsHighSchool/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/ComputerLab\.html$ /EngGirlsHighSchool/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Library\.html$ /EngGirlsHighSchool/Facilities.html#library [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Message\.html$ /Message.html#head-mistress-2013 [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/ScienceLabs\.html$ /EngGirlsHighSchool/Facilities.html#library [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^EngGirlsHighSchool/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Careers\.html$ /EngNurSchoolDEL/Contact.html [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Classroom\.html$ /EngNurSchoolDEL/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Library\.html$ /EngNurSchoolDEL/Facilities.html#library [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Message\.html$ /Message.html#head-mistress-2013 [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^EngNurSchoolDEL/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Careers\.html$ /EngPrimarySchoolDEL/Contact.html [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Classroom\.html$ /EngPrimarySchoolDEL/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Library\.html$ /EngPrimarySchoolDEL/Facilities.html#library [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Message\.html$ /Message.html#head-mistress-2013 [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^EngPrimarySchoolDEL/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^ITI/Annualday\.html$ /Activities.html [R=301,L,NE]
+RewriteRule ^ITI/Careers\.html$ /ITI/Contact.html [R=301,L,NE]
+RewriteRule ^ITI/FittersLab\.html$ /ITI/Workshops.html#fitter [R=301,L,NE]
+RewriteRule ^ITI/ITIStaff\.html$ /ITI/Staff.html [R=301,L,NE]
+RewriteRule ^ITI/ITITeam\.html$ /ITI/Management.html [R=301,L,NE]
+RewriteRule ^ITI/MMVLab\.html$ /ITI/Workshops.html#mmv [R=301,L,NE]
+RewriteRule ^ITI/MRACLab\.html$ /ITI/Workshops.html#mrac [R=301,L,NE]
+RewriteRule ^ITI/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^ITI/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^InsHPrimarySc\.html$ /EngPrimarySchoolDEL/home.html [R=301,L,NE]
+RewriteRule ^InsNursery\.html$ /EngNurSchoolDEL/home.html [R=301,L,NE]
+RewriteRule ^InsShobaeAlimiyath\.html$ /ShobaeAlimiyathDel/home.html [R=301,L,NE]
+RewriteRule ^InsShobaehifz\.html$ /ShobaehifzDel/home.html [R=301,L,NE]
+RewriteRule ^Institution\.html$ /ITI/home.html [R=301,L,NE]
+RewriteRule ^NCPUL/Careers\.html$ /Careers.html [R=301,L,NE]
+RewriteRule ^NCPUL/Classroom\.html$ /NCPUL/Facilities.html#classroom [R=301,L,NE]
+RewriteRule ^NCPUL/ComputerLab\.html$ /NCPUL/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^NCPUL/Contact\.html$ /NCPUL/home.html [R=301,L,NE]
+RewriteRule ^NCPUL/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^NCPUL/Message\.html$ /NCPUL/Support.html [R=301,L,NE]
+RewriteRule ^NCPUL/Regulations\.html$ /CollegeRegulations.html [R=301,L,NE]
+RewriteRule ^NCPUL/Sports\.html$ /Activities.html [R=301,L,NE]
+RewriteRule ^NCPUL/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^NCPUL/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Classroom\.html$ /PUGirlsCollege/Facilities.html#classrooms [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/ComputerLab\.html$ /PUGirlsCollege/Facilities.html#computer-laboratory [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Library\.html$ /PUGirlsCollege/Facilities.html#library [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Masjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Regulations\.html$ /CollegeRegulations.html [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/ScienceLabs\.html$ /PUGirlsCollege/Facilities.html#science-laboratories [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Sports\.html$ /Sports.html [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Team\.html$ /Team.html [R=301,L,NE]
+RewriteRule ^PUGirlsCollege/Trustees\.html$ /Trustees.html [R=301,L,NE]
+RewriteRule ^Recognition\.html$ /Recognitions.html [R=301,L,NE]
+RewriteRule ^ScMasjid\.html$ /Masjid.html [R=301,L,NE]
+RewriteRule ^ServicesEng\.html$ /Services.html#english [R=301,L,NE]
+RewriteRule ^ServicesUrdu\.html$ /Services.html#urdu [R=301,L,NE]
+RewriteRule ^ShobaeAlimiyathDel/AboutusEnglish\.html$ /Services.html#english [R=301,L,NE]
+RewriteRule ^ShobaeAlimiyathDel/AboutusUrdu\.html$ /Services.html#urdu [R=301,L,NE]
+RewriteRule ^ShobaeAlimiyathDel/Admissions\.html$ /ShobaeAlimiyathDel/home.html [R=301,L,NE]
+RewriteRule ^ShobaeAlimiyathDel/Staff\.html$ /ShobaeAlimiyathDel/home.html [R=301,L,NE]
+RewriteRule ^ShobaehifzDel/AboutusEnglish\.html$ /Services.html#english [R=301,L,NE]
+RewriteRule ^ShobaehifzDel/AboutusUrdu\.html$ /Services.html#urdu [R=301,L,NE]
+RewriteRule ^ShobaehifzDel/Admissions\.html$ /ShobaehifzDel/home.html [R=301,L,NE]
+RewriteRule ^ShobaehifzDel/Staff\.html$ /ShobaehifzDel/home.html [R=301,L,NE]
+</IfModule>
