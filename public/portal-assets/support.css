@@ -66,3 +66,44 @@
     .sup-copy, .sup-all { transition: none; }
 }
 @media print { .sup-card { box-shadow: none; } .sup-copy, .sup-all { display: none; } }
+
+/* ---- Support Us page (SupportUs.html) and the Donate Now sections of the two Shoba pages ----
+   The sections below the card use the site's own tokens, so they follow the light and dark theme without extra rules. */
+a.sup-all { text-decoration: none; }
+.sup-link { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: .35rem .2rem; font-weight: 700; color: var(--sup-gold-soft); text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.sup-link:hover { color: var(--sup-ink); }
+.sup-link:focus-visible { outline: 3px solid var(--sup-gold); outline-offset: 3px; border-radius: .4rem; }
+.sup-cta { margin-top: clamp(2rem, 5vw, 3rem); }
+.sup-cta .sup-card { margin-inline: 0; }
+.sup-cta .sup-head { border-bottom: 0; margin-bottom: 0; padding-bottom: .2rem; }
+.sup-cta .sup-actions { margin-top: .9rem; }
+.sup-page .sup-card { max-width: 60rem; }
+.sup-page { margin-top: clamp(1.6rem, 4vw, 2.6rem); scroll-margin-top: 6rem; }
+.don-top { margin: 1.4rem 0 0; }
+.don-top .button .btn-icon { width: 1.15rem; height: 1.15rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.don-dev { display: grid; grid-template-columns: minmax(0, 21rem) minmax(0, 1fr); gap: clamp(1.4rem, 4vw, 3rem); align-items: start; max-width: 60rem; margin: clamp(2rem, 5vw, 3.2rem) auto 0; }
+.don-fig { margin: 0; }
+.don-fig a { display: block; border-radius: 1.1rem; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow-soft); background: var(--surface); }
+.don-fig img { display: block; width: 100%; height: auto; object-fit: contain; }
+.don-fig figcaption { margin-top: .7rem; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.don-copy h2 { margin: .4rem 0 .9rem; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; text-wrap: balance; }
+.don-copy h2::after { display: none; }
+.don-copy p { margin: 0 0 1rem; max-width: 38rem; line-height: 1.7; }
+.don-copy .sup-eyebrow { color: var(--gold); }
+:root[data-theme="light"] .don-copy .sup-eyebrow { color: #8a621a; }
+.don-open { font-weight: 700; }
+.don-call, .don-contact { max-width: 60rem; margin: clamp(1.6rem, 4vw, 2.4rem) auto 0; }
+.don-call { padding: 1.2rem 1.4rem; border-radius: 1.2rem; border: 1px solid var(--line); border-left: 4px solid var(--gold); background: var(--surface); }
+.don-call h2, .don-contact h2 { margin: 0 0 .5rem; font-size: 1.35rem; }
+.don-call h2::after, .don-contact h2::after { display: none; }
+.don-call p, .don-contact p { margin: 0; line-height: 1.7; max-width: 44rem; }
+.don-contact p a { font-weight: 700; }
+@media (max-width: 52rem) {
+    .don-dev { grid-template-columns: minmax(0, 1fr); }
+    .don-fig { max-width: 26rem; margin-inline: auto; }
+}
+@media (max-width: 40rem) {
+    .sup-cta-actions { flex-direction: column; align-items: stretch; }
+    .sup-link { justify-content: center; }
+}
+@media print { .sup-cta .sup-actions, .don-top { display: none; } }

@@ -10,6 +10,12 @@
   const meta = root.querySelector(".by-meta");
   const ID = /^[A-Za-z0-9_-]{11}$/;
   const channelUrl = root.dataset.channel;
+  // The speaker: every video comes from the speaker's official channel, so by default it is attributed to him (name and profile link are on the
+  // container). data/bayanath-speakers.json lists exceptions: {"<video id>": "Another Speaker"} prints that name (not linked) and
+  // {"<video id>": false} prints no speaker. The static copy of the cards in the HTML (tools/refresh_bayanath_static.py) follows the same rules.
+  const speakerName = root.dataset.speaker || "";
+  const speakerUrl = /^[A-Za-z0-9_.-]+\.html$/.test(root.dataset.speakerUrl || "") ? root.dataset.speakerUrl : "";
+  let exceptions = {};
 
   // The feed's titles often start with an emoji and end with a run of hashtags (the last one sometimes cut short by YouTube). The card shows the
   // title without them; the link, its tooltip and the screen-reader label keep the full original title, and the video itself is untouched.
@@ -102,6 +108,19 @@
     const yt = el("a", "by-yt", "Watch on YouTube ↗");
     yt.href = watch; yt.target = "_blank"; yt.rel = "noopener";
     body.append(h);
+    const who = Object.prototype.hasOwnProperty.call(exceptions, v.id) ? exceptions[v.id] : speakerName;
+    if (typeof who === "string" && who) {
+      const sp = el("p", "by-speaker");
+      sp.append(el("span", "by-speaker-l", "Speaker:"), " ");
+      if (who === speakerName && speakerUrl) {
+        const a = el("a", "by-speaker-name", who);
+        a.href = speakerUrl;
+        sp.append(a);
+      } else {
+        sp.append(el("span", "by-speaker-name", who));
+      }
+      body.append(sp);
+    }
     if (fmt(v.published)) {
       const d = el("time", "by-date", fmt(v.published));
       d.dateTime = v.published;
@@ -112,9 +131,21 @@
     return li;
   };
 
-  fetch(root.dataset.src, { cache: "no-cache" })
-    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then((data) => {
+  // the exceptions file is optional: if it is missing or invalid, every video keeps the default attribution
+  const loadExceptions = () => (root.dataset.speakers
+    ? fetch(root.dataset.speakers, { cache: "no-cache" })
+        .then((r) => (r.ok ? r.json() : {}))
+        .then((d) => (d && typeof d === "object" && !Array.isArray(d) ? d : {}))
+        .catch(() => ({}))
+    : Promise.resolve({}));
+
+  Promise.all([
+    fetch(root.dataset.src, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+    loadExceptions(),
+  ])
+    .then(([data, ex]) => {
+      exceptions = {};
+      Object.keys(ex).forEach((k) => { if (ID.test(k)) exceptions[k] = ex[k]; });
       const vids = (Array.isArray(data.videos) ? data.videos : [])
         .filter((v) => v && ID.test(v.id) && typeof v.title === "string" && v.title)
         .sort((a, b) => {
@@ -133,6 +164,8 @@
     })
     .catch(() => {
       grid.setAttribute("aria-busy", "false");
+      // the page already carries the last saved list as plain HTML: keep it when the fresh copy cannot be read
+      if (grid.children.length) return;
       grid.replaceChildren();
       setStatus("The video list could not be loaded right now.", true);
     });

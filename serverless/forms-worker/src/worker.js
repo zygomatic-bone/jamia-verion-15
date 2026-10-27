@@ -5,7 +5,7 @@
    Nothing here trusts the browser: every field is validated again, the mail subject is built from fixed words, a visitor's address is
    used only as Reply-To after validation, nothing the visitor typed is echoed back, and "ok" is answered only when the mail provider
    really accepted the message. Secrets (RESEND_API_KEY, RATE_SALT) exist only as Worker secrets; they are never logged or returned. */
-import schema from './schema.generated.js';
+import schema from './schema.js';
 import { validate, reference, subject, body } from './core.js';
 
 const MAX_BODY = schema.max_body_bytes;

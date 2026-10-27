@@ -600,6 +600,16 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
 .footer-brand img { width: min(100%, 17rem); height: auto; aspect-ratio: 675 / 180; box-sizing: border-box; padding: .7rem 1rem; border-radius: var(--radius-sm); background: #fffaf1; filter: none; opacity: 1; }
 :root[data-theme="dark"] .brand img { padding: .3rem .55rem; border-radius: .7rem; background: #fffaf1; box-sizing: content-box; }
 
+/* Light theme contrast: the small gold labels and the link inside a dark band were about 2.8:1 and 1.9:1; darker gold on cream, light gold on the dark band (dark theme and photo heroes unchanged) */
+:where(:root[data-theme="light"]) .eyebrow, :where(:root[data-theme="light"]) .section-heading .eyebrow { color: #8a621a; }
+.section-dark .eyebrow, .section-dark .section-heading .eyebrow { color: #e0b96e; }
+.section-dark .text-link { color: #f1c67b; }
+
+/* Dark theme: the gold-button rule above sets dark text on every .button; secondary and quiet buttons are glass, so they keep light text */
+:root[data-theme="dark"] .button-secondary { color: var(--forest-2); }
+:root[data-theme="dark"] .button-quiet { color: var(--ink); }
+:root[data-theme="dark"] .page-connect .button-secondary { color: var(--cx-ink); }
+
 /* ---- Main-portal additions (Jamia Masjid portal + sibling institution pages) ---- */
 .brand-text { display: inline-flex; flex-direction: column; line-height: 1.1; text-decoration: none; color: var(--forest); font-family: var(--display); font-weight: 650; font-size: 1.35rem; letter-spacing: -.01em; }
 .brand-text small { margin-top: .2rem; color: var(--muted); font-family: var(--body); font-size: .7rem; font-weight: 760; letter-spacing: .14em; text-transform: uppercase; }
@@ -885,6 +895,23 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 .rg-card:hover::before, .rg-card:focus-within::before, .rg-card.is-active::before { opacity: 1; }
 .rg-card:hover .rg-more, .rg-card:focus-within .rg-more, .rg-card.is-active .rg-more { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
 
+/* Light theme: the same glass gallery on a paper panel (layout, hover lift, sheen and entrance animation are unchanged; only colours differ) */
+:root[data-theme="light"] .rg-panel { --rg-cream: #14281e; --rg-gold: #8a621a; border-color: rgba(20,40,30,.14);
+  background: radial-gradient(60rem 28rem at 85% -10%, rgba(221,182,111,.28), transparent 60%), radial-gradient(40rem 24rem at 0% 100%, rgba(60,150,115,.14), transparent 60%), linear-gradient(155deg, #fdfaf3, #efe8d8);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.8); }
+:root[data-theme="light"] .rg-head p:not(.rg-eyebrow) { color: rgba(20,40,30,.78); }
+:root[data-theme="light"] .rg-role { color: rgba(20,40,30,.74); }
+:root[data-theme="light"] .rg-card { border-color: rgba(20,40,30,.13);
+  background: linear-gradient(160deg, rgba(255,255,255,.92), rgba(255,255,255,.7) 55%, rgba(255,255,255,.82));
+  box-shadow: 0 10px 26px rgba(40,30,10,.14), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(20,40,30,.05); }
+:root[data-theme="light"] .rg-card::before { opacity: .4; background: linear-gradient(115deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 38%), radial-gradient(circle at 100% 0%, rgba(221,182,111,.25), transparent 45%); }
+:root[data-theme="light"] .rg-photo { box-shadow: 0 2px 10px rgba(40,30,10,.25); }
+:root[data-theme="light"] .rg-more { border-top-color: rgba(138,98,26,.4); }
+:root[data-theme="light"] .rg-open { border-bottom-color: rgba(138,98,26,.6); }
+:root[data-theme="light"] .rg-card:hover, :root[data-theme="light"] .rg-card:focus-within, :root[data-theme="light"] .rg-card.is-active {
+  border-color: rgba(138,98,26,.6); background: linear-gradient(160deg, #fff, rgba(255,255,255,.86) 55%, rgba(255,255,255,.95));
+  box-shadow: 0 24px 46px rgba(40,30,10,.26), 0 0 0 1px rgba(138,98,26,.3), 0 0 26px rgba(221,182,111,.3), inset 0 1px 0 #fff; }
+
 /* Entrance: each card fades up as it enters the viewport, staggered by column position */
 .js .rg-item { opacity: 0; transform: translateY(1.4rem); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.65,.2,1); }
 .js .rg-item.is-in { opacity: 1; transform: none; }
@@ -1125,6 +1152,9 @@ table.cal tbody tr:hover { background: color-mix(in srgb, var(--gold) 9%, transp
 .pf-ico { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.2em; margin-right: .4rem; }
 .button .pf-ico { margin-right: .5rem; width: 1.15rem; height: 1.15rem; }
 .pf-card-masjid .pf-tag { color: var(--gold); }
+
+/* Light theme contrast: the gold card tags were about 2.8:1 on the cream cards */
+:where(:root[data-theme="light"]) .pf-tag, :root[data-theme="light"] .pf-card-masjid .pf-tag { color: #8a621a; }
 /* ==== Recovered original content (prefix rc-). Uses only the existing design tokens; light and dark follow the theme. ==== */
 
 /* Photograph galleries: every picture is shown whole at its own proportions (never cropped), caption below. */

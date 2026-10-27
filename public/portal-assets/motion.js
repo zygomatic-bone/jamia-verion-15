@@ -1,5 +1,5 @@
 /* Motion layer: scroll reveals, counters, dropdown/drawer polish, photograph lightbox, link prefetch, slow-device check.
-   Shared by the root pages (portal-assets/motion.js) and the Residential School pages (assets/js/motion.js).
+   Shared by the root pages and the Residential School pages (both load portal-assets/motion.js).
    Written in the style of the original site: ES5, "function(){", 4 spaces, single quotes, semicolons.
    Rules: one IntersectionObserver for all reveals, no scroll or touchmove listeners, nothing runs while the tab is hidden,
    and a failure anywhere leaves the page fully visible (hidden "before" states exist only after this script has started). */

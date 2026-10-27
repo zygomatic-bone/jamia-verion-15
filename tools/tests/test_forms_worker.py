@@ -1,24 +1,71 @@
-"""Tests of the replacement for the old PHP form handler: the Cloudflare Worker in serverless/forms-worker/ and its wiring.
+"""Tests of the form service (the Cloudflare Worker in serverless/forms-worker/) and of the pages that use it.
 
   * The Worker's own behaviour is tested in serverless/forms-worker/test/worker.test.mjs with Node's built-in test runner (no dependencies,
     no network: the mail provider and the counter store are faked). This file runs it, and skips (not passes) when Node 20+ is missing.
-  * The generated rules file must match tools/connect/forms-schema.json, so a page and the service cannot drift apart.
+  * The Feedback, Admissions and Careers pages must agree with the rules in serverless/forms-worker/src/schema.js: same form names, same
+    field names, same choice values, same limits. A mismatch would make a form that looks fine but is always refused.
   * The committed configuration holds no secret.
   * No PHP may come back: no .php file, no PHP endpoint, no PHP command anywhere in the project.
 
 Run:  python3 -I -m unittest discover -s tools/tests -v
 """
 import json, re, shutil, subprocess, sys, unittest
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+PUB = ROOT / 'public'
 sys.path.insert(0, str(ROOT / 'tools'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import generate_forms_worker as G          # noqa: E402
 from test_update_bayanath import child_env  # noqa: E402
 
 WORKER = ROOT / 'serverless' / 'forms-worker'
 NODE = shutil.which('node')
+EMAIL = 'jamiaululoom@gmail.com'
+FILES = (('feedback', 'Feedback.html'), ('admissions', 'Admissions.html'), ('careers', 'Careers.html'))
+
+
+def load_schema():
+    text = (WORKER / 'src' / 'schema.js').read_text(encoding='utf-8')
+    body = text[text.index('export default') + len('export default'):].strip().rstrip(';')
+    return json.loads(body)
+
+
+SCHEMA = load_schema()
+
+
+class FormParser(HTMLParser):
+    """Collects the controls of the <form data-cx-form="..."> in a page."""
+
+    def __init__(self, kind):
+        super().__init__()
+        self.kind, self.inside, self.form, self.controls, self.options, self._select = kind, False, {}, [], {}, None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == 'form' and a.get('data-cx-form') == self.kind:
+            self.inside, self.form = True, a
+        elif self.inside and tag in ('input', 'select', 'textarea'):
+            self.controls.append((tag, a))
+            self._select = a.get('name') if tag == 'select' else None
+        elif self.inside and tag == 'option' and self._select:
+            self.options.setdefault(self._select, []).append(a.get('value', ''))
+
+    def handle_endtag(self, tag):
+        if tag == 'form':
+            self.inside = False
+        elif tag == 'select':
+            self._select = None
+
+
+def page(name):
+    return (PUB / name).read_text(encoding='utf-8')
+
+
+def parse(kind, file):
+    p = FormParser(kind)
+    p.feed(page(file))
+    return p
 
 
 def node_major():
@@ -44,12 +91,8 @@ class WorkerBehaviour(unittest.TestCase):
 
 
 class Wiring(unittest.TestCase):
-    def test_generated_rules_match_the_schema(self):
-        self.assertEqual((WORKER / 'src' / 'schema.generated.js').read_text(encoding='utf-8'), G.render(),
-                         'schema.generated.js is out of date: run python tools/build.py')
-
     def test_the_schema_is_consistent(self):
-        schema = json.loads((ROOT / 'tools' / 'connect' / 'forms-schema.json').read_text(encoding='utf-8'))
+        schema = SCHEMA
         for name, d in schema['forms'].items():
             names = [f['name'] for f in d['fields']]
             self.assertEqual(len(names), len(set(names)), name)
@@ -84,6 +127,48 @@ class Wiring(unittest.TestCase):
             for spec in re.findall(r"^import .* from '([^']+)'", p.read_text(encoding='utf-8'), re.M):
                 self.assertTrue(spec.startswith('./'), f'{p.name} imports {spec}')
 
+    def test_choice_lists_match_the_schema(self):
+        for kind, file in FILES:
+            p = parse(kind, file)
+            for f in SCHEMA['forms'][kind]['fields']:
+                if f['type'] != 'choice':
+                    continue
+                want = [v for v, _ in SCHEMA['choices'][f['limit']]]
+                radios = [a['value'] for t, a in p.controls if t == 'input' and a.get('type') == 'radio' and a.get('name') == f['name']]
+                got = radios or [v for v in p.options.get(f['name'], []) if v]
+                self.assertEqual(got, want, f'{kind}.{f["name"]}')
+
+    def test_every_form_field_is_in_the_schema_and_every_schema_field_is_in_the_form(self):
+        for kind, file in FILES:
+            p = parse(kind, file)
+            names = {a['name'] for _, a in p.controls if a.get('name')} - {'form', 'opened', 'website'}
+            self.assertEqual(names, {f['name'] for f in SCHEMA['forms'][kind]['fields']}, kind)
+            self.assertTrue(any(a.get('name') == 'website' for _, a in p.controls), 'honeypot field')
+            self.assertTrue(any(a.get('name') == 'form' and a.get('value') == kind for _, a in p.controls))
+            self.assertEqual(p.form.get('method'), 'post')
+
+    def test_required_attributes_and_length_limits_match_the_schema(self):
+        for kind, file in FILES:
+            p = parse(kind, file)
+            for f in SCHEMA['forms'][kind]['fields']:
+                ctl = [a for _, a in p.controls if a.get('name') == f['name']]
+                self.assertTrue(ctl, f['name'])
+                self.assertEqual('required' in ctl[0], f['required'], f'{kind}.{f["name"]} required')
+                if f['type'] in ('line', 'text', 'email', 'phone') and 'maxlength' in ctl[0]:
+                    self.assertEqual(int(ctl[0]['maxlength']), f['limit'], f'{kind}.{f["name"]} maxlength')
+
+    def test_forms_post_to_the_configured_service_or_hand_over_to_the_email_program(self):
+        for kind, file in FILES:
+            p = parse(kind, file)
+            action = p.form.get('action', '')
+            self.assertNotRegex(action, r'(?i)\.ph' + r'p|^/|^\.|api/', kind)
+            if action.startswith('https://'):
+                self.assertNotIn('data-cx-offline', p.form)
+            else:
+                self.assertEqual(action, f'mailto:{EMAIL}', kind)
+                self.assertIn('data-cx-offline', p.form)
+                self.assertEqual(p.form.get('enctype'), 'text/plain')
+
 
 class NoPhp(unittest.TestCase):
     """The site is hosted as static files (GitHub Pages), where PHP cannot run. None may remain."""
@@ -103,7 +188,7 @@ class NoPhp(unittest.TestCase):
         self.assertFalse((ROOT / 'public' / 'api').exists())
 
     def test_no_text_file_mentions_php_or_the_removed_handler(self):
-        rx = re.compile(r'(?i)\bphp\b|\.php\b|jame-server|submit\.php|cpanel|JAME_CONFIG|JAME_SERVER')
+        rx = re.compile(r'(?i)\bphp\b|\.php\b|jame-server|submit\.php|JAME_CONFIG|JAME_SERVER')
         offenders = []
         for p in self.project_files():
             if p.suffix.lower() not in ('.md', '.py', '.js', '.mjs', '.json', '.yml', '.yaml', '.toml', '.html', '.css', '.txt', '.xml', '') or p.name in self.ALLOWED_MENTIONS:

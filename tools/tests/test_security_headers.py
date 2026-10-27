@@ -1,4 +1,4 @@
-"""Checks the generated security headers (public/_headers and public/.htaccess).
+"""Checks the security headers (public/_headers and public/.htaccess).
 
 Run:  python3 -I -m unittest discover -s tools/tests -v
 """
@@ -48,6 +48,61 @@ class Headers(unittest.TestCase):
     def test_published_folder_holds_no_development_files(self):
         bad = [str(p.relative_to(PUB)) for p in PUB.rglob('*') if p.is_file() and re.search(r'\.(py|md|map|log|bak|orig|sql|env|sh|zip|gz|tar)$|~$', p.name)]
         self.assertEqual(bad, [])
+
+
+PORTRAIT = '/portal-assets/speaker/mufti-maqsood-imran-rashadi.jpg'
+
+
+def apache_sends_noimageindex(uri):
+    """Models the root .htaccess rules (SetEnvIf on the request path, then FilesMatch on the file name with env=!scholar_portrait).
+    It is a check of the configuration text, not of a running Apache."""
+    ht = (PUB / '.htaccess').read_text(encoding='utf-8')
+    env = re.search(r'SetEnvIf Request_URI "([^"]+)" scholar_portrait', ht)
+    rule = re.search(r'<FilesMatch "([^"]+)">\s*Header set X-Robots-Tag "noimageindex" env=!scholar_portrait\s*</FilesMatch>', ht)
+    assert env and rule, 'the noimageindex rules in .htaccess have an unexpected shape'
+    exempt = bool(re.search(env.group(1), uri))
+    return bool(re.search(rule.group(1), uri.rsplit('/', 1)[-1])) and not exempt
+
+
+def static_host_sends_noimageindex(uri):
+    """The _headers rules that set X-Robots-Tag, matched the way Netlify and Cloudflare Pages match a trailing *."""
+    text = (PUB / '_headers').read_text(encoding='utf-8')
+    for path, block in re.findall(r'^(/\S*)\n((?:[ \t]+.+\n)+)', text, re.M):
+        if 'X-Robots-Tag: noimageindex' in block and (uri == path or (path.endswith('*') and uri.startswith(path[:-1]))):
+            return True
+    return False
+
+
+class PortraitImageIndexing(unittest.TestCase):
+    def test_the_official_portrait_exists_and_is_the_picture_the_profile_page_uses(self):
+        self.assertTrue((PUB / PORTRAIT.lstrip('/')).is_file())
+        profile = (PUB / 'MuftiMaqsoodImran.html').read_text(encoding='utf-8')
+        self.assertIn(f'<meta property="og:image" content="https://jameululoom.org{PORTRAIT}">', profile)
+        self.assertIn(f'src="{PORTRAIT.lstrip("/")}"', profile)
+
+    def test_apache_lets_the_portrait_be_indexed_and_nothing_else_in_the_speaker_folder(self):
+        self.assertFalse(apache_sends_noimageindex(PORTRAIT))
+        for uri in ('/portal-assets/speaker/slides/portrait-white-turban.jpg', '/portal-assets/speaker/slides/speaking-at-microphone.png',
+                    '/portal-assets/speaker/other/mufti-maqsood-imran-rashadi.jpg', '/portal-assets/speaker/Mufti-Maqsood-Imran-Rashadi.jpg'):
+            self.assertTrue(apache_sends_noimageindex(uri), uri)
+
+    def test_apache_still_protects_pupil_and_staff_photographs(self):
+        for uri in ('/portal-assets/images/schools/head-mistress.jpg', '/portal-assets/images/colleges/staff-pu.jpeg', '/portal-assets/images/events/activity-2.jpg',
+                    '/portal-assets/recognitions/rec-01-k-rahman-khan.jpg', '/portal-assets/masjid/main-hall-a.jpg', '/portal-assets/hero/hero-assembly.jpg',
+                    '/ResidentialSchoolBanikuppa/assets/images/staff.jpg'):
+            self.assertTrue(apache_sends_noimageindex(uri), uri)
+        rs = (PUB / 'ResidentialSchoolBanikuppa' / '.htaccess').read_text(encoding='utf-8')
+        self.assertIn('Header set X-Robots-Tag "noimageindex"', rs)   # the Residential School folder keeps its own, unchanged rule
+        self.assertNotIn('env=', rs)
+
+    def test_static_hosts_protect_the_photograph_folder_and_never_the_portrait(self):
+        self.assertFalse(static_host_sends_noimageindex(PORTRAIT))
+        self.assertTrue(static_host_sends_noimageindex('/portal-assets/images/schools/head-mistress.jpg'))
+
+    def test_no_configuration_sets_noindex_for_the_portrait_or_for_pages(self):
+        for name in ('.htaccess', '_headers', 'ResidentialSchoolBanikuppa/.htaccess'):
+            text = (PUB / name).read_text(encoding='utf-8')
+            self.assertNotRegex(text, r'(?i)x-robots-tag[^\n]*\b(noindex|none|noimageindex,\s*noindex)\b')
 
 
 if __name__ == '__main__':

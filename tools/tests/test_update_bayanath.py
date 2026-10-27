@@ -79,10 +79,10 @@ class Fake(BaseHTTPRequestHandler):
         if u.path == '/api/playlistItems':
             if st.get('api_status', 200) != 200:
                 return self.send(st['api_status'], '{}')
-            return self.send(200, json.dumps({'items': [{'contentDetails': {'videoId': e['id']}} for e in st['api']]}))
+            return self.send(200, json.dumps({'items': [{'contentDetails': {'videoId': e['id']}} for e in st.get('api', [])]}))
         if u.path == '/api/videos':
             items = [{'id': e['id'], 'snippet': {'title': e['title'], 'publishedAt': e['published'], 'liveBroadcastContent': e.get('live', 'none')},
-                      'status': {'privacyStatus': 'public' if e['ok'] else 'private', 'embeddable': True}} for e in st['api'] if e['id'] in q['id'][0].split(',')]
+                      'status': {'privacyStatus': 'public' if e['ok'] else 'private', 'embeddable': True}} for e in st.get('api', []) if e['id'] in q['id'][0].split(',')]
             return self.send(200, json.dumps({'items': items}))
         if u.path == '/watch':
             d = st.get('watch_dates', {}).get(q['v'][0])
@@ -200,21 +200,23 @@ class Schedule(unittest.TestCase):
     def test_the_workflow_does_not_depend_on_anything_but_python(self):
         text = (ROOT / '.github' / 'workflows' / 'update-bayanath.yml').read_text(encoding='utf-8')
         self.assertIn('python3 tools/update_bayanath.py', text)
-        self.assertNotRegex(text, r'(?i)\bph' + r'p\b|\bssh\b|\bftp\b|rsync|cpa' + r'nel')   # nothing but Python and the repository
+        self.assertNotRegex(text, r'(?i)\bph' + r'p\b|\bssh\b|rsync')   # nothing but Python and the repository
+        self.assertRegex(text, r"if: steps\.update\.outputs\.changed == 'true' && env\.CPANEL_FTP_HOST != ''\n(?:.*\n)*?.*python3 tools/upload_to_host\.py")   # the host upload is optional: skipped unless its secret is set
+        self.assertNotRegex(text, r'FTP_PASSWORD: (?!\$\{\{ secrets\.)')   # a password is only ever a secret
 
     def test_every_file_agrees_on_saturday_and_none_keeps_an_older_weekday(self):
         """One weekly slot, Saturday 21:00 Asia/Kolkata = GitHub cron `30 15 * * 6` (UTC). An earlier draft used Friday (5); no copy
         of it may survive in the workflow, the docs or the tests."""
         stale = [re.compile(p) for p in (r'30 15 \*' + r' \* 5', r"'weekday'" + r" => 5", r'Friday' + r' 21:00', r'Friday' + r' at 21:00',
                                          r'FRI' + r'_2105', r'next Friday' + r' slot', r'Friday' + r' 21:00')]
-        files = [ROOT / 'README.md', ROOT / 'AGENTS.md', ROOT / '.github' / 'workflows' / 'update-bayanath.yml',
+        files = [ROOT / 'README.md', ROOT / '.github' / 'workflows' / 'update-bayanath.yml',
                  ROOT / 'tools' / 'update_bayanath.py'] + sorted((ROOT / 'tools' / 'tests').glob('test_*.py'))
         for f in files:
             text = f.read_text(encoding='utf-8')
             for rx in stale:
                 self.assertIsNone(rx.search(text), f'{f.name}: stale Friday schedule ({rx.pattern})')
         self.assertIn('Saturday 21:00', (ROOT / 'README.md').read_text(encoding='utf-8'))
-        self.assertIn('`30 15 * * 6`', (ROOT / 'README.md').read_text(encoding='utf-8') + (ROOT / 'AGENTS.md').read_text(encoding='utf-8'))
+        self.assertIn('`30 15 * * 6`', (ROOT / 'README.md').read_text(encoding='utf-8'))
 
     def test_workflow_is_valid_yaml_when_pyyaml_present(self):
         try:

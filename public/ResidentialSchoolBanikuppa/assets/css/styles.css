@@ -618,3 +618,12 @@ h4 { margin: 0 0 .4rem; font-size: 1.2rem; }
   .menu-toggle { display: inline-grid; }
   .theme-toggle { margin-left: auto; }
 }
+
+/* Light theme contrast: the small gold labels and the link inside a dark band were about 2.8:1 and 1.9:1; darker gold on cream, light gold on the dark band (dark theme and photo heroes unchanged) */
+:where(:root[data-theme="light"]) .eyebrow, :where(:root[data-theme="light"]) .section-heading .eyebrow { color: #8a621a; }
+.section-dark .eyebrow, .section-dark .section-heading .eyebrow { color: #e0b96e; }
+.section-dark .text-link { color: #f1c67b; }
+
+/* Dark theme: the gold-button rule above sets dark text on every .button; secondary and quiet buttons are glass, so they keep light text */
+:root[data-theme="dark"] .button-secondary { color: var(--forest-2); }
+:root[data-theme="dark"] .button-quiet { color: var(--ink); }
