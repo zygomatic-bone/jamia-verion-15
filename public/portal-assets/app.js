@@ -20,6 +20,17 @@
     try { localStorage.setItem("jame-theme", next); } catch (_) { /* storage may be unavailable */ }
     syncThemeLabel();
   });
+  // Keep every open tab, and a page restored from the back/forward cache, on the theme the visitor last chose.
+  const applySaved = () => {
+    let saved = null;
+    try { saved = localStorage.getItem("jame-theme"); } catch (_) { /* storage may be unavailable */ }
+    if ((saved === "light" || saved === "dark") && root.dataset.theme !== saved) {
+      root.dataset.theme = saved;
+      syncThemeLabel();
+    }
+  };
+  addEventListener("storage", (event) => { if (event.key === "jame-theme") applySaved(); });
+  addEventListener("pageshow", (event) => { if (event.persisted) applySaved(); });
 
   // Desktop dropdowns: close peers, close on outside click and Escape.
   const navGroups = [...document.querySelectorAll(".nav-group")];

@@ -1,7 +1,7 @@
 /* Contact, Feedback, Admissions and Careers pages: progressive enhancement.
    Written in the style of the original site: ES5, "function(){", 4 spaces, single quotes, semicolons.
    Everything on these pages works without this file: the forms are ordinary forms. When the form service is set up
-   (tools/connect/forms-config.json) they post to it and it answers with a small page; until then they are mail links and carry
+   (the form's action address) they post to it and it answers with a small page; until then they are mail links and carry
    data-cx-offline (invisible to visitors). This file adds: copy buttons, the department search, the feedback journey (stars, face, steps), the
    checklist counters, the role cards and the fetch() submit with honest success and error states.
    Rules:

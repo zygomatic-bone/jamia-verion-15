@@ -278,3 +278,15 @@
   .sc-card { grid-template-columns: minmax(0, 1fr); }
   .sc-links { padding: .95rem 0 0; border-left: 0; border-top: 1px solid var(--bz-edge-soft); }
 }
+
+/* ---- the speaker's name in each video card, and the profile link in the heading's intro ---- */
+.by-speaker { margin: 0; color: var(--bz-muted); font-size: .8rem; line-height: 1.35; overflow-wrap: anywhere; }
+.by-speaker-l { margin-right: .2rem; color: var(--bz-gold); font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.by-speaker-name { color: var(--bz-ink); font-weight: 700; }
+a.by-speaker-name { text-decoration: underline; text-decoration-color: rgba(var(--bz-goldrgb), .55); text-underline-offset: .18em; }
+a.by-speaker-name:hover { text-decoration-color: var(--bz-gold); }
+a.by-speaker-name:focus-visible { outline: 2px solid var(--bz-gold); outline-offset: 3px; border-radius: 2px; }
+.bz-sub a { color: var(--bz-gold-soft); font-weight: 700; text-underline-offset: .2em; }
+.bz-sub a:focus-visible { outline: 2px solid var(--bz-gold); outline-offset: 3px; border-radius: 2px; }
+.bz-profile { white-space: nowrap; }
+.page-bayanath { --bz-sec: linear-gradient(160deg, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, .03) 40%, rgba(255, 255, 255, .05) 100%), rgba(10, 17, 44, .62); }

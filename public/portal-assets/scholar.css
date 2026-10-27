@@ -1,0 +1,68 @@
+/* The scholar's profile page (MuftiMaqsoodImran.html) only. It sits on the Bayanath page's aurora layout (bayanath.css: tokens, glass, columns,
+   aurora) and adds the content sections. Colours come from the --bz-* tokens, so theme-light.css re-colours it with the rest of the page.
+   Prefix sh-. Nothing is hidden until a script runs; no animation of its own beyond the shared hover lifts. */
+.page-scholar .bz-side { align-self: stretch; }
+.sh-card { position: sticky; top: calc(var(--header-h) + 1rem); gap: .9rem; }
+.sh-card-text { min-width: 0; }
+.sh-card-name { margin: 0 0 .5rem; color: var(--bz-ink); font-family: var(--display); font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.2; text-wrap: balance; }
+.sh-card .sp-role { margin: 0; }
+.sh-actions { display: flex; flex-direction: column; gap: .6rem; }
+.sh-actions .bz-all { justify-content: center; }
+.sh-ghost { display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem 1rem; border-radius: .95rem; text-decoration: none; font-weight: 700; font-size: .92rem;
+    color: var(--bz-ink); border: 1px solid var(--bz-edge); background: rgba(255, 255, 255, .07); transition: border-color .25s ease, background-color .25s ease, transform .25s ease; }
+.sh-ghost:hover { border-color: var(--bz-edge-gold); background-color: rgba(255, 255, 255, .12); transform: translateY(-2px); }
+.sh-ghost:focus-visible { outline: 3px solid var(--bz-gold); outline-offset: 3px; }
+.sh-ico { width: 1.05rem; height: 1.05rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.sh-sec { position: relative; margin: 0 0 1rem; padding: clamp(1.05rem, 2.2vw, 1.6rem); border-radius: 1.5rem; color: var(--bz-text); min-width: 0;
+    background: var(--bz-sec); border: 1px solid var(--bz-edge); box-shadow: 0 20px 48px rgba(1, 4, 16, .42), inset 0 1px 0 rgba(255, 255, 255, .22); }
+.sh-sec h2 { margin: 0 0 .8rem; color: var(--bz-ink); font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.25; text-wrap: balance; }
+.sh-sec h3 { margin: 0; color: var(--bz-ink); font-family: var(--display); font-size: 1.02rem; line-height: 1.3; }
+.sh-sec p { margin: 0 0 .85rem; color: var(--bz-text); font-size: .98rem; line-height: 1.65; }
+.sh-sec p:last-child { margin-bottom: 0; }
+.sh-sec a { color: var(--bz-gold-soft); font-weight: 600; text-underline-offset: .2em; }
+.sh-sec a:hover { text-decoration-color: var(--bz-gold); }
+.sh-sec a:focus-visible, .sh-more:focus-visible { outline: 2px solid var(--bz-gold); outline-offset: 3px; border-radius: 2px; }
+.sh-sec p.sh-small { color: var(--bz-muted); font-size: .84rem; line-height: 1.5; }
+.sh-sec ul, .sh-sec ol { margin: 0; padding: 0; list-style: none; }
+
+.sh-facts { margin: 0; display: grid; gap: .5rem; }
+.sh-facts > div { display: grid; grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr); gap: .2rem 1rem; padding: .6rem .8rem; border-radius: .9rem; border: 1px solid var(--bz-edge-soft);
+    background: linear-gradient(160deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)); }
+.sh-facts dt { margin: 0; color: var(--bz-gold); font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; align-self: center; }
+.sh-facts dd { margin: 0; color: var(--bz-ink); font-size: .98rem; line-height: 1.5; overflow-wrap: anywhere; }
+
+.sh-roles { display: grid; gap: .55rem; margin-top: .9rem !important; counter-reset: shrole; }
+.sh-roles > li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .8rem; align-items: start; padding: .75rem .85rem; border-radius: .95rem; border: 1px solid var(--bz-edge-soft);
+    background: linear-gradient(160deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)); }
+.sh-role-ico { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 1px solid var(--bz-gold); background: rgba(var(--bz-goldrgb), .12); }
+.sh-role-ico .sp-ico { margin: 0; }
+.sh-role-body { min-width: 0; }
+.sh-role-body .sh-role-place { margin: .15rem 0 0; color: var(--bz-gold-soft); font-size: .88rem; }
+.sh-role-body p:not(.sh-role-place) { margin: .3rem 0 0; font-size: .9rem; line-height: 1.5; }
+
+.sh-areas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.sh-links { display: grid; gap: .45rem; margin: 0 0 .85rem !important; }
+.sh-links li { padding-left: 1rem; position: relative; line-height: 1.5; }
+.sh-links li::before { content: ""; position: absolute; left: 0; top: .7em; width: .4rem; height: .4rem; border-radius: 50%; background: var(--bz-gold); }
+.sh-recent { display: grid; gap: .4rem; margin: 0 0 .9rem !important; }
+.sh-recent li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .7rem; padding: .5rem .8rem; border-radius: .8rem; border: 1px solid var(--bz-edge-soft); background: rgba(255, 255, 255, .05); }
+.sh-recent a { font-weight: 600; text-decoration: none; color: var(--bz-ink); }
+.sh-recent a:hover { text-decoration: underline; text-decoration-color: var(--bz-gold); }
+.sh-recent time { color: var(--bz-muted); font-size: .82rem; }
+.sh-more { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; }
+
+@media (max-width: 68rem) {
+  .sh-card { position: relative; }
+}
+@media (min-width: 46.01rem) and (max-width: 68rem) {
+  .page-scholar .sh-card { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); column-gap: 1.4rem; row-gap: .9rem; align-items: center; }
+  .page-scholar .sh-card .sp-frame { grid-column: 1; grid-row: 1 / span 2; }
+  .page-scholar .sh-card .sh-card-text { grid-column: 2; grid-row: 1; align-self: end; }
+  .page-scholar .sh-card .sh-actions { grid-column: 2; grid-row: 2; align-self: start; }
+}
+@media (max-width: 56rem) { .sh-areas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .sh-facts > div { grid-template-columns: minmax(0, 1fr); } .sh-roles > li { grid-template-columns: 2.1rem minmax(0, 1fr); gap: .6rem; } .sh-role-ico { width: 2.1rem; height: 2.1rem; } }
+@media (max-width: 30rem) { .sh-areas { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .sh-ghost { transition: none; } .sh-ghost:hover { transform: none; } }
+@media print { .page-scholar .sh-sec { box-shadow: none; background: #fff; color: #000; } .sh-card { position: relative; } }

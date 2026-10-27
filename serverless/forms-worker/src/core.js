@@ -1,5 +1,5 @@
 /* Validation and message building for the website forms: pure functions, no network, no secrets.
-   The rules come from schema.generated.js (generated from tools/connect/forms-schema.json), the same file the pages are built from. */
+   The rules come from schema.js; the Feedback, Admissions and Careers pages use the same field names. */
 
 /* Control and invisible "format" characters are removed (NUL, bell, zero-width space, byte-order mark, the bidirectional overrides
    and isolates that can make a name or address read back to front in a mail program ...). Four are KEPT because the languages of this

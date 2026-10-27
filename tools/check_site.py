@@ -1,4 +1,4 @@
-"""Link and asset checker for the built site (public/). Run after the build:  python tools/check_site.py
+"""Link and asset checker for the site (public/). Run before publishing:  python3 tools/check_site.py
 
 Checks every local href/src in every HTML file:
   - the target file exists (case-sensitively, like a real web server),
@@ -103,10 +103,10 @@ def main():
     for f in sorted(PUB.rglob('*.html')):
         c = Collector(); c.feed(f.read_text(encoding='utf-8')); pages[f] = c
     if (PUB / 'home.html').exists():
-        problems.append('public/home.html exists: the removed portal page must not be rebuilt')
+        problems.append('public/home.html exists: the removed portal page must not return')
 
-    # The Bayanath renderer intentionally makes no cards when this cache is empty. Catch that deployment-breaking
-    # state at build time, and ensure every thumbnail is a genuine YouTube URL derived from its video id.
+    # The Bayanath page shows no cards when this cache is empty. Catch that
+    # state before publishing, and ensure every thumbnail is a genuine YouTube URL derived from its video id.
     bayanath_cache = PUB / 'data' / 'bayanath-videos.json'
     try:
         bayanath = json.loads(bayanath_cache.read_text(encoding='utf-8'))

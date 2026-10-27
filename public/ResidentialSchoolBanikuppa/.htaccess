@@ -14,7 +14,7 @@
 ErrorDocument 404 /ResidentialSchoolBanikuppa/404.html
 Options -Indexes
 
-# BEGIN legacy-redirects (generated)
+# Legacy URLs of the earlier site
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /ResidentialSchoolBanikuppa/
@@ -68,4 +68,3 @@ RewriteRule ^images/logo1\.PNG$ assets/images/logo1.png [R=301,L]
 RewriteRule ^images/logoN\.jpg$ assets/images/logon.jpg [R=301,L]
 RewriteRule ^images/menubackImg\.PNG$ assets/images/menubackimg.png [R=301,L]
 </IfModule>
-# END legacy-redirects

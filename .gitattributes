@@ -1,5 +1,5 @@
-# Keep every text file on LF so a Windows checkout (core.autocrlf=true) does not rewrite generated files or the
-# test fixtures. After adding this file to an existing clone run once:  git add --renormalize .
+# Keep every text file on LF so a Windows checkout (core.autocrlf=true) does not rewrite the pages or the
+# test data. After adding this file to an existing clone run once:  git add --renormalize .
 * text=auto eol=lf
 *.mjs text eol=lf
 *.toml text eol=lf
