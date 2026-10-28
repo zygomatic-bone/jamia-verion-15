@@ -114,7 +114,7 @@ Choose one of these approaches:
 3. Upload manually. After each weekly run, upload the three files listed above, or upload the whole public/ folder.
 If you move the domain to GitHub Pages or Cloudflare Pages, none of these cPanel upload steps are needed.
 Weekly Bayanath updates with GitHub Actions
-The workflow .github/workflows/update-bayanath.yml runs every Saturday at 21:00 India Standard Time. Its cron expression is 30 15 * * 6 in UTC. GitHub may start the scheduled run a few minutes late, and scheduled workflows run only from the repository's default branch.
+The workflow .github/workflows/update-bayanath.yml runs every Saturday 21:00 IST (India Standard Time), using cron `30 15 * * 6` in UTC. GitHub may start the scheduled run a few minutes late, and scheduled workflows run only from the repository's default branch.
 
 The workflow reads the official channel (@MuftiMaqsoodImran, channel ID UClF-O3ig9ZKMvbeKB4t9mjQ) from tools/bayanath-config.json. It adds new videos to public/data/bayanath-videos.json, keeps existing entries, removes duplicates and retains the ten newest videos. Then tools/refresh_bayanath_static.py updates the static cards and structured data in Bayanath.html and MuftiMaqsoodImran.html. Both Python scripts use only the standard library.
 
