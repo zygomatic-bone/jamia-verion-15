@@ -5,6 +5,16 @@ name: Update Bayanath videos
 # Saturday 21:00 IST is 15:30 UTC: 30 15 * * 6.
 # The public RSS feed is enough; YOUTUBE_API_KEY is optional and only used from a repository secret.
 on:
+  # Also refresh when the updater or its filter settings change. The workflow's own
+  # video-data commit does not match these paths, so this cannot loop on itself.
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/bayanath-config.json'
+      - 'tools/update_bayanath.py'
+      - 'tools/refresh_bayanath_static.py'
+      - '.github/workflows/update-bayanath.yml'
   schedule:
     - cron: '30 15 * * 6'
   workflow_dispatch:
