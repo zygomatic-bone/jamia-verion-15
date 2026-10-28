@@ -18,6 +18,12 @@ on:
   schedule:
     - cron: '30 15 * * 6'
   workflow_dispatch:
+    inputs:
+      upload_to_cpanel:
+        description: "Upload the current Bayanath files to cPanel, even if the video list has not changed"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -82,6 +88,21 @@ jobs:
       # Optional: keep a separate cPanel-hosted copy in sync. Failure here must not block Pages.
       - name: Optional upload to cPanel
         if: steps.update.outputs.changed == 'true' && env.CPANEL_FTP_HOST != ''
+        continue-on-error: true
+        env:
+          CPANEL_FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.CPANEL_FTP_DIR }}
+          FTP_PORT: ${{ secrets.CPANEL_FTP_PORT }}
+          FTP_TLS_VERIFY: ${{ secrets.CPANEL_FTP_TLS_VERIFY }}
+        run: python3 tools/upload_to_host.py
+
+      # Manual recovery path: sync the existing list to cPanel even when there was no new video.
+      # If the updater changed the list, the regular optional upload above already handles it.
+      - name: Manually upload the current Bayanath files to cPanel
+        if: inputs.upload_to_cpanel == true && steps.update.outputs.changed != 'true' && env.CPANEL_FTP_HOST != ''
         continue-on-error: true
         env:
           CPANEL_FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
