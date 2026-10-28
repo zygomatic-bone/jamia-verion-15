@@ -1,29 +1,17 @@
 name: Update Bayanath videos
 
-# Refreshes public/data/bayanath-videos.json from the official YouTube channel. This workflow is the ONLY updater: the site is
-# static (GitHub Pages), so nothing runs on the hosting itself.
-#   * Schedule: every Saturday at 21:00 India Standard Time (Asia/Kolkata, UTC+05:30, no daylight saving).
-#     GitHub evaluates cron in UTC, so 21:00 IST = 15:30 UTC on the same Saturday: `30 15 * * 6`.
-#     GitHub may start scheduled runs a few minutes late, and only runs them from the default branch.
-#   * "Run workflow" button (workflow_dispatch) in the Actions tab for tests.
-#   * No secret is required (public RSS feed + public oEmbed). OPTIONAL secret YOUTUBE_API_KEY (a YouTube Data API v3
-#     key) lets the job reach back 50 uploads and fill exact publication dates; it is only ever read from the secret.
-#   * If anything fails the committed file is left untouched, so the site keeps its last valid list. The update step tries up to
-#     3 times (waiting 2 and then 4 minutes between tries) so that a short YouTube or network outage at 21:00 does not cost a week;
-#     if all three fail the job fails (red) and the next scheduled run is the following Saturday, or run it by hand.
-#   * A commit is made only when the list really changed. A push made with the workflow's own GITHUB_TOKEN does NOT start other
-#     workflows (a GitHub rule that prevents loops), so the last step starts .github/workflows/deploy-pages.yml itself with
-#     `gh workflow run`; that is how the new JSON reaches the live site. It needs `actions: write` below and a
-#     `workflow_dispatch:` trigger in deploy-pages.yml (README, "Weekly Bayanath updates"). If the dispatch is refused, the
-#     step prints a warning and the data stays committed: run "Deploy" by hand once, or at the next push.
+# Refreshes the public video list from the official YouTube channel.
+# The site is static, so the update also refreshes the HTML copies before publishing.
+# Saturday 21:00 IST is 15:30 UTC: 30 15 * * 6.
+# The public RSS feed is enough; YOUTUBE_API_KEY is optional and only used from a repository secret.
 on:
   schedule:
     - cron: '30 15 * * 6'
   workflow_dispatch:
 
 permissions:
-  contents: write   # commit public/data/bayanath-videos.json
-  actions: write    # start deploy-pages.yml after the commit (see above)
+  contents: write
+  actions: write
 
 concurrency:
   group: update-bayanath
@@ -34,13 +22,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      # Actions are pinned to the commit of the release tag (v4 and v5), so a moved tag cannot change what this job runs
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
-      - name: "Self-tests (simulated YouTube, no network)"
-        run: python3 -I -m unittest discover -s tools/tests -v
+
+      # Run the tests for this updater only. Site-wide UI/content tests are handled separately
+      # and should not prevent a scheduled video-data refresh from running.
+      - name: Bayanath updater tests (simulated YouTube, no network)
+        run: python3 -I -m unittest discover -s tools/tests -p 'test_update_bayanath.py' -v
+
       - name: Fetch, filter and verify videos
         id: update
         env:
@@ -57,13 +48,18 @@ jobs:
           done
           echo "::error::The Bayanath update failed 3 times. The published list was not changed."
           exit 1
+
+      - name: Refresh static Bayanath pages
+        if: steps.update.outputs.changed == 'true'
+        run: python3 tools/refresh_bayanath_static.py
+
       - name: Commit if the list changed
         id: commit
         if: steps.update.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/bayanath-videos.json
+          git add public/data/bayanath-videos.json public/Bayanath.html public/MuftiMaqsoodImran.html
           if git diff --cached --quiet; then
             echo "Nothing to commit."
           else
@@ -72,13 +68,28 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # Optional: keep a separate cPanel-hosted copy in sync. Failure here must not block Pages.
+      - name: Optional upload to cPanel
+        if: steps.update.outputs.changed == 'true' && env.CPANEL_FTP_HOST != ''
+        continue-on-error: true
+        env:
+          CPANEL_FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.CPANEL_FTP_DIR }}
+          FTP_PORT: ${{ secrets.CPANEL_FTP_PORT }}
+          FTP_TLS_VERIFY: ${{ secrets.CPANEL_FTP_TLS_VERIFY }}
+        run: python3 tools/upload_to_host.py
+
       - name: Publish the new list (start the Pages deployment)
         if: steps.commit.outputs.pushed == 'true'
-        continue-on-error: true   # the data is already committed; a refused dispatch must not turn the update red
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if ! gh workflow run deploy-pages.yml --ref "${GITHUB_REF_NAME}"; then
-            echo "::warning::The list was committed but deploy-pages.yml could not be started. Check that it has a workflow_dispatch trigger, then run it from the Actions tab."
+            echo "::warning::The list was committed but deploy-pages.yml could not be started. Check its workflow_dispatch trigger, then start the deployment from the Actions tab."
             exit 1
           fi
