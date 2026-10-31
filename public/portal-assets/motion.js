@@ -74,17 +74,6 @@
         }
     });
 
-    /* ---- scholar profile titles: alternate left, right and upward entrances ---- */
-    var scholarTitles = [].slice.call(document.querySelectorAll('.page-scholar .bz-head h1, .page-scholar .sh-sec h2, .page-scholar .sh-role-body h3'));
-    scholarTitles.forEach(function(el, index){
-        el.classList.add('mo-pre');
-        if(index % 3 === 0){
-            el.classList.add('mo-left');
-        }else if(index % 3 === 1){
-            el.classList.add('mo-right');
-        }
-    });
-
     /* ---- scroll reveals ---- */
     var pending = [];
     var observer = null;
@@ -136,11 +125,6 @@
         });
         [].forEach.call(document.querySelectorAll('.mo-heading'), function(el){
             plan.push({el: el, kind: 'heading', top: el.getBoundingClientRect().top});
-        });
-        scholarTitles.forEach(function(el){
-            if(!el.classList.contains('mo-heading')){
-                plan.push({el: el, kind: 'heading', top: el.getBoundingClientRect().top});
-            }
         });
         root.classList.add('mo-on');
         observer = new IntersectionObserver(function(entries){
