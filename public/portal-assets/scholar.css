@@ -66,3 +66,29 @@
 @media (max-width: 30rem) { .sh-areas { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .sh-ghost { transition: none; } .sh-ghost:hover { transform: none; } }
 @media print { .page-scholar .sh-sec { box-shadow: none; background: #fff; color: #000; } .sh-card { position: relative; } }
+
+
+/* Scholar profile: titles fly in from alternating directions as they enter the viewport. */
+.page-scholar .sh-title-reveal {
+    opacity: 0;
+    transform: translate3d(0, 2.4rem, 0);
+    transition: opacity .72s cubic-bezier(.2, .75, .25, 1) var(--sh-title-delay, 0s),
+                transform .88s cubic-bezier(.2, .75, .25, 1) var(--sh-title-delay, 0s);
+    will-change: opacity, transform;
+}
+.page-scholar .sh-title-reveal.sh-from-left { transform: translate3d(-4rem, 0, 0); }
+.page-scholar .sh-title-reveal.sh-from-right { transform: translate3d(4rem, 0, 0); }
+.page-scholar .sh-title-reveal.sh-from-up { transform: translate3d(0, 2.4rem, 0); }
+.page-scholar .sh-title-reveal.sh-title-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+    .page-scholar .sh-title-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
+    }
+}
